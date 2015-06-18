@@ -13,7 +13,7 @@ K-means in JavaScript
 
 ## Methods
 ### kmeans(data, centers, [maxIter], [tol])
-Returns an array of cluster indexes for the training dots.
+Returns an array of [cluster indexes](https://en.wikipedia.org/wiki/K-means_clustering) for the training dots.
 
 __Arguments__
 * `data`: An array of the (x,y) points to cluster, represented also as an array.
