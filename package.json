@@ -1,0 +1,37 @@
+{
+  "name": "ml-kmeans",
+  "version": "0.0.0",
+  "description": "K-means in Javascript",
+  "main": "src/index.js",
+  "directories": {
+    "lib": "src",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --require should --reporter mocha-better-spec-reporter --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mljs/kmeans"
+  },
+  "keywords": [
+    "cluster",
+    "kmeans",
+    "data",
+    "mining",
+    "datamining",
+    "machine",
+    "learning"
+  ],
+  "author": "Miguel Asencio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mljs/kmeans/issues"
+  },
+  "homepage": "https://github.com/mljs/kmeans",
+  "devDependencies": {
+    "mocha": "latest",
+    "mocha-better-spec-reporter": "latest",
+    "should": "latest"
+  }
+}
