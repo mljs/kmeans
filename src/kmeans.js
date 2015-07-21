@@ -107,13 +107,23 @@ function updateCenters(data, clusterID, K) {
  * K-means algorithm
  * @param {Array <Array <number>>} data - the (x,y) points to cluster
  * @param {Array <Array <number>>} centers - the K centers in format (x,y)
+ * @param {Object} props - properties
  * @param {number} maxIter - maximum of iterations allowed
  * @param {number} tol - the error tolerance
- * @returns {Array <number>} the cluster identifier for each data dot
+ * @param {boolean} withIter - store clusters and centroids for each iteration
+ * @returns {Object} the cluster identifier for each data dot and centroids
  */
-function kmeans(data, centers, maxIter, tol) {
-    maxIter = (typeof maxIter === "undefined") ? 100 : maxIter;
-    tol = (typeof tol === "undefined") ? 1e-6 : tol;
+function kmeans(data, centers, props) {
+    var maxIter, tol, withIter;
+    if (typeof props === "undefined") {
+        maxIter = 100;
+        tol = 1e-6;
+        withIter = false;
+    } else {
+        maxIter = (typeof props.maxIter === "undefined") ? 100 : props.maxIter;
+        tol = (typeof props.tol === "undefined") ? 1e-6 : props.tol;
+        withIter = (typeof props.withIter === "undefined") ? false : props.withIter;
+    }
 
     var nData = data.length;
     if (nData == 0) {
@@ -131,15 +141,46 @@ function kmeans(data, centers, maxIter, tol) {
     var lastDistance;
     lastDistance = 1e100;
     var curDistance = 0;
+    var iterations = [];
     for (var iter = 0; iter < maxIter; iter++) {
         clusterID = updateClusterID(data, centers);
         centers = updateCenters(data, clusterID, K);
         curDistance = computeSSE(data, centers, clusterID);
-        if ((lastDistance - curDistance < tol) || ((lastDistance - curDistance)/lastDistance < tol))
-            return clusterID;
+        if (withIter) {
+            iterations.push({
+                "clusters": clusterID,
+                "centroids": centers
+            });
+        }
+
+        if ((lastDistance - curDistance < tol) || ((lastDistance - curDistance)/lastDistance < tol)) {
+            if (withIter) {
+                return {
+                    "clusters": clusterID,
+                    "centroids": centers,
+                    "iterations": iterations
+                };
+            } else {
+                return {
+                    "clusters": clusterID,
+                    "centroids": centers
+                };
+            }
+        }
         lastDistance = curDistance;
     }
-    return clusterID;
+    if (withIter) {
+        return {
+            "clusters": clusterID,
+            "centroids": centers,
+            "iterations": iterations
+        };
+    } else {
+        return {
+            "clusters": clusterID,
+            "centroids": centers
+        };
+    }
 }
 
 module.exports = kmeans;
