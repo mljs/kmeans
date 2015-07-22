@@ -1,6 +1,6 @@
 {
   "name": "ml-kmeans",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "K-means in Javascript",
   "main": "src/index.js",
   "directories": {
