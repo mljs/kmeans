@@ -2,7 +2,7 @@
   "name": "ml-kmeans",
   "version": "0.1.0",
   "description": "K-means in Javascript",
-  "main": "src/index.js",
+  "main": "src/kmeans.js",
   "directories": {
     "lib": "src",
     "test": "test"
@@ -30,8 +30,11 @@
   },
   "homepage": "https://github.com/mljs/kmeans",
   "devDependencies": {
-    "mocha": "latest",
-    "mocha-better-spec-reporter": "latest",
-    "should": "latest"
+    "mocha": "^2.2.5",
+    "mocha-better-spec-reporter": "^2.1.1",
+    "should": "^7.0.2"
+  },
+  "dependencies": {
+    "ml-euclidean-distance": "^1.0.0"
   }
 }

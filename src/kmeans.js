@@ -1,18 +1,6 @@
 'use strict';
 
-/**
- * Calculates the squared distance between two vectors
- * @param {Array<number>} vec1 - the x vector
- * @param {Array<number>} vec2 - the y vector
- * @returns {number} sum - the calculated distance
- */
-function squaredDistance(vec1, vec2) {
-    var sum = 0;
-    var dim = vec1.length;
-    for (var i = 0; i < dim; i++)
-        sum += (vec1[i] - vec2[i]) * (vec1[i] - vec2[i]);
-    return sum;
-}
+var squaredDistance = require('ml-euclidean-distance').squared;
 
 /**
  * Calculates the sum of squared errors
