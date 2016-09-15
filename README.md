@@ -10,7 +10,8 @@ K-means in JavaScript
 
 `npm install ml-kmeans`
 
-## Methods
+## [API Documentation](https://mljs.github.io/kmeans/)
+
 ### kmeans(data, centers, [props])
 Returns an object containing the following:
 
@@ -28,9 +29,9 @@ __Arguments__
 
 ## Test
 
-```js
-$ npm install
-$ npm test
+```bash
+npm install
+npm test
 ```
 
 ## Authors

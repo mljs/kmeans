@@ -8,7 +8,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --require should --reporter mocha-better-spec-reporter --recursive"
+    "eslint": "eslint src test",
+    "eslint-fix": "npm run eslint -- --fix",
+    "test": "npm run test-mocha && npm run eslint",
+    "test-mocha": "mocha --require should --reporter mocha-better-spec-reporter --recursive"
   },
   "repository": {
     "type": "git",
@@ -23,16 +26,20 @@
     "machine",
     "learning"
   ],
-  "author": "Miguel Asencio",
+  "author": "Miguel Asencio <maasencioh@gmail.com> (https://github.com/maasencioh)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mljs/kmeans/issues"
   },
   "homepage": "https://github.com/mljs/kmeans",
+  "tonicExampleFilename": "./tonic.js",
   "devDependencies": {
-    "mocha": "^2.2.5",
-    "mocha-better-spec-reporter": "^2.1.1",
-    "should": "^7.0.2"
+    "eslint": "^3.4.0",
+    "eslint-config-cheminfo": "^1.2.0",
+    "eslint-plugin-no-only-tests": "^1.1.0",
+    "mocha": "^3.0.2",
+    "mocha-better-spec-reporter": "^3.0.2",
+    "should": "^11.1.0"
   },
   "dependencies": {
     "ml-euclidean-distance": "^1.0.0"

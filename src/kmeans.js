@@ -1,19 +1,19 @@
 'use strict';
 
-var squaredDistance = require('ml-euclidean-distance').squared;
+const squaredDistance = require('ml-euclidean-distance').squared;
 
 /**
  * Calculates the sum of squared errors
- * @param {Array <Array <number>>} data - the (x,y) points to cluster
- * @param {Array <Array <number>>} centers - the K centers in format (x,y)
- * @param {Array <number>} clusterID - the cluster identifier for each data dot
- * @returns {number} the sum of squared errors
+ * @param {Array <Array <Number>>} data - the (x,y) points to cluster
+ * @param {Array <Array <Number>>} centers - the K centers in format (x,y)
+ * @param {Array <Number>} clusterID - the cluster identifier for each data dot
+ * @returns {Number} the sum of squared errors
  */
 function computeSSE(data, centers, clusterID) {
-    var sse = 0;
-    var nData = data.length;
-    var c = 0;
-    for (var i = 0; i < nData;i++) {
+    let sse = 0;
+    let nData = data.length;
+    let c = 0;
+    for (let i = 0; i < nData; i++) {
         c = clusterID[i];
         sse += squaredDistance(data[i], centers[c]);
     }
@@ -22,29 +22,29 @@ function computeSSE(data, centers, clusterID) {
 
 /**
  * Updates the cluster identifier based in the new data
- * @param {Array <Array <number>>} data - the (x,y) points to cluster
- * @param {Array <Array <number>>} centers - the K centers in format (x,y)
+ * @param {Array <Array <Number>>} data - the (x,y) points to cluster
+ * @param {Array <Array <Number>>} centers - the K centers in format (x,y)
  * @returns {Array} the cluster identifier for each data dot
  */
-function updateClusterID (data, centers) {
-    var nData = data.length;
-    var k = centers.length;
-    var aux = 0;
-    var clusterID = new Array(nData);
-    for (var i = 0; i < nData; i++)
+function updateClusterID(data, centers) {
+    let nData = data.length;
+    let k = centers.length;
+    let aux = 0;
+    let clusterID = new Array(nData);
+    for (let i = 0; i < nData; i++)
         clusterID[i] = 0;
-    var d = new Array(nData);
-    for (var i = 0; i < nData; i++) {
+    let d = new Array(nData);
+    for (let i = 0; i < nData; i++) {
         d[i] = new Array(k);
-        for (var j = 0; j < k; j++) {
+        for (let j = 0; j < k; j++) {
             aux = squaredDistance(data[i], centers[j]);
             d[i][j] = new Array(2);
             d[i][j][0] = aux;
             d[i][j][1] = j;
         }
-        var min = d[i][0][0];
-        var id = 0;
-        for (var j = 0; j < k; j++)
+        let min = d[i][0][0];
+        let id = 0;
+        for (let j = 0; j < k; j++)
             if (d[i][j][0] < min) {
                 min  = d[i][j][0];
                 id = d[i][j][1];
@@ -56,34 +56,34 @@ function updateClusterID (data, centers) {
 
 /**
  * Update the center values based in the new configurations of the clusters
- * @param {Array <Array <number>>} data - the (x,y) points to cluster
- * @param {Array <number>} clusterID - the cluster identifier for each data dot
- * @param K - number of clusters
+ * @param {Array <Array <Number>>} data - the (x,y) points to cluster
+ * @param {Array <Number>} clusterID - the cluster identifier for each data dot
+ * @param {Number} K - Number of clusters
  * @returns {Array} he K centers in format (x,y)
  */
 function updateCenters(data, clusterID, K) {
-    var nDim = data[0].length;
-    var nData = data.length;
-    var centers = new Array(K);
-    for (var i = 0; i < K; i++) {
+    let nDim = data[0].length;
+    let nData = data.length;
+    let centers = new Array(K);
+    for (let i = 0; i < K; i++) {
         centers[i] = new Array(nDim);
-        for (var j = 0; j < nDim; j++)
+        for (let j = 0; j < nDim; j++)
             centers[i][j] = 0;
     }
 
-    for (var k = 0; k < K; k++) {
-        var cluster = [];
-        for (var i = 0; i < nData;i++)
-            if (clusterID[i] == k)
+    for (let k = 0; k < K; k++) {
+        let cluster = [];
+        for (let i = 0; i < nData; i++)
+            if (clusterID[i] === k)
                 cluster.push(data[i]);
-        for (var d = 0; d < nDim; d++) {
-            var x = [];
-            for (var i = 0; i < nData; i++)
-                if (clusterID[i] == k)
+        for (let d = 0; d < nDim; d++) {
+            let x = [];
+            for (let i = 0; i < nData; i++)
+                if (clusterID[i] === k)
                     x.push(data[i][d]);
-            var sum = 0;
-            var l = x.length;
-            for (var i = 0; i < l; i++)
+            let sum = 0;
+            let l = x.length;
+            for (let i = 0; i < l; i++)
                 sum += x[i];
             centers[k][d] = sum / l;
         }
@@ -91,82 +91,82 @@ function updateCenters(data, clusterID, K) {
     return centers;
 }
 
+const defaultOptions = {
+    maxIterations: 100,
+    tolerance: 1e-6,
+    withIterations: false
+};
+
 /**
  * K-means algorithm
- * @param {Array <Array <number>>} data - the (x,y) points to cluster
- * @param {Array <Array <number>>} centers - the K centers in format (x,y)
- * @param {Object} props - properties
- * @param {number} maxIter - maximum of iterations allowed
- * @param {number} tol - the error tolerance
- * @param {boolean} withIter - store clusters and centroids for each iteration
+ * @param {Array <Array <Number>>} data - the (x,y) points to cluster
+ * @param {Array <Array <Number>>} centers - the K centers in format (x,y)
+ * @param {Object} options - properties
+ * @param {Number} options.maxIterations - maximum of iterations allowed
+ * @param {Number} options.tolerance - the error tolerance
+ * @param {boolean} options.withIterations - store clusters and centroids for each iteration
  * @returns {Object} the cluster identifier for each data dot and centroids
  */
-function kmeans(data, centers, props) {
-    var maxIter, tol, withIter;
-    if (typeof props === "undefined") {
-        maxIter = 100;
-        tol = 1e-6;
-        withIter = false;
-    } else {
-        maxIter = (typeof props.maxIter === "undefined") ? 100 : props.maxIter;
-        tol = (typeof props.tol === "undefined") ? 1e-6 : props.tol;
-        withIter = (typeof props.withIter === "undefined") ? false : props.withIter;
-    }
+function kmeans(data, centers, options) {
+    if (!options) options = defaultOptions;
+    let maxIterations = options.maxIterations || defaultOptions.maxIterations;
+    let tolerance = options.tolerance || defaultOptions.tolerance;
+    let withIterations = options.withIterations || defaultOptions.withIterations;
 
-    var nData = data.length;
-    if (nData == 0) {
+    let nData = data.length;
+    if (nData === 0) {
         return [];
     }
-    var K = centers.length;
-    var clusterID = new Array(nData);
-    for (var i = 0; i < nData; i++)
+    let K = centers.length;
+    let clusterID = new Array(nData);
+    for (let i = 0; i < nData; i++)
         clusterID[i] = 0;
     if (K >= nData) {
-        for (var i = 0; i < nData; i++)
+        for (let i = 0; i < nData; i++)
             clusterID[i] = i;
         return clusterID;
     }
-    var lastDistance;
+    let lastDistance;
     lastDistance = 1e100;
-    var curDistance = 0;
-    var iterations = [];
-    for (var iter = 0; iter < maxIter; iter++) {
+    let curDistance = 0;
+    let iterations = [];
+    for (let iter = 0; iter < maxIterations; iter++) {
         clusterID = updateClusterID(data, centers);
         centers = updateCenters(data, clusterID, K);
         curDistance = computeSSE(data, centers, clusterID);
-        if (withIter) {
+        if (withIterations) {
             iterations.push({
-                "clusters": clusterID,
-                "centroids": centers
+                'clusters': clusterID,
+                'centroids': centers
             });
         }
 
-        if ((lastDistance - curDistance < tol) || ((lastDistance - curDistance)/lastDistance < tol)) {
-            if (withIter) {
+        if ((lastDistance - curDistance < tolerance) || ((lastDistance - curDistance) / lastDistance < tolerance)) {
+            if (withIterations) {
                 return {
-                    "clusters": clusterID,
-                    "centroids": centers,
-                    "iterations": iterations
+                    'clusters': clusterID,
+                    'centroids': centers,
+                    'iterations': iterations
                 };
             } else {
                 return {
-                    "clusters": clusterID,
-                    "centroids": centers
+                    'clusters': clusterID,
+                    'centroids': centers
                 };
             }
         }
         lastDistance = curDistance;
     }
-    if (withIter) {
+    if (withIterations) {
         return {
-            "clusters": clusterID,
-            "centroids": centers,
-            "iterations": iterations
+            'clusters': clusterID,
+            'centroids': centers,
+            'iterations': iterations
         };
     } else {
         return {
-            "clusters": clusterID,
-            "centroids": centers
+            'clusters': clusterID,
+            'centroids': centers
         };
     }
 }
