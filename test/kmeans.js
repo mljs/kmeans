@@ -9,41 +9,61 @@ let expectedCentroids = [[-8.4199, -1.6654], [4.4661, 1.3475]];
 
 describe('K-means', function () {
 
-    describe('when passing data points and centroids', function () {
+    it('Simple case', function () {
+        let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
+        let centers = [[1, 2, 1], [-1, -1, -1]];
 
-        it('main test', function () {
-            let ans = kmeans(data, centers);
-            let clusts = ans.clusters;
-            let centrs = ans.centroids;
-
-            for (let i = 0, l = clusterID.length; i < l; i++) {
-                clusts[i].should.equal(clusterID[i]);
-            }
-            for (let i = 0, l = centers.length; i < l; i++) {
-                centrs[i][0].should.be.approximately(expectedCentroids[i][0], 0.1);
-                centrs[i][1].should.be.approximately(expectedCentroids[i][1], 0.1);
-            }
+        let ans = kmeans(data, centers);
+        ans.should.deepEqual({
+            clusters: [0, 0, 1, 1],
+            centroids: [ [1, 1.5, 1], [-1, -1, -1.25] ]
         });
-
     });
 
-    describe('when passing `withIter` property', function () {
+    it('Practical case', function () {
+        let ans = kmeans(data, centers);
+        let clusts = ans.clusters;
+        let centrs = ans.centroids;
 
-        it('should store iterations', function () {
-            let ans = kmeans(data, centers, { withIterations: true });
-            let clusts = ans.clusters;
-            let centrs = ans.centroids;
-            let iters = ans.iterations;
+        clusts.should.deepEqual(clusterID);
+        for (let i = 0, l = centers.length; i < l; i++) {
+            centrs[i][0].should.be.approximately(expectedCentroids[i][0], 0.1);
+            centrs[i][1].should.be.approximately(expectedCentroids[i][1], 0.1);
+        }
+    });
 
-            for (let i = 0, l = clusterID.length; i < l; i++) {
-                clusts[i].should.equal(clusterID[i]);
-            }
-            for (let i = 0, l = centers.length; i < l; i++) {
-                centrs[i][0].should.be.approximately(expectedCentroids[i][0], 0.1);
-                centrs[i][1].should.be.approximately(expectedCentroids[i][1], 0.1);
-            }
-            iters.length.should.equal(12);
+    it('Passing `withIterations` property', function () {
+        let ans = kmeans(data, centers, { withIterations: true });
+        let clusts = ans.clusters;
+        let centrs = ans.centroids;
+        let iters = ans.iterations;
+
+        clusts.should.deepEqual(clusterID);
+        for (let i = 0, l = centers.length; i < l; i++) {
+            centrs[i][0].should.be.approximately(expectedCentroids[i][0], 0.1);
+            centrs[i][1].should.be.approximately(expectedCentroids[i][1], 0.1);
+        }
+        iters.length.should.equal(12);
+    });
+
+    it('Passing empty data or more centers than data', function () {
+        kmeans.bind(null, [], centers).should.throw('The numbers in data should be bigger than the k value');
+        kmeans.bind(null, [ [1, 2] ], [ [1, 2], [3, 4] ]).should.throw('The numbers in data should be bigger than the k value');
+    });
+
+    it('Exceed number of operations', function () {
+        let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
+        let centers = [[1, 2, 1], [-1, -1, -1]];
+
+        kmeans(data, centers, {maxIterations: 0}).should.deepEqual({
+            clusters: [0, 0, 0, 0],
+            centroids: centers
         });
 
+        kmeans(data, centers, {maxIterations: 0, withIterations: true}).should.deepEqual({
+            clusters: [0, 0, 0, 0],
+            centroids: centers,
+            iterations: []
+        });
     });
 });
