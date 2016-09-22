@@ -4,9 +4,10 @@ const squaredDistance = require('ml-euclidean-distance').squared;
 
 /**
  * Calculates the sum of squared errors
- * @param {Array <Array <Number>>} data - the (x,y) points to cluster
- * @param {Array <Array <Number>>} centers - the K centers in format (x,y)
- * @param {Array <Number>} clusterID - the cluster identifier for each data dot
+ * @ignore
+ * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
+ * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
+ * @param {Array<Number>} clusterID - the cluster identifier for each data dot
  * @returns {Number} the sum of squared errors
  */
 function computeSSE(data, centers, clusterID) {
@@ -22,8 +23,9 @@ function computeSSE(data, centers, clusterID) {
 
 /**
  * Updates the cluster identifier based in the new data
- * @param {Array <Array <Number>>} data - the (x,y) points to cluster
- * @param {Array <Array <Number>>} centers - the K centers in format (x,y)
+ * @ignore
+ * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
+ * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
  * @returns {Array} the cluster identifier for each data dot
  */
 function updateClusterID(data, centers) {
@@ -56,10 +58,11 @@ function updateClusterID(data, centers) {
 
 /**
  * Update the center values based in the new configurations of the clusters
- * @param {Array <Array <Number>>} data - the (x,y) points to cluster
+ * @ignore
+ * @param {Array <Array <Number>>} data - the [x,y,z,...] points to cluster
  * @param {Array <Number>} clusterID - the cluster identifier for each data dot
  * @param {Number} K - Number of clusters
- * @returns {Array} he K centers in format (x,y)
+ * @returns {Array} he K centers in format [x,y,z,...]
  */
 function updateCenters(data, clusterID, K) {
     let nDim = data[0].length;
@@ -99,19 +102,16 @@ const defaultOptions = {
 
 /**
  * K-means algorithm
- * @param {Array <Array <Number>>} data - the (x,y) points to cluster
- * @param {Array <Array <Number>>} centers - the K centers in format (x,y)
- * @param {Object} options - properties
- * @param {Number} options.maxIterations - maximum of iterations allowed
- * @param {Number} options.tolerance - the error tolerance
- * @param {boolean} options.withIterations - store clusters and centroids for each iteration
+ * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
+ * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
+ * @param {Object} [options] - properties
+ * @param {Number} [options.maxIterations = 100] - maximum of iterations allowed
+ * @param {Number} [options.tolerance = 1e-6] - the error tolerance
+ * @param {boolean} [options.withIterations = false] - store clusters and centroids for each iteration
  * @returns {Object} the cluster identifier for each data dot and centroids
  */
 function kmeans(data, centers, options) {
-    if (!options) options = defaultOptions;
-    let maxIterations = options.maxIterations || defaultOptions.maxIterations;
-    let tolerance = options.tolerance || defaultOptions.tolerance;
-    let withIterations = options.withIterations || defaultOptions.withIterations;
+    options = Object.assign({}, defaultOptions, options);
 
     let nData = data.length;
     if (nData === 0) {
@@ -130,19 +130,19 @@ function kmeans(data, centers, options) {
     lastDistance = 1e100;
     let curDistance = 0;
     let iterations = [];
-    for (let iter = 0; iter < maxIterations; iter++) {
+    for (let iter = 0; iter < options.maxIterations; iter++) {
         clusterID = updateClusterID(data, centers);
         centers = updateCenters(data, clusterID, K);
         curDistance = computeSSE(data, centers, clusterID);
-        if (withIterations) {
+        if (options.withIterations) {
             iterations.push({
                 'clusters': clusterID,
                 'centroids': centers
             });
         }
 
-        if ((lastDistance - curDistance < tolerance) || ((lastDistance - curDistance) / lastDistance < tolerance)) {
-            if (withIterations) {
+        if ((lastDistance - curDistance < options.tolerance) || ((lastDistance - curDistance) / lastDistance < options.tolerance)) {
+            if (options.withIterations) {
                 return {
                     'clusters': clusterID,
                     'centroids': centers,
@@ -157,7 +157,7 @@ function kmeans(data, centers, options) {
         }
         lastDistance = curDistance;
     }
-    if (withIterations) {
+    if (options.withIterations) {
         return {
             'clusters': clusterID,
             'centroids': centers,

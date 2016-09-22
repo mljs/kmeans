@@ -6,28 +6,13 @@
   [![David deps][david-image]][david-url]
   [![npm download][download-image]][download-url]
 
-K-means in JavaScript
+[K-means](https://en.wikipedia.org/wiki/K-means_clustering) in JavaScript
 
 ## Installation
 
 `npm install ml-kmeans`
 
 ## [API Documentation](https://mljs.github.io/kmeans/)
-
-### kmeans(data, centers, [props])
-Returns an object containing the following:
-
-* `clusters`: array of [cluster indexes](https://en.wikipedia.org/wiki/K-means_clustering) for the training dots.
-* `centroids`: array of calculated centroids.
-* `iterations`: array of `clusters` and `centroids` calculated during each iteration. It's optional, only included when `withIter` is set to true (see below).
-
-__Arguments__
-* `data`: An array of the (x,y) points to cluster, represented also as an array.
-* `centers`: An array of the K centers in format (x,y), represented also as an array.
-* `props`: A property object that can be used to set some parameters:
-   * `maxIter`: Maximum number of iterations allowed. Its default is 100.
-   * `tol`: The numerical error tolerance. Its default is 1e-6.
-   * `withIter`: If `true` it adds an `iterations` property in the returned object. Its default is false.
 
 ## Test
 
