@@ -11,6 +11,8 @@
     "eslint": "eslint src test",
     "eslint-fix": "npm run eslint -- --fix",
     "test": "npm run test-mocha && npm run eslint",
+    "test-cov": "istanbul cover node_modules/.bin/_mocha -- --require should --reporter dot --recursive",
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --require should --reporter dot --recursive",
     "test-mocha": "mocha --require should --reporter mocha-better-spec-reporter --recursive"
   },
   "repository": {
@@ -37,6 +39,7 @@
     "eslint": "^3.4.0",
     "eslint-config-cheminfo": "^1.2.0",
     "eslint-plugin-no-only-tests": "^1.1.0",
+    "istanbul": "^0.4.4",
     "mocha": "^3.0.2",
     "mocha-better-spec-reporter": "^3.0.2",
     "should": "^11.1.0"
