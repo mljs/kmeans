@@ -1,6 +1,7 @@
 'use strict';
 
 const utils = require('./utils');
+const init = require('./initialization');
 
 const defaultOptions = {
     maxIterations: 100,
@@ -25,6 +26,10 @@ function kmeans(data, K, options) {
 
     let nData = data.length;
 
+    if (K > nData) {
+        throw new Error('The numbers in data should be bigger than the k value');
+    }
+
     let centers;
     if (Array.isArray(options.initialization)) {
         if (options.initialization.length !== K) {
@@ -35,15 +40,11 @@ function kmeans(data, K, options) {
     } else {
         switch (options.initialization) {
             case 'random':
-                centers = []; // TODO
+                centers = init.random(data, K);
                 break;
             default:
                 throw new Error('Unknown initialization method');
         }
-    }
-
-    if (K > nData) {
-        throw new Error('The numbers in data should be bigger than the k value');
     }
 
     let clusterID = new Array(nData);
