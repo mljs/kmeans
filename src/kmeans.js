@@ -97,26 +97,44 @@ function updateCenters(data, clusterID, K) {
 const defaultOptions = {
     maxIterations: 100,
     tolerance: 1e-6,
-    withIterations: false
+    withIterations: false,
+    initialization: 'random'
 };
 
 /**
  * K-means algorithm
- * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
- * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
- * @param {Object} [options] - properties
- * @param {Number} [options.maxIterations = 100] - maximum of iterations allowed
- * @param {Number} [options.tolerance = 1e-6] - the error tolerance
- * @param {boolean} [options.withIterations = false] - store clusters and centroids for each iteration
- * @returns {Object} the cluster identifier for each data dot and centroids
+ * @param {Array<Array<Number>>} data - Points in the format to cluster [x,y,z,...]
+ * @param {Number} K - Number of clusters
+ * @param {Object} [options] - Option object
+ * @param {Number} [options.maxIterations = 100] - Maximum of iterations allowed
+ * @param {Number} [options.tolerance = 1e-6] - Error tolerance
+ * @param {Boolean} [options.withIterations = false] - Store clusters and centroids for each iteration
+ * @param {String|Array<Array<Number>>} [options.initialization = 'random'] - K centers in format [x,y,z,...] or a method for initialize the data
+ * @returns {Object} Cluster identifier for each data dot and centroids
  */
-function kmeans(data, centers, options) {
+function kmeans(data, K, options) {
     options = Object.assign({}, defaultOptions, options);
 
     let nData = data.length;
-    let K = centers.length;
 
-    if (K > nData || nData === 0) {
+    let centers;
+    if (Array.isArray(options.initialization)) {
+        if (options.initialization.length !== K) {
+            throw new Error('The initial centers should have the same length than K');
+        } else {
+            centers = options.initialization;
+        }
+    } else {
+        switch (options.initialization) {
+            case 'random':
+                centers = []; // TODO
+                break;
+            default:
+                throw new Error('Unknown initialization method');
+        }
+    }
+
+    if (K > nData) {
         throw new Error('The numbers in data should be bigger than the k value');
     }
 
