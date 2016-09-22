@@ -52,8 +52,8 @@ describe('K-means', function () {
     });
 
     it('Passing wrong initialization parameter', function () {
-        kmeans.bind(null, [ [1, 2] ], 2, {initialization: [1]}).should.throw('The initial centers should have the same length than K');
-        kmeans.bind(null, [ [1, 2] ], 2, {initialization: 'n\'importe quoi'}).should.throw('Unknown initialization method');
+        kmeans.bind(null, [ [1, 2], [1, 2], [1, 2] ], 2, {initialization: [1]}).should.throw('The initial centers should have the same length than K');
+        kmeans.bind(null, [ [1, 2], [1, 2], [1, 2] ], 2, {initialization: 'n\'importe quoi'}).should.throw('Unknown initialization method');
     });
 
     it('Exceed number of operations', function () {
