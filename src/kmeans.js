@@ -114,23 +114,20 @@ function kmeans(data, centers, options) {
     options = Object.assign({}, defaultOptions, options);
 
     let nData = data.length;
-    if (nData === 0) {
-        return [];
-    }
     let K = centers.length;
-    let clusterID = new Array(nData);
-    for (let i = 0; i < nData; i++)
-        clusterID[i] = 0;
-    if (K >= nData) {
-        for (let i = 0; i < nData; i++)
-            clusterID[i] = i;
-        return clusterID;
+
+    if (K > nData || nData === 0) {
+        throw new Error('The numbers in data should be bigger than the k value');
     }
-    let lastDistance;
-    lastDistance = 1e100;
+
+    let clusterID = new Array(nData);
+    for (let i = 0; i < nData; ++i) {
+        clusterID[i] = 0;
+    }
+    let lastDistance = 1e100;
     let curDistance = 0;
     let iterations = [];
-    for (let iter = 0; iter < options.maxIterations; iter++) {
+    for (let iter = 0; iter < options.maxIterations; ++iter) {
         clusterID = updateClusterID(data, centers);
         centers = updateCenters(data, clusterID, K);
         curDistance = computeSSE(data, centers, clusterID);
@@ -157,6 +154,8 @@ function kmeans(data, centers, options) {
         }
         lastDistance = curDistance;
     }
+
+    // exceed number of iterations
     if (options.withIterations) {
         return {
             'clusters': clusterID,
