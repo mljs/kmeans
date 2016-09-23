@@ -7,7 +7,7 @@ const defaultOptions = {
     maxIterations: 100,
     tolerance: 1e-6,
     withIterations: false,
-    initialization: 'random'
+    initialization: 'moreDistant'
 };
 
 /**
@@ -18,8 +18,13 @@ const defaultOptions = {
  * @param {Number} [options.maxIterations = 100] - Maximum of iterations allowed
  * @param {Number} [options.tolerance = 1e-6] - Error tolerance
  * @param {Boolean} [options.withIterations = false] - Store clusters and centroids for each iteration
- * @param {String|Array<Array<Number>>} [options.initialization = 'random'] - K centers in format [x,y,z,...] or a method for initialize the data
- * @returns {Object} Cluster identifier for each data dot and centroids
+ * @param {String|Array<Array<Number>>} [options.initialization = 'moreDistant'] - K centers in format [x,y,z,...] or a method for initialize the data:
+ *  * `'random'` will choose K random different values.
+ *  * `'moreDistant'` will choose the more distant points to a first random pick
+ * @returns {Object} - Cluster identifier for each data dot and centroids with the following fields:
+ *  * `'clusters'`: Array of indexes for the clusters.
+ *  * `'centroids'`: Array with the resulting centroids.
+ *  * `'iterations'`: Array with the state of 'clusters' and 'centroids' for each iteration.
  */
 function kmeans(data, K, options) {
     options = Object.assign({}, defaultOptions, options);
