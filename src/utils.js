@@ -1,6 +1,6 @@
 'use strict';
 
-const squaredDistance = require('ml-euclidean-distance').squared;
+const squaredDistance = require('ml-distance-euclidean').squared;
 
 /**
  * Calculates the sum of squared errors

@@ -42,6 +42,9 @@ function kmeans(data, K, options) {
             case 'random':
                 centers = init.random(data, K);
                 break;
+            case 'moreDistant':
+                centers = init.moreDistant(data, K);
+                break;
             default:
                 throw new Error('Unknown initialization method');
         }
