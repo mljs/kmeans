@@ -51,7 +51,7 @@
       kmeans
     </h3>
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/2545c42ba4ab1412948a81a440495fbc2be9c2c7/src/kmeans.js#L113-L172'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/8af0a61a4103a4477b77851d70d92d634bd8b063/src/kmeans.js#L29-L106'>
       <span>src/kmeans.js</span>
       </a>
     
@@ -61,7 +61,7 @@
   <p>K-means algorithm</p>
 
 
-  <div class='pre p1 fill-light mt0'>kmeans(data: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;&gt;, centers: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;&gt;, options: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>]): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+  <div class='pre p1 fill-light mt0'>kmeans(data: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;&gt;, K: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>, options: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>]): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
 
   
 
@@ -77,7 +77,8 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>data</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;&gt;)</code> the (x,y) points to cluster
+            <span class='code bold'>data</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;&gt;)</code> Points in the format to cluster 
+[x,y,z,...]
 
           </div>
           
@@ -85,7 +86,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>centers</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;&gt;)</code> the K centers in format (x,y)
+            <span class='code bold'>K</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>)</code> Number of clusters
 
           </div>
           
@@ -93,7 +94,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>options</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> properties
+            <span class='code bold'>options</span> <code class='quiet'>([<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>])</code> Option object
 
           </div>
           
@@ -115,7 +116,7 @@
                   
                     (default <code>100</code>)
                   </td>
-                  <td class='break-word'><span>maximum of iterations allowed
+                  <td class='break-word'><span>Maximum of iterations allowed
 </span></td>
                 </tr>
               
@@ -124,16 +125,31 @@
                   
                     (default <code>1e-6</code>)
                   </td>
-                  <td class='break-word'><span>the error tolerance
+                  <td class='break-word'><span>Error tolerance
 </span></td>
                 </tr>
               
                 <tr>
-                  <td class='break-word'><span class='code bold'>options.withIterations</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>]</code>
+                  <td class='break-word'><span class='code bold'>options.withIterations</span> <code class='quiet'>[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>]</code>
                   
                     (default <code>false</code>)
                   </td>
-                  <td class='break-word'><span>store clusters and centroids for each iteration
+                  <td class='break-word'><span>Store clusters and centroids for each iteration
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>options.initialization</span> <code class='quiet'>[(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;&gt;)]</code>
+                  
+                    (default <code>&#39;moreDistant&#39;</code>)
+                  </td>
+                  <td class='break-word'><span>K centers in format 
+[x,y,z,...]
+ or a method for initialize the data:
+<ul>
+<li><code>&#x27;random&#x27;</code> will choose K random different values.</li>
+<li><code>&#x27;moreDistant&#x27;</code> will choose the more distant points to a first random pick</li>
+</ul>
 </span></td>
                 </tr>
               
@@ -151,7 +167,12 @@
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
-        the cluster identifier for each data dot and centroids
+        Cluster identifier for each data dot and centroids with the following fields:
+<ul>
+<li><code>&#x27;clusters&#x27;</code>: Array of indexes for the clusters.</li>
+<li><code>&#x27;centroids&#x27;</code>: Array with the resulting centroids.</li>
+<li><code>&#x27;iterations&#x27;</code>: Array with the state of &#x27;clusters&#x27; and &#x27;centroids&#x27; for each iteration.</li>
+</ul>
 
       
     
