@@ -34,5 +34,11 @@ describe('Initialization methods', function () {
         ans.length.should.be.equal(3);
         ans[0].should.not.deepEqual(ans[1]);
         ans[0].should.not.deepEqual(ans[2]);
+
+        let single = [[1, 1, 1]];
+
+        let ansSingle = init.mostDistant(single, 1);
+        ansSingle.length.should.be.equal(1);
+        ansSingle[0].should.deepEqual([1, 1, 1]);
     });
 });

@@ -1,6 +1,7 @@
 'use strict';
 
 const distance = require('ml-distance-euclidean');
+const Picker = require('RandomSelection').Picker;
 
 /**
  * Choose K different random points from the original data
@@ -10,18 +11,13 @@ const distance = require('ml-distance-euclidean');
  * @return {Array<Array<Number>>} - Initial random points
  */
 function random(data, K) {
+    const rand = new Picker(data);
     var ans = new Array(K);
 
     for (var i = 0; i < K; ++i) {
-        var rand = Math.floor(Math.random() * data.length);
-
-        /* istanbul ignore next */
-        while (ans.indexOf(rand) !== -1) {
-            rand = Math.floor(Math.random() * data.length);
-        }
-        ans[i] = rand;
+        ans[i] = rand.pick();
     }
-    return ans.map((index) => data[index]);
+    return ans;
 }
 
 /**
@@ -53,7 +49,6 @@ function mostDistant(data, K) {
         }
     }
 
-    /* istanbul ignore else */
     if (K > 1) {
         // chooses the more distant point
         var maxDist = {dist: -1, index: -1};
