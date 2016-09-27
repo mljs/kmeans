@@ -10,15 +10,14 @@ const distance = require('ml-distance-euclidean');
  * @return {Array<Array<Number>>} - Initial random points
  */
 function random(data, K) {
-    let len = data.length;
-    let ans = new Array(K);
+    var ans = new Array(K);
 
-    for (let i = 0; i < K; ++i) {
-        let rand = Math.floor(Math.random() * len);
+    for (var i = 0; i < K; ++i) {
+        var rand = Math.floor(Math.random() * data.length);
 
         /* istanbul ignore next */
         while (ans.indexOf(rand) !== -1) {
-            rand = Math.floor(Math.random() * len);
+            rand = Math.floor(Math.random() * data.length);
         }
         ans[i] = rand;
     }
@@ -33,23 +32,22 @@ function random(data, K) {
  * @return {Array<Array<Number>>} - Initial random points
  */
 function mostDistant(data, K) {
-    let len = data.length;
-    let ans = new Array(K);
+    var ans = new Array(K);
 
     // chooses a random point as initial cluster
-    ans[0] = Math.floor(Math.random() * len);
+    ans[0] = Math.floor(Math.random() * data.length);
 
     // calculate distance matrix
-    let distanceMatrix = new Array(len);
-    for (let i = 0; i < len; ++i) {
-        for (let j = i; j < len; ++j) {
+    var distanceMatrix = new Array(data.length);
+    for (var i = 0; i < data.length; ++i) {
+        for (var j = i; j < data.length; ++j) {
             if (!distanceMatrix[i]) {
-                distanceMatrix[i] = new Array(len);
+                distanceMatrix[i] = new Array(data.length);
             }
             if (!distanceMatrix[j]) {
-                distanceMatrix[j] = new Array(len);
+                distanceMatrix[j] = new Array(data.length);
             }
-            let dist = distance(data[i], data[j]);
+            const dist = distance(data[i], data[j]);
             distanceMatrix[i][j] = dist;
             distanceMatrix[j][i] = dist;
         }
@@ -58,28 +56,28 @@ function mostDistant(data, K) {
     /* istanbul ignore else */
     if (K > 1) {
         // chooses the more distant point
-        let maxDist = {dist: -1, index: -1};
-        for (let i = 0; i < len; ++i) {
-            if (distanceMatrix[ans[0]][i] > maxDist.dist) {
-                maxDist.dist = distanceMatrix[ans[0]][i];
-                maxDist.index = i;
+        var maxDist = {dist: -1, index: -1};
+        for (var l = 0; l < data.length; ++l) {
+            if (distanceMatrix[ans[0]][l] > maxDist.dist) {
+                maxDist.dist = distanceMatrix[ans[0]][l];
+                maxDist.index = l;
             }
         }
         ans[1] = maxDist.index;
 
         if (K > 2) {
             // chooses the set of points that maximises the min distance
-            for (let k = 2; k < K; ++k) {
-                let center = {dist: -1, index: -1};
-                for (let i = 0; i < len; ++i) {
+            for (var k = 2; k < K; ++k) {
+                var center = {dist: -1, index: -1};
+                for (var m = 0; m < data.length; ++m) {
 
                     // minimum distance to centers
-                    let minDistCent = {dist: Number.MAX_VALUE, index: -1};
-                    for (let j = 0; j < k; ++j) {
-                        if (distanceMatrix[j][i] < minDistCent.dist && ans.indexOf(i) === -1) {
+                    var minDistCent = {dist: Number.MAX_VALUE, index: -1};
+                    for (var n = 0; n < k; ++n) {
+                        if (distanceMatrix[n][m] < minDistCent.dist && ans.indexOf(m) === -1) {
                             minDistCent = {
-                                dist: distanceMatrix[j][i],
-                                index: i
+                                dist: distanceMatrix[n][m],
+                                index: m
                             };
                         }
                     }

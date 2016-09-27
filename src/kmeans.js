@@ -33,7 +33,7 @@ function kmeans(data, K, options) {
         throw new Error('Data length should be bigger than K');
     }
 
-    let centers;
+    var centers;
     if (Array.isArray(options.initialization)) {
         if (options.initialization.length !== K) {
             throw new Error('The initial centers should have the same length as K');
@@ -53,14 +53,14 @@ function kmeans(data, K, options) {
         }
     }
 
-    let clusterID = new Array(data.length);
-    for (let i = 0; i < data.length; ++i) {
+    var clusterID = new Array(data.length);
+    for (var i = 0; i < data.length; ++i) {
         clusterID[i] = 0;
     }
-    let lastDistance = 1e100;
-    let curDistance = 0;
-    let iterations = [];
-    for (let iter = 0; iter < options.maxIterations; ++iter) {
+    var lastDistance = 1e100;
+    var curDistance = 0;
+    var iterations = [];
+    for (var iter = 0; iter < options.maxIterations; ++iter) {
         clusterID = utils.updateClusterID(data, centers);
         centers = utils.updateCenters(data, clusterID, K);
         curDistance = utils.computeSSE(data, centers, clusterID);
