@@ -11,10 +11,9 @@ const squaredDistance = require('ml-distance-euclidean').squared;
  * @returns {Number} the sum of squared errors
  */
 function computeSSE(data, centers, clusterID) {
-    let sse = 0;
-    let nData = data.length;
-    let c = 0;
-    for (let i = 0; i < nData; i++) {
+    var sse = 0;
+    var c = 0;
+    for (var i = 0; i < data.length; i++) {
         c = clusterID[i];
         sse += squaredDistance(data[i], centers[c]);
     }
@@ -29,25 +28,24 @@ function computeSSE(data, centers, clusterID) {
  * @returns {Array} the cluster identifier for each data dot
  */
 function updateClusterID(data, centers) {
-    let nData = data.length;
-    let k = centers.length;
-    let aux = 0;
-    let clusterID = new Array(nData);
-    for (let i = 0; i < nData; i++)
-        clusterID[i] = 0;
-    let d = new Array(nData);
-    for (let i = 0; i < nData; i++) {
+    const k = centers.length;
+    var aux = 0;
+    var clusterID = new Array(data.length);
+    for (var index = 0; index < data.length; index++)
+        clusterID[index] = 0;
+    var d = new Array(data.length);
+    for (var i = 0; i < data.length; i++) {
         d[i] = new Array(k);
-        for (let j = 0; j < k; j++) {
+        for (var j = 0; j < k; j++) {
             aux = squaredDistance(data[i], centers[j]);
             d[i][j] = [aux, j];
         }
-        let min = d[i][0][0];
-        let id = 0;
-        for (let j = 0; j < k; j++) {
-            if (d[i][j][0] < min) {
-                min  = d[i][j][0];
-                id = d[i][j][1];
+        var min = d[i][0][0];
+        var id = 0;
+        for (var l = 0; l < k; l++) {
+            if (d[i][l][0] < min) {
+                min  = d[i][l][0];
+                id = d[i][l][1];
             }
         }
         clusterID[i] = id;
@@ -64,36 +62,34 @@ function updateClusterID(data, centers) {
  * @returns {Array} he K centers in format [x,y,z,...]
  */
 function updateCenters(data, clusterID, K) {
-    let nDim = data[0].length;
-    let nData = data.length;
-    let centers = new Array(K);
-    for (let i = 0; i < K; i++) {
+    const nDim = data[0].length;
+    var centers = new Array(K);
+    for (var i = 0; i < K; i++) {
         centers[i] = new Array(nDim);
-        for (let j = 0; j < nDim; j++) {
+        for (var j = 0; j < nDim; j++) {
             centers[i][j] = 0;
         }
     }
 
-    for (let k = 0; k < K; k++) {
-        let cluster = [];
-        for (let i = 0; i < nData; i++) {
-            if (clusterID[i] === k) {
-                cluster.push(data[i]);
+    for (var k = 0; k < K; k++) {
+        var cluster = [];
+        for (var l = 0; l < data.length; l++) {
+            if (clusterID[l] === k) {
+                cluster.push(data[l]);
             }
         }
-        for (let d = 0; d < nDim; d++) {
-            let x = [];
-            for (let i = 0; i < nData; i++) {
-                if (clusterID[i] === k) {
-                    x.push(data[i][d]);
+        for (var d = 0; d < nDim; d++) {
+            var x = [];
+            for (var m = 0; m < data.length; m++) {
+                if (clusterID[m] === k) {
+                    x.push(data[m][d]);
                 }
             }
-            let sum = 0;
-            let l = x.length;
-            for (let i = 0; i < l; i++) {
-                sum += x[i];
+            var sum = 0;
+            for (var n = 0; n < x.length; n++) {
+                sum += x[n];
             }
-            centers[k][d] = sum / l;
+            centers[k][d] = sum / x.length;
         }
     }
     return centers;
