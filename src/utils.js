@@ -40,17 +40,16 @@ function updateClusterID(data, centers) {
         d[i] = new Array(k);
         for (let j = 0; j < k; j++) {
             aux = squaredDistance(data[i], centers[j]);
-            d[i][j] = new Array(2);
-            d[i][j][0] = aux;
-            d[i][j][1] = j;
+            d[i][j] = [aux, j];
         }
         let min = d[i][0][0];
         let id = 0;
-        for (let j = 0; j < k; j++)
+        for (let j = 0; j < k; j++) {
             if (d[i][j][0] < min) {
                 min  = d[i][j][0];
                 id = d[i][j][1];
             }
+        }
         clusterID[i] = id;
     }
     return clusterID;
@@ -70,24 +69,30 @@ function updateCenters(data, clusterID, K) {
     let centers = new Array(K);
     for (let i = 0; i < K; i++) {
         centers[i] = new Array(nDim);
-        for (let j = 0; j < nDim; j++)
+        for (let j = 0; j < nDim; j++) {
             centers[i][j] = 0;
+        }
     }
 
     for (let k = 0; k < K; k++) {
         let cluster = [];
-        for (let i = 0; i < nData; i++)
-            if (clusterID[i] === k)
+        for (let i = 0; i < nData; i++) {
+            if (clusterID[i] === k) {
                 cluster.push(data[i]);
+            }
+        }
         for (let d = 0; d < nDim; d++) {
             let x = [];
-            for (let i = 0; i < nData; i++)
-                if (clusterID[i] === k)
+            for (let i = 0; i < nData; i++) {
+                if (clusterID[i] === k) {
                     x.push(data[i][d]);
+                }
+            }
             let sum = 0;
             let l = x.length;
-            for (let i = 0; i < l; i++)
+            for (let i = 0; i < l; i++) {
                 sum += x[i];
+            }
             centers[k][d] = sum / l;
         }
     }

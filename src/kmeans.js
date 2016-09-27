@@ -7,7 +7,7 @@ const defaultOptions = {
     maxIterations: 100,
     tolerance: 1e-6,
     withIterations: false,
-    initialization: 'moreDistant'
+    initialization: 'mostDistant'
 };
 
 /**
@@ -20,7 +20,7 @@ const defaultOptions = {
  * @param {Boolean} [options.withIterations = false] - Store clusters and centroids for each iteration
  * @param {String|Array<Array<Number>>} [options.initialization = 'moreDistant'] - K centers in format [x,y,z,...] or a method for initialize the data:
  *  * `'random'` will choose K random different values.
- *  * `'moreDistant'` will choose the more distant points to a first random pick
+ *  * `'mostDistant'` will choose the more distant points to a first random pick
  * @returns {Object} - Cluster identifier for each data dot and centroids with the following fields:
  *  * `'clusters'`: Array of indexes for the clusters.
  *  * `'centroids'`: Array with the resulting centroids.
@@ -29,16 +29,14 @@ const defaultOptions = {
 function kmeans(data, K, options) {
     options = Object.assign({}, defaultOptions, options);
 
-    let nData = data.length;
-
-    if (K > nData) {
-        throw new Error('The numbers in data should be bigger than the k value');
+    if (K > data.length) {
+        throw new Error('Data length should be bigger than K');
     }
 
     let centers;
     if (Array.isArray(options.initialization)) {
         if (options.initialization.length !== K) {
-            throw new Error('The initial centers should have the same length than K');
+            throw new Error('The initial centers should have the same length as K');
         } else {
             centers = options.initialization;
         }
@@ -47,16 +45,16 @@ function kmeans(data, K, options) {
             case 'random':
                 centers = init.random(data, K);
                 break;
-            case 'moreDistant':
-                centers = init.moreDistant(data, K);
+            case 'mostDistant':
+                centers = init.mostDistant(data, K);
                 break;
             default:
-                throw new Error('Unknown initialization method');
+                throw new Error('Unknown initialization method: "' + options.initialization + '"');
         }
     }
 
-    let clusterID = new Array(nData);
-    for (let i = 0; i < nData; ++i) {
+    let clusterID = new Array(data.length);
+    for (let i = 0; i < data.length; ++i) {
         clusterID[i] = 0;
     }
     let lastDistance = 1e100;

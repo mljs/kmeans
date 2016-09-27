@@ -26,13 +26,13 @@ function random(data, K) {
 }
 
 /**
- * Chooses the more distant points to a first random pick
+ * Chooses the most distant points to a first random pick
  * @ignore
  * @param {Array<Array<Number>>} data - Points in the format to cluster [x,y,z,...]
  * @param {Number} K - Number of clusters
  * @return {Array<Array<Number>>} - Initial random points
  */
-function moreDistant(data, K) {
+function mostDistant(data, K) {
     let len = data.length;
     let ans = new Array(K);
 
@@ -98,4 +98,4 @@ function moreDistant(data, K) {
 }
 
 exports.random = random;
-exports.moreDistant = moreDistant;
+exports.mostDistant = mostDistant;
