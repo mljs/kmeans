@@ -20,17 +20,17 @@ describe('Initialization methods', function () {
         ans[0].should.not.deepEqual(ans[1]);
     });
 
-    it('moreDistant in kmeans', function () {
+    it('mostDistant in kmeans', function () {
         let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
 
-        let ans = kmeans(data, 2, {initialization: 'moreDistant'});
+        let ans = kmeans(data, 2, {initialization: 'mostDistant'});
         ans.centroids.length.should.be.equal(2);
     });
 
-    it('moreDistant UT', function () {
+    it('mostDistant UT', function () {
         let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
 
-        let ans = init.moreDistant(data, 3);
+        let ans = init.mostDistant(data, 3);
         ans.length.should.be.equal(3);
         ans[0].should.not.deepEqual(ans[1]);
         ans[0].should.not.deepEqual(ans[2]);
