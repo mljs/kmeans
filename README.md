@@ -1,4 +1,4 @@
-# clustering
+# kmeans
 
   [![NPM version][npm-image]][npm-url]
   [![build status][travis-image]][travis-url]
@@ -6,13 +6,32 @@
   [![David deps][david-image]][david-url]
   [![npm download][download-image]][download-url]
 
-[K-means](https://en.wikipedia.org/wiki/K-means_clustering) in JavaScript
+> [K-means clustering](https://en.wikipedia.org/wiki/K-means_clustering) in JavaScript
+
+K-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean.
 
 ## Installation
 
 `npm install ml-kmeans`
 
 ## [API Documentation](https://mljs.github.io/kmeans/)
+
+## Example
+
+```js
+const kmeans = require('ml-kmeans');
+
+let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
+let centers = [[1, 2, 1], [-1, -1, -1]];
+
+let ans = kmeans(data, 2, {initialization: centers});
+
+ans.clusters === [0, 0, 1, 1];
+ans.centroids === [
+    [1, 1.5, 1],
+    [-1, -1, -1.25]
+];
+```
 
 ## Test
 
