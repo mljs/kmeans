@@ -6,18 +6,42 @@ const squaredDistance = require('ml-distance-euclidean').squared;
  * Calculates the sum of squared errors
  * @ignore
  * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
- * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
  * @param {Array<Number>} clusterID - the cluster identifier for each data dot
+ * @param {Array<Array<Number>>} distanceMatrix - matrix with the distance values
  * @returns {Number} the sum of squared errors
  */
-function computeSSE(data, centers, clusterID) {
+function computeSSE(data, clusterID, distanceMatrix) {
     var sse = 0;
     var c = 0;
     for (var i = 0; i < data.length; i++) {
         c = clusterID[i];
-        sse += squaredDistance(data[i], centers[c]);
+        sse += distanceMatrix[i][c];
     }
     return sse;
+}
+
+/**
+ * Calculates the distance matrix for a given array of points
+ * @ignore
+ * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
+ * @return {Array<Array<Number>>} - matrix with the distance values
+ */
+function calculateDistanceMatrix(data) {
+    var distanceMatrix = new Array(data.length);
+    for (var i = 0; i < data.length; ++i) {
+        for (var j = i; j < data.length; ++j) {
+            if (!distanceMatrix[i]) {
+                distanceMatrix[i] = new Array(data.length);
+            }
+            if (!distanceMatrix[j]) {
+                distanceMatrix[j] = new Array(data.length);
+            }
+            const dist = squaredDistance(data[i], data[j]);
+            distanceMatrix[i][j] = dist;
+            distanceMatrix[j][i] = dist;
+        }
+    }
+    return distanceMatrix;
 }
 
 /**
@@ -98,3 +122,4 @@ function updateCenters(data, clusterID, K) {
 exports.computeSSE = computeSSE;
 exports.updateClusterID = updateClusterID;
 exports.updateCenters = updateCenters;
+exports.calculateDistanceMatrix = calculateDistanceMatrix;

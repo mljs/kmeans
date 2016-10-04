@@ -34,6 +34,7 @@ function kmeans(data, K, options) {
     }
 
     var centers;
+    const matrixDistance = utils.calculateDistanceMatrix(data);
     if (Array.isArray(options.initialization)) {
         if (options.initialization.length !== K) {
             throw new Error('The initial centers should have the same length as K');
@@ -46,7 +47,7 @@ function kmeans(data, K, options) {
                 centers = init.random(data, K);
                 break;
             case 'mostDistant':
-                centers = init.mostDistant(data, K);
+                centers = init.mostDistant(data, K, matrixDistance);
                 break;
             default:
                 throw new Error('Unknown initialization method: "' + options.initialization + '"');
@@ -57,13 +58,13 @@ function kmeans(data, K, options) {
     for (var i = 0; i < data.length; ++i) {
         clusterID[i] = 0;
     }
-    var lastDistance = 1e100;
+    var lastDistance = Number.MAX_VALUE;
     var curDistance = 0;
     var iterations = [];
     for (var iter = 0; iter < options.maxIterations; ++iter) {
         clusterID = utils.updateClusterID(data, centers);
         centers = utils.updateCenters(data, clusterID, K);
-        curDistance = utils.computeSSE(data, centers, clusterID);
+        curDistance = utils.computeSSE(data, clusterID, matrixDistance);
         if (options.withIterations) {
             iterations.push({
                 'clusters': clusterID,
