@@ -2,6 +2,7 @@
 
 const kmeans = require('..');
 const init = require('../src/initialization');
+const utils = require('../src/utils');
 
 describe('Initialization methods', function () {
 
@@ -29,15 +30,15 @@ describe('Initialization methods', function () {
 
     it('mostDistant UT', function () {
         let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
-
-        let ans = init.mostDistant(data, 3);
+        const distanceMatrix = utils.calculateDistanceMatrix(data);
+        let ans = init.mostDistant(data, 3, distanceMatrix);
         ans.length.should.be.equal(3);
         ans[0].should.not.deepEqual(ans[1]);
         ans[0].should.not.deepEqual(ans[2]);
 
         let single = [[1, 1, 1]];
 
-        let ansSingle = init.mostDistant(single, 1);
+        let ansSingle = init.mostDistant(single, 1, utils.calculateDistanceMatrix(single));
         ansSingle.length.should.be.equal(1);
         ansSingle[0].should.deepEqual([1, 1, 1]);
     });

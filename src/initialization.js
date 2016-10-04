@@ -1,6 +1,5 @@
 'use strict';
 
-const distance = require('ml-distance-euclidean');
 const Picker = require('RandomSelection').Picker;
 
 /**
@@ -25,29 +24,14 @@ function random(data, K) {
  * @ignore
  * @param {Array<Array<Number>>} data - Points in the format to cluster [x,y,z,...]
  * @param {Number} K - Number of clusters
+ * @param {Array<Array<Number>>} distanceMatrix - matrix with the distance values
  * @return {Array<Array<Number>>} - Initial random points
  */
-function mostDistant(data, K) {
+function mostDistant(data, K, distanceMatrix) {
     var ans = new Array(K);
 
     // chooses a random point as initial cluster
     ans[0] = Math.floor(Math.random() * data.length);
-
-    // calculate distance matrix
-    var distanceMatrix = new Array(data.length);
-    for (var i = 0; i < data.length; ++i) {
-        for (var j = i; j < data.length; ++j) {
-            if (!distanceMatrix[i]) {
-                distanceMatrix[i] = new Array(data.length);
-            }
-            if (!distanceMatrix[j]) {
-                distanceMatrix[j] = new Array(data.length);
-            }
-            const dist = distance(data[i], data[j]);
-            distanceMatrix[i][j] = dist;
-            distanceMatrix[j][i] = dist;
-        }
-    }
 
     if (K > 1) {
         // chooses the more distant point
