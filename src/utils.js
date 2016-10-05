@@ -117,7 +117,26 @@ function updateCenters(data, clusterID, K) {
     return centers;
 }
 
+/**
+ * The centers have moved more than the tolerance value?
+ * @ignore
+ * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
+ * @param {Array<Array<Number>>} oldCenters - the K old centers in format [x,y,z,...]
+ * @param {Function} distanceFunction - Distance function to use between the points
+ * @param {Number} tolerance - Allowed distance for the centroids to move
+ * @return {boolean}
+ */
+function converged(centers, oldCenters, distanceFunction, tolerance) {
+    for (var i = 0; i < centers.length; i++) {
+        if (distanceFunction(centers[i], oldCenters[i]) > tolerance) {
+            return false;
+        }
+    }
+    return true;
+}
+
 exports.computeSSE = computeSSE;
 exports.updateClusterID = updateClusterID;
 exports.updateCenters = updateCenters;
 exports.calculateDistanceMatrix = calculateDistanceMatrix;
+exports.converged = converged;
