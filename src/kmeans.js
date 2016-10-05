@@ -13,6 +13,44 @@ const defaultOptions = {
 };
 
 /**
+ * Each step operation for kmeans
+ * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
+ * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
+ * @param {Number} K - Number of clusters
+ * @param {Object} [options] - Option object
+ * @return {{clusters: (*|Array), centroids: (*|Array), converged: (*|boolean)}}
+ */
+function step(centers, data, K, options) {
+    var clusterID = utils.updateClusterID(data, centers, options.distanceFunction);
+    var newCenters = utils.updateCenters(data, clusterID, K);
+    var converged = utils.converged(newCenters, centers, options.distanceFunction, options.tolerance);
+    return {
+        clusters: clusterID,
+        centroids: newCenters,
+        converged: converged
+    };
+}
+
+/**
+ * Generator version for the algorithm
+ * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
+ * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
+ * @param {Number} K - Number of clusters
+ * @param {Object} [options] - Option object
+ */
+function* kmeansGenerator(centers, data, K, options) {
+    var converged = false;
+    var stepNumber = 0;
+    var stepResult;
+    while (!converged && stepNumber < options.maxIterations) {
+        yield stepResult = step(centers, data, K, options);
+        converged = stepResult.converged;
+        centers = stepResult.centroids;
+        stepNumber++;
+    }
+}
+
+/**
  * K-means algorithm
  * @param {Array<Array<Number>>} data - Points in the format to cluster [x,y,z,...]
  * @param {Number} K - Number of clusters
@@ -56,51 +94,19 @@ function kmeans(data, K, options) {
         }
     }
 
-    var converged;
-    var iterations = [];
-    var clusterID = utils.updateClusterID(data, centers, options.distanceFunction);
-    var oldCenters = centers;
-    for (var iter = 0; iter < options.maxIterations; ++iter) {
-        centers = utils.updateCenters(data, clusterID, K);
-        converged = utils.converged(centers, oldCenters, options.distanceFunction, options.tolerance);
-        if (options.withIterations) {
-            iterations.push({
-                'clusters': clusterID,
-                'centroids': centers
-            });
-        }
-
-        if (converged) {
-            if (options.withIterations) {
-                return {
-                    'clusters': clusterID,
-                    'centroids': centers,
-                    'iterations': iterations
-                };
-            } else {
-                return {
-                    'clusters': clusterID,
-                    'centroids': centers
-                };
-            }
-        } else {
-            oldCenters = centers;
-            clusterID = utils.updateClusterID(data, centers, options.distanceFunction);
-        }
-    }
-
-    // exceed number of iterations
     if (options.withIterations) {
-        return {
-            'clusters': clusterID,
-            'centroids': centers,
-            'iterations': iterations
-        };
+        return kmeansGenerator(centers, data, K, options);
     } else {
-        return {
-            'clusters': clusterID,
-            'centroids': centers
-        };
+        var converged = false;
+        var stepNumber = 0;
+        var stepResult;
+        while (!converged && stepNumber < options.maxIterations) {
+            stepResult = step(centers, data, K, options);
+            converged = stepResult.converged;
+            centers = stepResult.centroids;
+            stepNumber++;
+        }
+        return stepResult;
     }
 }
 
