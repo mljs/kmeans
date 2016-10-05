@@ -43,12 +43,12 @@ describe('K-means', function () {
         let centers = [[1, 2, 1], [-1, -1, -1]];
 
         kmeans(data, 2, {initialization: centers, maxIterations: 0}).should.deepEqual({
-            clusters: [0, 0, 0, 0],
+            clusters: [0, 0, 1, 1],
             centroids: centers
         });
 
         kmeans(data, 2, {initialization: centers, maxIterations: 0, withIterations: true}).should.deepEqual({
-            clusters: [0, 0, 0, 0],
+            clusters: [0, 0, 1, 1],
             centroids: centers,
             iterations: []
         });

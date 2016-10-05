@@ -37,7 +37,6 @@ function kmeans(data, K, options) {
     }
 
     var centers;
-    const matrixDistance = utils.calculateDistanceMatrix(data, options.distanceFunction);
     if (Array.isArray(options.initialization)) {
         if (options.initialization.length !== K) {
             throw new Error('The initial centers should have the same length as K');
@@ -50,24 +49,20 @@ function kmeans(data, K, options) {
                 centers = init.random(data, K);
                 break;
             case 'mostDistant':
-                centers = init.mostDistant(data, K, matrixDistance);
+                centers = init.mostDistant(data, K, utils.calculateDistanceMatrix(data, options.distanceFunction));
                 break;
             default:
                 throw new Error('Unknown initialization method: "' + options.initialization + '"');
         }
     }
 
-    var clusterID = new Array(data.length);
-    for (var i = 0; i < data.length; ++i) {
-        clusterID[i] = 0;
-    }
-    var lastDistance = Number.MAX_VALUE;
-    var curDistance = 0;
+    var converged;
     var iterations = [];
+    var clusterID = utils.updateClusterID(data, centers, options.distanceFunction);
+    var oldCenters = centers;
     for (var iter = 0; iter < options.maxIterations; ++iter) {
-        clusterID = utils.updateClusterID(data, centers, options.distanceFunction);
         centers = utils.updateCenters(data, clusterID, K);
-        curDistance = utils.computeSSE(data, clusterID, matrixDistance);
+        converged = utils.converged(centers, oldCenters, options.distanceFunction, options.tolerance);
         if (options.withIterations) {
             iterations.push({
                 'clusters': clusterID,
@@ -75,7 +70,7 @@ function kmeans(data, K, options) {
             });
         }
 
-        if ((lastDistance - curDistance < options.tolerance) || ((lastDistance - curDistance) / lastDistance < options.tolerance)) {
+        if (converged) {
             if (options.withIterations) {
                 return {
                     'clusters': clusterID,
@@ -88,8 +83,10 @@ function kmeans(data, K, options) {
                     'centroids': centers
                 };
             }
+        } else {
+            oldCenters = centers;
+            clusterID = utils.updateClusterID(data, centers, options.distanceFunction);
         }
-        lastDistance = curDistance;
     }
 
     // exceed number of iterations
