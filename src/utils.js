@@ -58,32 +58,20 @@ function calculateDistanceMatrix(data, distance) {
  * @ignore
  * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
  * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
+ * @param {Array <Number>} clusterID - the cluster identifier for each data dot
  * @param {Function} distance - Distance function to use between the points
  * @returns {Array} the cluster identifier for each data dot
  */
-function updateClusterID(data, centers, distance) {
-    const k = centers.length;
-    var clusterID = new Array(data.length);
-    for (var index = 0; index < data.length; index++)
-        clusterID[index] = 0;
-
-    var aux = 0;
-    var distance2Centroid = new Array(data.length);
+function updateClusterID(data, centers, clusterID, distance) {
     for (var i = 0; i < data.length; i++) {
-        distance2Centroid[i] = new Array(k);
-        for (var j = 0; j < k; j++) {
-            aux = distance(data[i], centers[j]);
-            distance2Centroid[i][j] = [aux, j];
-        }
-        var min = distance2Centroid[i][0][0];
-        var id = 0;
-        for (var l = 0; l < k; l++) {
-            if (distance2Centroid[i][l][0] < min) {
-                min  = distance2Centroid[i][l][0];
-                id = distance2Centroid[i][l][1];
+        var minDist = Number.MAX_VALUE;
+        for (var j = 0; j < centers.length; j++) {
+            var dist = distance(data[i], centers[j]);
+            if (dist < minDist) {
+                minDist = dist;
+                clusterID[i] = j;
             }
         }
-        clusterID[i] = id;
     }
     return clusterID;
 }
