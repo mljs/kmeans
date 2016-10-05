@@ -14,6 +14,7 @@ const defaultOptions = {
 
 /**
  * Each step operation for kmeans
+ * @ignore
  * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
  * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
  * @param {Array <Number>} clusterID - the cluster identifier for each data dot
@@ -34,6 +35,7 @@ function step(centers, data, clusterID, K, options) {
 
 /**
  * Generator version for the algorithm
+ * @ignore
  * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
  * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
  * @param {Array <Number>} clusterID - the cluster identifier for each data dot
@@ -45,7 +47,9 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
     var stepNumber = 0;
     var stepResult;
     while (!converged && stepNumber < options.maxIterations) {
-        yield stepResult = step(centers, data, clusterID, K, options);
+        stepResult = step(centers, data, clusterID, K, options);
+        stepResult.iterations = stepNumber;
+        yield stepResult;
         converged = stepResult.converged;
         centers = stepResult.centroids;
         stepNumber++;
@@ -67,7 +71,7 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
  * @returns {Object} - Cluster identifier for each data dot and centroids with the following fields:
  *  * `'clusters'`: Array of indexes for the clusters.
  *  * `'centroids'`: Array with the resulting centroids.
- *  * `'iterations'`: Array with the state of 'clusters' and 'centroids' for each iteration.
+ *  * `'centroids.iterations'`: Number of iterations that took to converge
  */
 function kmeans(data, K, options) {
     options = Object.assign({}, defaultOptions, options);
@@ -105,6 +109,7 @@ function kmeans(data, K, options) {
         var stepResult;
         while (!converged && stepNumber < options.maxIterations) {
             stepResult = step(centers, data, clusterID, K, options);
+            stepResult.iterations = stepNumber;
             converged = stepResult.converged;
             centers = stepResult.centroids;
             stepNumber++;

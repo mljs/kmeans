@@ -12,7 +12,8 @@ describe('K-means', function () {
         ans.should.deepEqual({
             clusters: [0, 0, 1, 1],
             centroids: [ [1, 1.5, 1], [-1, -1, -1.25] ],
-            converged: true
+            converged: true,
+            iterations: 1
         });
     });
 
@@ -47,7 +48,8 @@ describe('K-means', function () {
         kmeans(data, 2, {initialization: centers, maxIterations: 1}).should.deepEqual({
             clusters: [0, 0, 1, 1],
             centroids: [ [1, 1.5, 1], [-1, -1, -1.25] ],
-            converged: false
+            converged: false,
+            iterations: 0
         });
     });
 });
