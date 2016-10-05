@@ -3,6 +3,7 @@
 const kmeans = require('..');
 const init = require('../src/initialization');
 const utils = require('../src/utils');
+const squaredDistance = require('ml-distance-euclidean').squared;
 
 describe('Initialization methods', function () {
 
@@ -30,7 +31,7 @@ describe('Initialization methods', function () {
 
     it('mostDistant UT', function () {
         let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
-        const distanceMatrix = utils.calculateDistanceMatrix(data);
+        const distanceMatrix = utils.calculateDistanceMatrix(data, squaredDistance);
         let ans = init.mostDistant(data, 3, distanceMatrix);
         ans.length.should.be.equal(3);
         ans[0].should.not.deepEqual(ans[1]);
@@ -38,7 +39,7 @@ describe('Initialization methods', function () {
 
         let single = [[1, 1, 1]];
 
-        let ansSingle = init.mostDistant(single, 1, utils.calculateDistanceMatrix(single));
+        let ansSingle = init.mostDistant(single, 1, utils.calculateDistanceMatrix(single, squaredDistance));
         ansSingle.length.should.be.equal(1);
         ansSingle[0].should.deepEqual([1, 1, 1]);
     });
