@@ -2,6 +2,7 @@
 
 const utils = require('./utils');
 const init = require('./initialization');
+const KMeansResult = require('./KMeansResult');
 const squaredDistance = require('ml-distance-euclidean').squared;
 
 const defaultOptions = {
@@ -17,20 +18,17 @@ const defaultOptions = {
  * @ignore
  * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
  * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
- * @param {Array <Number>} clusterID - the cluster identifier for each data dot
+ * @param {Array<Number>} clusterID - the cluster identifier for each data dot
  * @param {Number} K - Number of clusters
  * @param {Object} [options] - Option object
- * @return {{clusters: (*|Array), centroids: (*|Array), converged: (*|boolean)}}
+ * @param {Number} iterations - Current number of iterations
+ * @return {KMeansResult}
  */
-function step(centers, data, clusterID, K, options) {
+function step(centers, data, clusterID, K, options, iterations) {
     clusterID = utils.updateClusterID(data, centers, clusterID, options.distanceFunction);
     var newCenters = utils.updateCenters(data, clusterID, K);
     var converged = utils.converged(newCenters, centers, options.distanceFunction, options.tolerance);
-    return {
-        clusters: clusterID,
-        centroids: newCenters,
-        converged: converged
-    };
+    return new KMeansResult(clusterID, newCenters, converged, iterations, options.distanceFunction);
 }
 
 /**
@@ -38,7 +36,7 @@ function step(centers, data, clusterID, K, options) {
  * @ignore
  * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
  * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
- * @param {Array <Number>} clusterID - the cluster identifier for each data dot
+ * @param {Array<Number>} clusterID - the cluster identifier for each data dot
  * @param {Number} K - Number of clusters
  * @param {Object} [options] - Option object
  */
@@ -47,9 +45,7 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
     var stepNumber = 0;
     var stepResult;
     while (!converged && stepNumber < options.maxIterations) {
-        stepResult = step(centers, data, clusterID, K, options);
-        stepResult.iterations = stepNumber;
-        yield stepResult;
+        yield stepResult = step(centers, data, clusterID, K, options, stepNumber);
         converged = stepResult.converged;
         centers = stepResult.centroids;
         stepNumber++;
@@ -108,8 +104,7 @@ function kmeans(data, K, options) {
         var stepNumber = 0;
         var stepResult;
         while (!converged && stepNumber < options.maxIterations) {
-            stepResult = step(centers, data, clusterID, K, options);
-            stepResult.iterations = stepNumber;
+            stepResult = step(centers, data, clusterID, K, options, stepNumber);
             converged = stepResult.converged;
             centers = stepResult.centroids;
             stepNumber++;

@@ -9,12 +9,10 @@ describe('K-means', function () {
         let centers = [[1, 2, 1], [-1, -1, -1]];
 
         let ans = kmeans(data, 2, {initialization: centers});
-        ans.should.deepEqual({
-            clusters: [0, 0, 1, 1],
-            centroids: [ [1, 1.5, 1], [-1, -1, -1.25] ],
-            converged: true,
-            iterations: 1
-        });
+        ans.clusters.should.deepEqual([0, 0, 1, 1]);
+        ans.centroids.should.deepEqual([[1, 1.5, 1], [-1, -1, -1.25]]);
+        ans.converged.should.be.equal(true);
+        ans.iterations.should.be.equal(1);
     });
 
     it('Simple case `withIterations`', function () {
@@ -26,6 +24,14 @@ describe('K-means', function () {
             val.clusters.should.deepEqual([0, 0, 1, 1]);
             val.centroids.should.deepEqual([ [1, 1.5, 1], [-1, -1, -1.25] ]);
         }
+    });
+
+    it('Nearest points', function () {
+        let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
+        let centers = [[1, 2, 1], [-1, -1, -1]];
+
+        let ans = kmeans(data, 2, {initialization: centers});
+        ans.nearest([[10, 10, 1], [-2, -2, -2]]).should.deepEqual([0, 1]);
     });
 
     it('Passing empty data or more centers than data', function () {
@@ -45,11 +51,10 @@ describe('K-means', function () {
         let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
         let centers = [[1, 2, 1], [-1, -1, -1]];
 
-        kmeans(data, 2, {initialization: centers, maxIterations: 1}).should.deepEqual({
-            clusters: [0, 0, 1, 1],
-            centroids: [ [1, 1.5, 1], [-1, -1, -1.25] ],
-            converged: false,
-            iterations: 0
-        });
+        let ans = kmeans(data, 2, {initialization: centers, maxIterations: 1});
+        ans.clusters.should.deepEqual([0, 0, 1, 1]);
+        ans.centroids.should.deepEqual([[1, 1.5, 1], [-1, -1, -1.25]]);
+        ans.converged.should.be.equal(false);
+        ans.iterations.should.be.equal(0);
     });
 });
