@@ -2,12 +2,14 @@
 
 const utils = require('./utils');
 const init = require('./initialization');
+const squaredDistance = require('ml-distance-euclidean').squared;
 
 const defaultOptions = {
     maxIterations: 100,
     tolerance: 1e-6,
     withIterations: false,
-    initialization: 'mostDistant'
+    initialization: 'mostDistant',
+    distanceFunction: squaredDistance
 };
 
 /**
@@ -18,6 +20,7 @@ const defaultOptions = {
  * @param {Number} [options.maxIterations = 100] - Maximum of iterations allowed
  * @param {Number} [options.tolerance = 1e-6] - Error tolerance
  * @param {Boolean} [options.withIterations = false] - Store clusters and centroids for each iteration
+ * @param {Function} [options.distanceFunction = squaredDistance] - Distance function to use between the points
  * @param {String|Array<Array<Number>>} [options.initialization = 'moreDistant'] - K centers in format [x,y,z,...] or a method for initialize the data:
  *  * `'random'` will choose K random different values.
  *  * `'mostDistant'` will choose the more distant points to a first random pick
@@ -34,7 +37,7 @@ function kmeans(data, K, options) {
     }
 
     var centers;
-    const matrixDistance = utils.calculateDistanceMatrix(data);
+    const matrixDistance = utils.calculateDistanceMatrix(data, options.distanceFunction);
     if (Array.isArray(options.initialization)) {
         if (options.initialization.length !== K) {
             throw new Error('The initial centers should have the same length as K');
@@ -62,7 +65,7 @@ function kmeans(data, K, options) {
     var curDistance = 0;
     var iterations = [];
     for (var iter = 0; iter < options.maxIterations; ++iter) {
-        clusterID = utils.updateClusterID(data, centers);
+        clusterID = utils.updateClusterID(data, centers, options.distanceFunction);
         centers = utils.updateCenters(data, clusterID, K);
         curDistance = utils.computeSSE(data, clusterID, matrixDistance);
         if (options.withIterations) {
