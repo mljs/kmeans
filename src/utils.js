@@ -4,16 +4,26 @@
  * Calculates the sum of squared errors
  * @ignore
  * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
+ * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
  * @param {Array<Number>} clusterID - the cluster identifier for each data dot
- * @param {Array<Array<Number>>} distanceMatrix - matrix with the distance values
- * @returns {Number} the sum of squared errors
+ * @param {Function} distance - Distance function to use between the points
+ * @returns {Array<Number>} the sum of squared errors
  */
-function computeSSE(data, clusterID, distanceMatrix) {
-    var sse = 0;
-    var c = 0;
+function computeDispersion(data, centers, clusterID, distance) {
+    var sse = new Array(centers.length);
+    var sseLen = new Array(centers.length);
+    for (var s = 0; s < centers.length; s++) {
+        sse[s] = 0;
+        sseLen[s] = 0;
+    }
+
     for (var i = 0; i < data.length; i++) {
-        c = clusterID[i];
-        sse += distanceMatrix[i][c];
+        sse[clusterID[i]] += distance(data[i], centers[clusterID[i]]);
+        sseLen[clusterID[i]]++;
+    }
+
+    for (var j = 0; j < centers.length; j++) {
+        sse[j] /= sseLen[j];
     }
     return sse;
 }
@@ -135,7 +145,7 @@ function converged(centers, oldCenters, distanceFunction, tolerance) {
     return true;
 }
 
-exports.computeSSE = computeSSE;
+exports.computeDispersion = computeDispersion;
 exports.updateClusterID = updateClusterID;
 exports.updateCenters = updateCenters;
 exports.calculateDistanceMatrix = calculateDistanceMatrix;
