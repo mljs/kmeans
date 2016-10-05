@@ -16,12 +16,13 @@ const defaultOptions = {
  * Each step operation for kmeans
  * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
  * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
+ * @param {Array <Number>} clusterID - the cluster identifier for each data dot
  * @param {Number} K - Number of clusters
  * @param {Object} [options] - Option object
  * @return {{clusters: (*|Array), centroids: (*|Array), converged: (*|boolean)}}
  */
-function step(centers, data, K, options) {
-    var clusterID = utils.updateClusterID(data, centers, options.distanceFunction);
+function step(centers, data, clusterID, K, options) {
+    clusterID = utils.updateClusterID(data, centers, clusterID, options.distanceFunction);
     var newCenters = utils.updateCenters(data, clusterID, K);
     var converged = utils.converged(newCenters, centers, options.distanceFunction, options.tolerance);
     return {
@@ -35,15 +36,16 @@ function step(centers, data, K, options) {
  * Generator version for the algorithm
  * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
  * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
+ * @param {Array <Number>} clusterID - the cluster identifier for each data dot
  * @param {Number} K - Number of clusters
  * @param {Object} [options] - Option object
  */
-function* kmeansGenerator(centers, data, K, options) {
+function* kmeansGenerator(centers, data, clusterID, K, options) {
     var converged = false;
     var stepNumber = 0;
     var stepResult;
     while (!converged && stepNumber < options.maxIterations) {
-        yield stepResult = step(centers, data, K, options);
+        yield stepResult = step(centers, data, clusterID, K, options);
         converged = stepResult.converged;
         centers = stepResult.centroids;
         stepNumber++;
@@ -94,14 +96,15 @@ function kmeans(data, K, options) {
         }
     }
 
+    var clusterID = new Array(data.length);
     if (options.withIterations) {
-        return kmeansGenerator(centers, data, K, options);
+        return kmeansGenerator(centers, data, clusterID, K, options);
     } else {
         var converged = false;
         var stepNumber = 0;
         var stepResult;
         while (!converged && stepNumber < options.maxIterations) {
-            stepResult = step(centers, data, K, options);
+            stepResult = step(centers, data, clusterID, K, options);
             converged = stepResult.converged;
             centers = stepResult.centroids;
             stepNumber++;
