@@ -4,25 +4,6 @@ const utils = require('../src/utils');
 const squaredDistance = require('ml-distance-euclidean').squared;
 
 describe('Utils methods', function () {
-    describe('computeDispersion', function () {
-        it('Same points', function () {
-            let data = [[1, 2, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1]];
-            let centers = [[1, 2, 1], [-1, -1, -1]];
-            let clusterID = [0, 0, 1, 1];
-
-            let ans = utils.computeDispersion(data, centers, clusterID, squaredDistance);
-            ans.should.deepEqual([0, 0]);
-        });
-
-        it('Simple case', function () {
-            let data = [[1, 2, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -3]];
-            let centers = [[1, 2, 1], [-1, -1, -1]];
-            let clusterID = [0, 0, 1, 1];
-
-            let ans = utils.computeDispersion(data, centers, clusterID, squaredDistance);
-            ans.should.deepEqual([0, 2]);
-        });
-    });
 
     describe('calculateDistanceMatrix', function () {
         it('Same points', function () {
