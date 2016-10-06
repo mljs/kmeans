@@ -10,7 +10,8 @@ describe('K-means', function () {
 
         let ans = kmeans(data, 2, {initialization: centers});
         ans.clusters.should.deepEqual([0, 0, 1, 1]);
-        ans.centroids.should.deepEqual([[1, 1.5, 1], [-1, -1, -1.25]]);
+        ans.centroids[0].centroid.should.deepEqual([1, 1.5, 1]);
+        ans.centroids[1].centroid.should.deepEqual([-1, -1, -1.25]);
         ans.converged.should.be.equal(true);
         ans.iterations.should.be.equal(1);
     });
@@ -22,7 +23,8 @@ describe('K-means', function () {
         let ans = kmeans(data, 2, {initialization: centers, withIterations: true});
         for (var val of ans) {
             val.clusters.should.deepEqual([0, 0, 1, 1]);
-            val.centroids.should.deepEqual([ [1, 1.5, 1], [-1, -1, -1.25] ]);
+            val.centroids[0].centroid.should.deepEqual([1, 1.5, 1]);
+            val.centroids[1].centroid.should.deepEqual([-1, -1, -1.25]);
         }
     });
 
@@ -53,7 +55,8 @@ describe('K-means', function () {
 
         let ans = kmeans(data, 2, {initialization: centers, maxIterations: 1});
         ans.clusters.should.deepEqual([0, 0, 1, 1]);
-        ans.centroids.should.deepEqual([[1, 1.5, 1], [-1, -1, -1.25]]);
+        ans.centroids[0].centroid.should.deepEqual([1, 1.5, 1]);
+        ans.centroids[1].centroid.should.deepEqual([-1, -1, -1.25]);
         ans.converged.should.be.equal(false);
         ans.iterations.should.be.equal(0);
     });

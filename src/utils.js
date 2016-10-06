@@ -1,32 +1,6 @@
 'use strict';
 
-/**
- * Calculates the sum of squared errors
- * @ignore
- * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
- * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
- * @param {Array<Number>} clusterID - the cluster identifier for each data dot
- * @param {Function} distance - Distance function to use between the points
- * @returns {Array<Number>} the sum of squared errors
- */
-function computeDispersion(data, centers, clusterID, distance) {
-    var sse = new Array(centers.length);
-    var sseLen = new Array(centers.length);
-    for (var s = 0; s < centers.length; s++) {
-        sse[s] = 0;
-        sseLen[s] = 0;
-    }
-
-    for (var i = 0; i < data.length; i++) {
-        sse[clusterID[i]] += distance(data[i], centers[clusterID[i]]);
-        sseLen[clusterID[i]]++;
-    }
-
-    for (var j = 0; j < centers.length; j++) {
-        sse[j] /= sseLen[j];
-    }
-    return sse;
-}
+const nearestVector = require('ml-nearest-vector');
 
 /**
  * Calculates the distance matrix for a given array of points
@@ -64,14 +38,7 @@ function calculateDistanceMatrix(data, distance) {
  */
 function updateClusterID(data, centers, clusterID, distance) {
     for (var i = 0; i < data.length; i++) {
-        var minDist = Number.MAX_VALUE;
-        for (var j = 0; j < centers.length; j++) {
-            var dist = distance(data[i], centers[j]);
-            if (dist < minDist) {
-                minDist = dist;
-                clusterID[i] = j;
-            }
-        }
+        clusterID[i] = nearestVector(centers, data[i], {distanceFunction: distance});
     }
     return clusterID;
 }
@@ -133,7 +100,6 @@ function converged(centers, oldCenters, distanceFunction, tolerance) {
     return true;
 }
 
-exports.computeDispersion = computeDispersion;
 exports.updateClusterID = updateClusterID;
 exports.updateCenters = updateCenters;
 exports.calculateDistanceMatrix = calculateDistanceMatrix;

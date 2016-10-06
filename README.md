@@ -25,12 +25,17 @@ let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
 let centers = [[1, 2, 1], [-1, -1, -1]];
 
 let ans = kmeans(data, 2, {initialization: centers});
-
-ans.clusters === [0, 0, 1, 1];
-ans.centroids === [
-    [1, 1.5, 1],
-    [-1, -1, -1.25]
-];
+console.log(ans);
+/*
+{
+  clusters: [ 0, 0, 1, 1 ],
+  centroids: 
+   [ { centroid: [ 1, 1.5, 1 ], error: 0.25, size: 2 },
+     { centroid: [ -1, -1, -1.25 ], error: 0.0625, size: 2 } ],
+  converged: true,
+  iterations: 1
+}
+*/
 ```
 
 ## Test
