@@ -44,12 +44,11 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
     var converged = false;
     var stepNumber = 0;
     var stepResult;
-    while (!converged && stepNumber < options.maxIterations) {
-        stepResult = step(centers, data, clusterID, K, options, stepNumber);
+    while (!converged && (stepNumber < options.maxIterations)) {
+        stepResult = step(centers, data, clusterID, K, options, ++stepNumber);
         yield stepResult.computeInformation(data);
         converged = stepResult.converged;
         centers = stepResult.centroids;
-        stepNumber++;
     }
 }
 
@@ -97,6 +96,11 @@ function kmeans(data, K, options) {
         }
     }
 
+    // infinite loop until convergence
+    if (options.maxIterations === 0) {
+        options.maxIterations = Number.MAX_VALUE;
+    }
+
     var clusterID = new Array(data.length);
     if (options.withIterations) {
         return kmeansGenerator(centers, data, clusterID, K, options);
@@ -104,11 +108,10 @@ function kmeans(data, K, options) {
         var converged = false;
         var stepNumber = 0;
         var stepResult;
-        while (!converged && stepNumber < options.maxIterations) {
-            stepResult = step(centers, data, clusterID, K, options, stepNumber);
+        while (!converged && (stepNumber < options.maxIterations)) {
+            stepResult = step(centers, data, clusterID, K, options, ++stepNumber);
             converged = stepResult.converged;
             centers = stepResult.centroids;
-            stepNumber++;
         }
         return stepResult.computeInformation(data);
     }

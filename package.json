@@ -3,10 +3,10 @@
   "version": "2.0.0",
   "description": "K-means in Javascript",
   "main": "src/kmeans.js",
-  "directories": {
-    "lib": "src",
-    "test": "test"
-  },
+  "files": [
+    "src",
+    "tonic.js"
+  ],
   "scripts": {
     "eslint": "eslint src test",
     "eslint-fix": "npm run eslint -- --fix",
