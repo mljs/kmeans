@@ -27,7 +27,7 @@ let centers = [[1, 2, 1], [-1, -1, -1]];
 let ans = kmeans(data, 2, {initialization: centers});
 console.log(ans);
 /*
-{
+KMeansResult {
   clusters: [ 0, 0, 1, 1 ],
   centroids: 
    [ { centroid: [ 1, 1.5, 1 ], error: 0.25, size: 2 },

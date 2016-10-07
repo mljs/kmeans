@@ -78,7 +78,7 @@
       kmeans
     </h3>
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/81658864a42ee83a805f4df4c659d33804347a4a/src/kmeans.js#L73-L115'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/220c828a65a3b7b22971f7fad85ab7278b3398a8/src/kmeans.js#L72-L118'>
       <span>src/kmeans.js</span>
       </a>
     
@@ -88,7 +88,7 @@
   <p>K-means algorithm</p>
 
 
-  <div class='pre p1 fill-light mt0'>kmeans(data: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;&gt;, K: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>, options: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>]): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+  <div class='pre p1 fill-light mt0'>kmeans(data: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;&gt;, K: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>, options: [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>]): <a href="#kmeansresult">KMeansResult</a></div>
 
   
 
@@ -202,12 +202,12 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
+      <code><a href="#kmeansresult">KMeansResult</a></code>:
         Cluster identifier for each data dot and centroids with the following fields:
 <ul>
 <li><code>&#x27;clusters&#x27;</code>: Array of indexes for the clusters.</li>
 <li><code>&#x27;centroids&#x27;</code>: Array with the resulting centroids.</li>
-<li><code>&#x27;centroids.iterations&#x27;</code>: Number of iterations that took to converge</li>
+<li><code>&#x27;iterations&#x27;</code>: Number of iterations that took to converge</li>
 </ul>
 
       
@@ -236,7 +236,7 @@
       KMeansResult
     </h3>
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/81658864a42ee83a805f4df4c659d33804347a4a/src/KMeansResult.js#L15-L21'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/220c828a65a3b7b22971f7fad85ab7278b3398a8/src/KMeansResult.js#L15-L21'>
       <span>src/KMeansResult.js</span>
       </a>
     
@@ -246,7 +246,7 @@
   <p>Result of the kmeans algorithm</p>
 
 
-  <div class='pre p1 fill-light mt0'>new KMeansResult(clusterID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;, centroids: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>&gt;&gt;, converged: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>, iterations: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>, distance: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</div>
+  <div class='pre p1 fill-light mt0'>new KMeansResult(clusters: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;, centroids: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>&gt;&gt;, converged: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>, iterations: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>, distance: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</div>
 
   
 
@@ -262,7 +262,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>clusterID</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;)</code> the cluster identifier for each data dot
+            <span class='code bold'>clusters</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>&gt;)</code> the cluster identifier for each data dot
 
           </div>
           
@@ -296,7 +296,9 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>distance</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> Distance function to use between the points
+            <span class='code bold'>distance</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code> (
+<em>Private</em>
+) Distance function to use between the points
 
           </div>
           

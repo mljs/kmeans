@@ -64,10 +64,10 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
  * @param {String|Array<Array<Number>>} [options.initialization = 'moreDistant'] - K centers in format [x,y,z,...] or a method for initialize the data:
  *  * `'random'` will choose K random different values.
  *  * `'mostDistant'` will choose the more distant points to a first random pick
- * @returns {Object} - Cluster identifier for each data dot and centroids with the following fields:
+ * @returns {KMeansResult} - Cluster identifier for each data dot and centroids with the following fields:
  *  * `'clusters'`: Array of indexes for the clusters.
  *  * `'centroids'`: Array with the resulting centroids.
- *  * `'centroids.iterations'`: Number of iterations that took to converge
+ *  * `'iterations'`: Number of iterations that took to converge
  */
 function kmeans(data, K, options) {
     options = Object.assign({}, defaultOptions, options);

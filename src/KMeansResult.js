@@ -5,15 +5,15 @@ const distanceSymbol = Symbol('distance');
 
 /**
  * Result of the kmeans algorithm
- * @param {Array<Number>} clusterID - the cluster identifier for each data dot
+ * @param {Array<Number>} clusters - the cluster identifier for each data dot
  * @param {Array<Array<Object>>} centroids - the K centers in format [x,y,z,...], the error and size of the cluster
  * @param {Boolean} converged - Converge criteria satisfied
  * @param {Number} iterations - Current number of iterations
- * @param {Function} distance - Distance function to use between the points
+ * @param {Function} distance - (*Private*) Distance function to use between the points
  * @constructor
  */
-function KMeansResult(clusterID, centroids, converged, iterations, distance) {
-    this.clusters = clusterID;
+function KMeansResult(clusters, centroids, converged, iterations, distance) {
+    this.clusters = clusters;
     this.centroids = centroids;
     this.converged = converged;
     this.iterations = iterations;
