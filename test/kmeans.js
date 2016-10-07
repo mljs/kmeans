@@ -13,7 +13,7 @@ describe('K-means', function () {
         ans.centroids[0].centroid.should.deepEqual([1, 1.5, 1]);
         ans.centroids[1].centroid.should.deepEqual([-1, -1, -1.25]);
         ans.converged.should.be.equal(true);
-        ans.iterations.should.be.equal(1);
+        ans.iterations.should.be.equal(2);
     });
 
     it('Simple case `withIterations`', function () {
@@ -58,6 +58,18 @@ describe('K-means', function () {
         ans.centroids[0].centroid.should.deepEqual([1, 1.5, 1]);
         ans.centroids[1].centroid.should.deepEqual([-1, -1, -1.25]);
         ans.converged.should.be.equal(false);
-        ans.iterations.should.be.equal(0);
+        ans.iterations.should.be.equal(1);
+    });
+
+    it('Non limited convergence', function () {
+        let data = [[1, 1, 1], [1, 2, 1], [10, 11, 1], [-1, 20, 1], [1, 1, 1], [-1, -1, -1], [-1, -1, -1.5]];
+        let centers = [[1, 2, 1], [-1, -1, -1]];
+
+        let ans = kmeans(data, 2, {initialization: centers, maxIterations: 0});
+        ans.clusters.should.deepEqual([1, 1, 0, 0, 1, 1, 1]);
+        ans.centroids[0].centroid.should.deepEqual([4.5, 15.5, 1]);
+        ans.centroids[1].centroid.should.deepEqual([0.2, 0.4, 0.1]);
+        ans.converged.should.be.equal(true);
+        ans.iterations.should.be.equal(3);
     });
 });
