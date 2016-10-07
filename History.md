@@ -1,3 +1,23 @@
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/mljs/kmeans/compare/v2.0.0...v3.0.0) (2016-10-07)
+
+
+### Bug Fixes
+
+* remove unneeded array creations in updateClusterID ([b2957d5](https://github.com/mljs/kmeans/commit/b2957d5))
+
+
+### Features
+
+* accepts distance function as parameter ([68993a1](https://github.com/mljs/kmeans/commit/68993a1))
+* allows to compute a new array of points their cluster id ([254f9a9](https://github.com/mljs/kmeans/commit/254f9a9))
+* return a generator in the withIterations option ([3b4c7c6](https://github.com/mljs/kmeans/commit/3b4c7c6))
+* return the number of iteration done ([75fd42e](https://github.com/mljs/kmeans/commit/75fd42e))
+* returns the error and the size of each cluster ([e85aab7](https://github.com/mljs/kmeans/commit/e85aab7))
+* when maxIterations is 0, iterates until converge ([220c828](https://github.com/mljs/kmeans/commit/220c828))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/mljs/kmeans/compare/v1.0.0...v2.0.0) (2016-09-27)
 
