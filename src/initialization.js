@@ -5,9 +5,9 @@ const Picker = require('RandomSelection').Picker;
 /**
  * Choose K different random points from the original data
  * @ignore
- * @param {Array<Array<Number>>} data - Points in the format to cluster [x,y,z,...]
- * @param {Number} K - Number of clusters
- * @return {Array<Array<Number>>} - Initial random points
+ * @param {Array<Array<number>>} data - Points in the format to cluster [x,y,z,...]
+ * @param {number} K - number of clusters
+ * @return {Array<Array<number>>} - Initial random points
  */
 function random(data, K) {
     const rand = new Picker(data);
@@ -22,10 +22,10 @@ function random(data, K) {
 /**
  * Chooses the most distant points to a first random pick
  * @ignore
- * @param {Array<Array<Number>>} data - Points in the format to cluster [x,y,z,...]
- * @param {Number} K - Number of clusters
- * @param {Array<Array<Number>>} distanceMatrix - matrix with the distance values
- * @return {Array<Array<Number>>} - Initial random points
+ * @param {Array<Array<number>>} data - Points in the format to cluster [x,y,z,...]
+ * @param {number} K - number of clusters
+ * @param {Array<Array<number>>} distanceMatrix - matrix with the distance values
+ * @return {Array<Array<number>>} - Initial random points
  */
 function mostDistant(data, K, distanceMatrix) {
     var ans = new Array(K);

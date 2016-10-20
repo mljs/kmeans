@@ -5,9 +5,9 @@ const nearestVector = require('ml-nearest-vector');
 /**
  * Calculates the distance matrix for a given array of points
  * @ignore
- * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
- * @param {Function} distance - Distance function to use between the points
- * @return {Array<Array<Number>>} - matrix with the distance values
+ * @param {Array<Array<number>>} data - the [x,y,z,...] points to cluster
+ * @param {function} distance - Distance function to use between the points
+ * @return {Array<Array<number>>} - matrix with the distance values
  */
 function calculateDistanceMatrix(data, distance) {
     var distanceMatrix = new Array(data.length);
@@ -30,11 +30,11 @@ function calculateDistanceMatrix(data, distance) {
 /**
  * Updates the cluster identifier based in the new data
  * @ignore
- * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
- * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
- * @param {Array <Number>} clusterID - the cluster identifier for each data dot
- * @param {Function} distance - Distance function to use between the points
- * @returns {Array} the cluster identifier for each data dot
+ * @param {Array<Array<number>>} data - the [x,y,z,...] points to cluster
+ * @param {Array<Array<number>>} centers - the K centers in format [x,y,z,...]
+ * @param {Array <number>} clusterID - the cluster identifier for each data dot
+ * @param {function} distance - Distance function to use between the points
+ * @return {Array} the cluster identifier for each data dot
  */
 function updateClusterID(data, centers, clusterID, distance) {
     for (var i = 0; i < data.length; i++) {
@@ -46,10 +46,10 @@ function updateClusterID(data, centers, clusterID, distance) {
 /**
  * Update the center values based in the new configurations of the clusters
  * @ignore
- * @param {Array <Array <Number>>} data - the [x,y,z,...] points to cluster
- * @param {Array <Number>} clusterID - the cluster identifier for each data dot
- * @param {Number} K - Number of clusters
- * @returns {Array} he K centers in format [x,y,z,...]
+ * @param {Array <Array <number>>} data - the [x,y,z,...] points to cluster
+ * @param {Array <number>} clusterID - the cluster identifier for each data dot
+ * @param {number} K - Number of clusters
+ * @return {Array} he K centers in format [x,y,z,...]
  */
 function updateCenters(data, clusterID, K) {
     const nDim = data[0].length;
@@ -85,10 +85,10 @@ function updateCenters(data, clusterID, K) {
 /**
  * The centers have moved more than the tolerance value?
  * @ignore
- * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
- * @param {Array<Array<Number>>} oldCenters - the K old centers in format [x,y,z,...]
- * @param {Function} distanceFunction - Distance function to use between the points
- * @param {Number} tolerance - Allowed distance for the centroids to move
+ * @param {Array<Array<number>>} centers - the K centers in format [x,y,z,...]
+ * @param {Array<Array<number>>} oldCenters - the K old centers in format [x,y,z,...]
+ * @param {function} distanceFunction - Distance function to use between the points
+ * @param {number} tolerance - Allowed distance for the centroids to move
  * @return {boolean}
  */
 function converged(centers, oldCenters, distanceFunction, tolerance) {

@@ -16,12 +16,12 @@ const defaultOptions = {
 /**
  * Each step operation for kmeans
  * @ignore
- * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
- * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
- * @param {Array<Number>} clusterID - the cluster identifier for each data dot
- * @param {Number} K - Number of clusters
- * @param {Object} [options] - Option object
- * @param {Number} iterations - Current number of iterations
+ * @param {Array<Array<number>>} centers - K centers in format [x,y,z,...]
+ * @param {Array<Array<number>>} data - Points [x,y,z,...] to cluster
+ * @param {Array<number>} clusterID - Cluster identifier for each data dot
+ * @param {number} K - Number of clusters
+ * @param {object} [options] - Option object
+ * @param {number} iterations - Current number of iterations
  * @return {KMeansResult}
  */
 function step(centers, data, clusterID, K, options, iterations) {
@@ -34,11 +34,11 @@ function step(centers, data, clusterID, K, options, iterations) {
 /**
  * Generator version for the algorithm
  * @ignore
- * @param {Array<Array<Number>>} centers - the K centers in format [x,y,z,...]
- * @param {Array<Array<Number>>} data - the [x,y,z,...] points to cluster
- * @param {Array<Number>} clusterID - the cluster identifier for each data dot
- * @param {Number} K - Number of clusters
- * @param {Object} [options] - Option object
+ * @param {Array<Array<number>>} centers - K centers in format [x,y,z,...]
+ * @param {Array<Array<number>>} data - Points [x,y,z,...] to cluster
+ * @param {Array<number>} clusterID - Cluster identifier for each data dot
+ * @param {number} K - Number of clusters
+ * @param {object} [options] - Option object
  */
 function* kmeansGenerator(centers, data, clusterID, K, options) {
     var converged = false;
@@ -54,17 +54,17 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
 
 /**
  * K-means algorithm
- * @param {Array<Array<Number>>} data - Points in the format to cluster [x,y,z,...]
- * @param {Number} K - Number of clusters
- * @param {Object} [options] - Option object
- * @param {Number} [options.maxIterations = 100] - Maximum of iterations allowed
- * @param {Number} [options.tolerance = 1e-6] - Error tolerance
- * @param {Boolean} [options.withIterations = false] - Store clusters and centroids for each iteration
- * @param {Function} [options.distanceFunction = squaredDistance] - Distance function to use between the points
- * @param {String|Array<Array<Number>>} [options.initialization = 'moreDistant'] - K centers in format [x,y,z,...] or a method for initialize the data:
+ * @param {Array<Array<number>>} data - Points in the format to cluster [x,y,z,...]
+ * @param {number} K - Number of clusters
+ * @param {object} [options] - Option object
+ * @param {number} [options.maxIterations = 100] - Maximum of iterations allowed
+ * @param {number} [options.tolerance = 1e-6] - Error tolerance
+ * @param {boolean} [options.withIterations = false] - Store clusters and centroids for each iteration
+ * @param {function} [options.distanceFunction = squaredDistance] - Distance function to use between the points
+ * @param {string|Array<Array<number>>} [options.initialization = 'moreDistant'] - K centers in format [x,y,z,...] or a method for initialize the data:
  *  * `'random'` will choose K random different values.
  *  * `'mostDistant'` will choose the more distant points to a first random pick
- * @returns {KMeansResult} - Cluster identifier for each data dot and centroids with the following fields:
+ * @return {KMeansResult} - Cluster identifier for each data dot and centroids with the following fields:
  *  * `'clusters'`: Array of indexes for the clusters.
  *  * `'centroids'`: Array with the resulting centroids.
  *  * `'iterations'`: Number of iterations that took to converge
