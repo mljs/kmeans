@@ -73,7 +73,7 @@ function kmeans(data, K, options) {
     options = Object.assign({}, defaultOptions, options);
 
     if (K <= 0 || K > data.length || !Number.isInteger(K)) {
-        throw new Error('K should be a positive integer bigger than the number of points');
+        throw new Error('K should be a positive integer smaller than the number of points');
     }
 
     var centers;
