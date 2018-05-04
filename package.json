@@ -1,19 +1,22 @@
 {
   "name": "ml-kmeans",
   "version": "3.0.0",
-  "description": "K-means in Javascript",
-  "main": "src/kmeans.js",
+  "description": "K-Means clustering",
+  "main": "kmeans.js",
+  "module": "src/kmeans.js",
   "files": [
     "src",
-    "tonic.js"
+    "kmeans.js",
+    "runkit.js"
   ],
   "scripts": {
-    "eslint": "eslint src test",
+    "compile": "rollup -c",
+    "eslint": "eslint src",
     "eslint-fix": "npm run eslint -- --fix",
-    "test": "npm run test-mocha && npm run eslint",
-    "test-cov": "istanbul cover node_modules/.bin/_mocha -- --require should --reporter dot --recursive",
-    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --require should --reporter dot --recursive",
-    "test-mocha": "mocha --require should --reporter mocha-better-spec-reporter --recursive"
+    "prepublishOnly": "npm run compile",
+    "test": "npm run test-coverage && npm run eslint",
+    "test-only": "jest",
+    "test-coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -34,15 +37,14 @@
     "url": "https://github.com/mljs/kmeans/issues"
   },
   "homepage": "https://github.com/mljs/kmeans",
-  "tonicExampleFilename": "./tonic.js",
   "devDependencies": {
-    "eslint": "^3.4.0",
-    "eslint-config-cheminfo": "^1.2.0",
-    "eslint-plugin-no-only-tests": "^1.1.0",
-    "istanbul": "^0.4.4",
-    "mocha": "^3.0.2",
-    "mocha-better-spec-reporter": "^3.0.2",
-    "should": "^11.1.0"
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "eslint": "^4.19.1",
+    "eslint-config-cheminfo": "^1.17.3",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jest": "^21.15.1",
+    "jest": "^22.4.3",
+    "rollup": "^0.58.2"
   },
   "dependencies": {
     "RandomSelection": "^1.0.1",
