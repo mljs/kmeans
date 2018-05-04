@@ -1,3 +1,8 @@
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/mljs/kmeans/compare/v3.0.0...v3.0.1) (2018-05-04)
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/mljs/kmeans/compare/v2.0.0...v3.0.0) (2016-10-07)
 
