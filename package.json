@@ -47,7 +47,6 @@
     "rollup": "^0.59.1"
   },
   "dependencies": {
-    "RandomSelection": "^1.0.1",
     "ml-distance-euclidean": "^1.0.0",
     "ml-nearest-vector": "^1.0.0",
     "ml-random": "^0.2.0"
