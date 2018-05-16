@@ -82,7 +82,7 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
  * @param {boolean} [options.withIterations = false] - Store clusters and centroids for each iteration
  * @param {function} [options.distanceFunction = squaredDistance] - Distance function to use between the points
  * @param {string|Array<Array<number>>} [options.initialization = 'moreDistant'] - K centers in format [x,y,z,...] or a method for initialize the data:
- * @param {number} [options.seed] - Seed for random initialization. Only used if initialization method is 'random'.
+ * @param {number} [options.seed] - Seed for random initialization.
  *
  *  * `'random'` will choose K random different values.
  *  * `'mostDistant'` will choose the more distant points to a first random pick
@@ -116,7 +116,8 @@ export default function kmeans(data, K, options) {
         centers = mostDistant(
           data,
           K,
-          calculateDistanceMatrix(data, options.distanceFunction)
+          calculateDistanceMatrix(data, options.distanceFunction),
+          options.seed
         );
         break;
       default:

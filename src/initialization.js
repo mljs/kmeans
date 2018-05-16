@@ -5,6 +5,7 @@ import Random from 'ml-random';
  * @ignore
  * @param {Array<Array<number>>} data - Points in the format to cluster [x,y,z,...]
  * @param {number} K - number of clusters
+ * @param {number} seed - seed for random number generation
  * @return {Array<Array<number>>} - Initial random points
  */
 export function random(data, K, seed) {
@@ -18,13 +19,14 @@ export function random(data, K, seed) {
  * @param {Array<Array<number>>} data - Points in the format to cluster [x,y,z,...]
  * @param {number} K - number of clusters
  * @param {Array<Array<number>>} distanceMatrix - matrix with the distance values
+ * @param {number} seed - seed for random number generation
  * @return {Array<Array<number>>} - Initial random points
  */
-export function mostDistant(data, K, distanceMatrix) {
+export function mostDistant(data, K, distanceMatrix, seed) {
+  const random = new Random(seed);
   var ans = new Array(K);
-
   // chooses a random point as initial cluster
-  ans[0] = Math.floor(Math.random() * data.length);
+  ans[0] = Math.floor(random.random() * data.length);
 
   if (K > 1) {
     // chooses the more distant point
