@@ -7,8 +7,8 @@ import Random from 'ml-random';
  * @param {number} K - number of clusters
  * @return {Array<Array<number>>} - Initial random points
  */
-export function random(data, K) {
-  const random = new Random();
+export function random(data, K, seed) {
+  const random = new Random(seed);
   return random.choice(data, { size: K });
 }
 

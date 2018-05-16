@@ -108,7 +108,7 @@ export default function kmeans(data, K, options) {
   } else {
     switch (options.initialization) {
       case 'random':
-        centers = random(data, K);
+        centers = random(data, K, options.seed);
         break;
       case 'mostDistant':
         centers = mostDistant(
