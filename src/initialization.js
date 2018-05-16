@@ -1,6 +1,4 @@
-import RandomSelection from 'RandomSelection';
-
-const Picker = RandomSelection.Picker;
+import Random from 'ml-random';
 
 /**
  * Choose K different random points from the original data
@@ -10,13 +8,8 @@ const Picker = RandomSelection.Picker;
  * @return {Array<Array<number>>} - Initial random points
  */
 export function random(data, K) {
-  const rand = new Picker(data);
-  var ans = new Array(K);
-
-  for (var i = 0; i < K; ++i) {
-    ans[i] = rand.pick();
-  }
-  return ans;
+  const random = new Random();
+  return random.choice(data, { size: K });
 }
 
 /**
