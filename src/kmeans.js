@@ -6,14 +6,14 @@ import {
   hasConverged,
   calculateDistanceMatrix
 } from './utils';
-import { mostDistant, random } from './initialization';
+import { mostDistant, random, kmeanspp } from './initialization';
 import KMeansResult from './KMeansResult';
 
 const defaultOptions = {
   maxIterations: 100,
   tolerance: 1e-6,
   withIterations: false,
-  initialization: 'mostDistant',
+  initialization: 'kmeans++',
   distanceFunction: euclidean.squared
 };
 
@@ -82,7 +82,8 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
  * @param {boolean} [options.withIterations = false] - Store clusters and centroids for each iteration
  * @param {function} [options.distanceFunction = squaredDistance] - Distance function to use between the points
  * @param {number} [options.seed] - Seed for random initialization.
- * @param {string|Array<Array<number>>} [options.initialization = 'moreDistant'] - K centers in format [x,y,z,...] or a method for initialize the data:
+ * @param {string|Array<Array<number>>} [options.initialization = 'kmeans++'] - K centers in format [x,y,z,...] or a method for initialize the data:
+ *  * `'kmeans++'` will use the kmeans++ method as described by
  *  * `'random'` will choose K random different values.
  *  * `'mostDistant'` will choose the more distant points to a first random pick
  * @return {KMeansResult} - Cluster identifier for each data dot and centroids with the following fields:
@@ -108,6 +109,9 @@ export default function kmeans(data, K, options) {
     }
   } else {
     switch (options.initialization) {
+      case 'kmeans++':
+        centers = kmeanspp(data, K, options);
+        break;
       case 'random':
         centers = random(data, K, options.seed);
         break;

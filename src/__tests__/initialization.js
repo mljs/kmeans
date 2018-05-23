@@ -45,4 +45,17 @@ describe('Initialization methods', function () {
     expect(ansSingle).toHaveLength(1);
     expect(ansSingle[0]).toEqual([1, 1, 1]);
   });
+
+  it('kmeans++', function () {
+    let data = [
+      [1, 0.75, 1.125],
+      [1, 1.75, 1.125],
+      [-1, -1.25, -0.875],
+      [-1, -1.25, -1.375]
+    ];
+    let result = init.kmeanspp(data, 3, {
+      seed: 10
+    });
+    expect(result).toMatchSnapshot();
+  });
 });

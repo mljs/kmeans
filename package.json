@@ -43,12 +43,16 @@
     "eslint-config-cheminfo": "^1.17.4",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-jest": "^21.15.1",
+    "esm": "^3.0.36",
     "jest": "^22.4.3",
+    "ml-dataset-iris": "^1.0.0",
     "rollup": "^0.59.1"
   },
   "dependencies": {
+    "ml-distance": "^2.1.1",
     "ml-distance-euclidean": "^1.0.0",
+    "ml-matrix": "^5.1.1",
     "ml-nearest-vector": "^1.0.0",
-    "ml-random": "^0.2.0"
+    "ml-random": "^0.4.0"
   }
 }

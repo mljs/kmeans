@@ -1,4 +1,8 @@
 import Random from 'ml-random';
+import { distance } from 'ml-distance';
+import { Matrix } from 'ml-matrix';
+
+const squaredEuclidean = distance.squaredEuclidean;
 
 /**
  * Choose K different random points from the original data
@@ -72,4 +76,84 @@ export function mostDistant(data, K, distanceMatrix, seed) {
   }
 
   return ans.map((index) => data[index]);
+}
+
+// Implementation inspired from scikit
+export function kmeanspp(X, K, options = {}) {
+  X = new Matrix(X);
+  const nSamples = X.length;
+  const random = new Random(options.seed);
+  // Set the number of trials
+  const centers = [];
+  const localTrials = options.localTrials || 2 + Math.floor(Math.log(K));
+
+  // Pick the first center at random from the dataset
+  const firstCenterIdx = random.randInt(nSamples);
+  centers.push(X[firstCenterIdx].slice());
+
+  // Init closest distances
+  let closestDistSquared = [X.map((x) => squaredEuclidean(x, centers[0]))];
+  let cumSumClosestDistSquared = [cumSum(closestDistSquared[0])];
+  const factor = 1 / cumSumClosestDistSquared[0][nSamples - 1];
+  let probabilities = Matrix.mul(closestDistSquared, factor);
+
+  // Iterate over the remaining centers
+  for (let i = 1; i < K; i++) {
+    const candidateIdx = random.choice(nSamples, {
+      replace: true,
+      size: localTrials,
+      probabilities: probabilities[0]
+    });
+
+    const candidates = X.selection(candidateIdx, range(X[0].length));
+    const distanceToCandidates = euclidianDistances(candidates, X);
+
+    let bestCandidate;
+    let bestPot;
+    let bestDistSquared;
+
+    for (let j = 0; j < localTrials; j++) {
+      const newDistSquared = Matrix.min(closestDistSquared, [distanceToCandidates[j]]);
+      const newPot = newDistSquared.sum();
+      if (bestCandidate === undefined || newPot < bestPot) {
+        bestCandidate = candidateIdx[j];
+        bestPot = newPot;
+        bestDistSquared = newDistSquared;
+      }
+    }
+    centers[i] = X[bestCandidate].slice();
+    closestDistSquared = bestDistSquared;
+    cumSumClosestDistSquared = [cumSum(closestDistSquared[0])];
+    probabilities = Matrix.mul(
+      closestDistSquared,
+      1 / cumSumClosestDistSquared[0][nSamples - 1]
+    );
+  }
+  return centers;
+}
+
+function euclidianDistances(A, B) {
+  const result = new Matrix(A.length, B.length);
+  for (let i = 0; i < A.length; i++) {
+    for (let j = 0; j < B.length; j++) {
+      result.set(i, j, squaredEuclidean(A.getRow(i), B.getRow(j)));
+    }
+  }
+  return result;
+}
+
+function range(l) {
+  let r = [];
+  for (let i = 0; i < l; i++) {
+    r.push(i);
+  }
+  return r;
+}
+
+function cumSum(arr) {
+  let cumSum = [arr[0]];
+  for (let i = 1; i < arr.length; i++) {
+    cumSum[i] = cumSum[i - 1] + arr[i];
+  }
+  return cumSum;
 }
