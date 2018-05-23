@@ -1,3 +1,19 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/mljs/kmeans/compare/v3.1.0...v4.0.0) (2018-05-23)
+
+
+### Features
+
+* implement kmeans++ initialization algorithm ([007f3b1](https://github.com/mljs/kmeans/commit/007f3b1))
+
+
+### BREAKING CHANGES
+
+* kmeans++ is now the default initialization algorithm
+instead of mostDistant
+
+
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/mljs/kmeans/compare/v3.0.1...v3.1.0) (2018-05-16)
 
