@@ -57,7 +57,11 @@ export default class KMeansResult {
     }
 
     for (var j = 0; j < this.centroids.length; j++) {
-      enrichedCentroids[j].error /= enrichedCentroids[j].size;
+      if (enrichedCentroids[j].size) {
+        enrichedCentroids[j].error /= enrichedCentroids[j].size;
+      } else {
+        enrichedCentroids[j].error = null;
+      }
     }
 
     return new KMeansResult(

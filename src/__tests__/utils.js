@@ -60,8 +60,9 @@ describe('Utils methods', function () {
     it('Simple case', function () {
       let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
       let clusterID = [0, 0, 1, 1];
+      let prevCenters = [[0, 0, 0], [0, 0, 0]];
 
-      let ans = updateCenters(data, clusterID, 2);
+      let ans = updateCenters(prevCenters, data, clusterID, 2);
       expect(ans).toEqual([[1, 1.5, 1], [-1, -1, -1.25]]);
     });
   });

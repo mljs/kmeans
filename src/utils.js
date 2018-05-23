@@ -46,15 +46,16 @@ export function updateClusterID(data, centers, clusterID, distance) {
 /**
  * Update the center values based in the new configurations of the clusters
  * @ignore
+ * @param {Array<Array<number>>} prevCenters - Centroids from the previous iteration
  * @param {Array <Array <number>>} data - the [x,y,z,...] points to cluster
  * @param {Array <number>} clusterID - the cluster identifier for each data dot
  * @param {number} K - Number of clusters
  * @return {Array} he K centers in format [x,y,z,...]
  */
-export function updateCenters(data, clusterID, K) {
+export function updateCenters(prevCenters, data, clusterID, K) {
   const nDim = data[0].length;
 
-  // creates empty centers with 0 size
+  // copy previous centers
   var centers = new Array(K);
   var centersLen = new Array(K);
   for (var i = 0; i < K; i++) {
@@ -76,7 +77,11 @@ export function updateCenters(data, clusterID, K) {
   // divides by length
   for (var id = 0; id < K; id++) {
     for (var d = 0; d < nDim; d++) {
-      centers[id][d] /= centersLen[id];
+      if (centersLen[id]) {
+        centers[id][d] /= centersLen[id];
+      } else {
+        centers[id][d] = prevCenters[id][d];
+      }
     }
   }
   return centers;

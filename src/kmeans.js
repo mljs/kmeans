@@ -35,7 +35,7 @@ function step(centers, data, clusterID, K, options, iterations) {
     clusterID,
     options.distanceFunction
   );
-  var newCenters = updateCenters(data, clusterID, K);
+  var newCenters = updateCenters(centers, data, clusterID, K);
   var converged = hasConverged(
     newCenters,
     centers,
@@ -83,6 +83,7 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
  * @param {function} [options.distanceFunction = squaredDistance] - Distance function to use between the points
  * @param {number} [options.seed] - Seed for random initialization.
  * @param {string|Array<Array<number>>} [options.initialization = 'kmeans++'] - K centers in format [x,y,z,...] or a method for initialize the data:
+ *  * You can either specify your custom start centroids, or select one of the following initialization method:
  *  * `'kmeans++'` will use the kmeans++ method as described by http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
  *  * `'random'` will choose K random different values.
  *  * `'mostDistant'` will choose the more distant points to a first random pick

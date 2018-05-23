@@ -90,11 +90,28 @@ describe('K-means', function () {
     ];
     let centers = [[1, 2, 1], [-1, -1, -1]];
 
-    let ans = kmeans(data, 2, { initialization: centers, maxIterations: 0 });
+    let ans = kmeans(data, 2, {
+      initialization: centers,
+      maxIterations: 0,
+      seed: 0
+    });
     expect(ans.clusters).toEqual([1, 1, 0, 0, 1, 1, 1]);
     expect(ans.centroids[0].centroid).toEqual([4.5, 15.5, 1]);
     expect(ans.centroids[1].centroid).toEqual([0.2, 0.4, 0.1]);
     expect(ans.converged).toBe(true);
     expect(ans.iterations).toBe(3);
+  });
+
+  it('empty clusters', function () {
+    let data = [[1, 1], [1.1, 0.95], [0, 0], [-0.04, 0.02]];
+    const result = kmeans(data, 3, {
+      seed: 19,
+      initialization: [[0, 0], [1, 1], [0.5, 0.5]]
+    });
+
+    expect(result.centroids[2].size).toEqual(0);
+    // The centroid should have the same value than at initialization
+    expect(result.centroids[2].centroid).toEqual([0.5, 0.5]);
+    expect(result.centroids[2].error).toBeNull();
   });
 });
