@@ -1,8 +1,6 @@
 import Random from 'ml-random';
-import { distance } from 'ml-distance';
+import { squared as squaredEuclidean } from 'ml-distance-euclidean';
 import { Matrix } from 'ml-matrix';
-
-const squaredEuclidean = distance.squaredEuclidean;
 
 /**
  * Choose K different random points from the original data
