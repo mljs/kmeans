@@ -73,7 +73,7 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/d9d1546ff92908b5a6d34cb3d55e041bf5506371/src/KMeansResult.js#L15-L21'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/235764cf23038cb0900862443b4959aa3c43d230/src/KMeansResult.js#L15-L21'>
       <span>src/KMeansResult.js</span>
       </a>
     
@@ -180,7 +180,7 @@ x,y,z,...
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/d9d1546ff92908b5a6d34cb3d55e041bf5506371/src/KMeansResult.js#L28-L34'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/235764cf23038cb0900862443b4959aa3c43d230/src/KMeansResult.js#L28-L34'>
       <span>src/KMeansResult.js</span>
       </a>
     
@@ -257,7 +257,7 @@ x,y,z,...
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/d9d1546ff92908b5a6d34cb3d55e041bf5506371/src/kmeans.js#L94-L149'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/235764cf23038cb0900862443b4959aa3c43d230/src/kmeans.js#L94-L152'>
       <span>src/kmeans.js</span>
       </a>
     
@@ -368,25 +368,26 @@ x,y,z,...
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>options.initialization</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>>>)</code>
-  
-    (default <code>&#39;moreDistant&#39;</code>)
+  <td class='break-word'><span class='code bold'>options.seed</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?</code>
   </td>
-  <td class='break-word'><span>K centers in format 
-[
-x,y,z,...
-]
- or a method for initialize the data:
+  <td class='break-word'><span>Seed for random initialization.
 </span></td>
 </tr>
 
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>options.seed</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?</code>
+  <td class='break-word'><span class='code bold'>options.initialization</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>>>)</code>
+  
+    (default <code>&#39;kmeans++&#39;</code>)
   </td>
-  <td class='break-word'><span>Seed for random initialization.
+  <td class='break-word'><span>K centers in format 
+[
+x,y,z,...
+]
+ or a method for initialize the data:
 <ul>
+<li><code>'kmeans++'</code> will use the kmeans++ method as described by <a href="http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf">http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf</a></li>
 <li><code>'random'</code> will choose K random different values.</li>
 <li><code>'mostDistant'</code> will choose the more distant points to a first random pick</li>
 </ul>

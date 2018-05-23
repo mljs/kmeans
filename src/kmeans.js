@@ -83,7 +83,7 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
  * @param {function} [options.distanceFunction = squaredDistance] - Distance function to use between the points
  * @param {number} [options.seed] - Seed for random initialization.
  * @param {string|Array<Array<number>>} [options.initialization = 'kmeans++'] - K centers in format [x,y,z,...] or a method for initialize the data:
- *  * `'kmeans++'` will use the kmeans++ method as described by
+ *  * `'kmeans++'` will use the kmeans++ method as described by http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
  *  * `'random'` will choose K random different values.
  *  * `'mostDistant'` will choose the more distant points to a first random pick
  * @return {KMeansResult} - Cluster identifier for each data dot and centroids with the following fields:
