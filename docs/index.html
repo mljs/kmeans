@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>ml-kmeans 4.0.0 | Documentation</title>
+  <title>ml-kmeans 4.0.1 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
@@ -14,7 +14,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>ml-kmeans</h3>
-          <div class='mb1'><code>4.0.0</code></div>
+          <div class='mb1'><code>4.0.1</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -73,7 +73,7 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/b7b703a47c8370bfacd3e106a285e36c0abd1b37/src/KMeansResult.js#L15-L21'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/04711fcc4ccb2d2faf92b11e15d0dec430c7c39e/src/KMeansResult.js#L15-L21'>
       <span>src/KMeansResult.js</span>
       </a>
     
@@ -180,7 +180,7 @@ x,y,z,...
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/b7b703a47c8370bfacd3e106a285e36c0abd1b37/src/KMeansResult.js#L28-L34'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/04711fcc4ccb2d2faf92b11e15d0dec430c7c39e/src/KMeansResult.js#L28-L34'>
       <span>src/KMeansResult.js</span>
       </a>
     
@@ -257,7 +257,7 @@ x,y,z,...
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/b7b703a47c8370bfacd3e106a285e36c0abd1b37/src/kmeans.js#L94-L152'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/mljs/kmeans/blob/04711fcc4ccb2d2faf92b11e15d0dec430c7c39e/src/kmeans.js#L95-L153'>
       <span>src/kmeans.js</span>
       </a>
     
@@ -387,6 +387,7 @@ x,y,z,...
 ]
  or a method for initialize the data:
 <ul>
+<li>You can either specify your custom start centroids, or select one of the following initialization method:</li>
 <li><code>'kmeans++'</code> will use the kmeans++ method as described by <a href="http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf">http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf</a></li>
 <li><code>'random'</code> will choose K random different values.</li>
 <li><code>'mostDistant'</code> will choose the more distant points to a first random pick</li>
