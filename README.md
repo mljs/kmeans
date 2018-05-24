@@ -40,6 +40,11 @@ KMeansResult {
 
 * [Miguel Asencio](https://github.com/maasencioh)
 
+## Sources
+D. Arthur, S. Vassilvitskii, k-means++: The Advantages of Careful Seeding, in: Proc. of the 18th Annual
+ACM-SIAM Symposium on Discrete Algorithms, 2007, pp. 1027–1035.
+[Link to article](http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf)
+
 ## License
 
 [MIT](./LICENSE)
