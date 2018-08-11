@@ -1,6 +1,6 @@
 {
   "name": "ml-kmeans",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "K-Means clustering",
   "main": "kmeans.js",
   "module": "src/kmeans.js",
