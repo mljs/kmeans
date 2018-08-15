@@ -1,3 +1,8 @@
+<a name="4.2.1"></a>
+## [4.2.1](https://github.com/mljs/kmeans/compare/v4.2.0...v4.2.1) (2018-08-15)
+
+
+
 <a name="4.2.0"></a>
 # [4.2.0](https://github.com/mljs/kmeans/compare/v4.1.0...v4.2.0) (2018-08-15)
 
