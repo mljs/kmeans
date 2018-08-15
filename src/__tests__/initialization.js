@@ -1,4 +1,4 @@
-import { squared as squaredEuclidean } from 'ml-distance-euclidean';
+import { squaredEuclidean } from 'ml-distance-euclidean';
 
 import kmeans from '../kmeans';
 import * as init from '../initialization';

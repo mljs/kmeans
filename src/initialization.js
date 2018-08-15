@@ -1,5 +1,5 @@
 import Random from 'ml-random';
-import { squared as squaredEuclidean } from 'ml-distance-euclidean';
+import { squaredEuclidean } from 'ml-distance-euclidean';
 import { Matrix } from 'ml-matrix';
 
 /**

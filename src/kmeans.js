@@ -1,4 +1,4 @@
-import euclidean from 'ml-distance-euclidean';
+import { squaredEuclidean } from 'ml-distance-euclidean';
 
 import {
   updateClusterID,
@@ -14,7 +14,7 @@ const defaultOptions = {
   tolerance: 1e-6,
   withIterations: false,
   initialization: 'kmeans++',
-  distanceFunction: euclidean.squared
+  distanceFunction: squaredEuclidean
 };
 
 /**
