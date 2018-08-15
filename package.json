@@ -38,20 +38,20 @@
   },
   "homepage": "https://github.com/mljs/kmeans",
   "devDependencies": {
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
-    "eslint": "^4.19.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "eslint": "^5.3.0",
     "eslint-config-cheminfo": "^1.18.0",
-    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^21.21.0",
-    "esm": "^3.0.36",
+    "esm": "^3.0.76",
     "jest": "^23.5.0",
     "ml-dataset-iris": "^1.0.0",
     "rollup": "^0.64.1"
   },
   "dependencies": {
-    "ml-distance-euclidean": "^1.0.0",
+    "ml-distance-euclidean": "^2.0.0",
     "ml-matrix": "^5.1.1",
-    "ml-nearest-vector": "^1.0.0",
+    "ml-nearest-vector": "^2.0.1",
     "ml-random": "^0.5.0"
   }
 }

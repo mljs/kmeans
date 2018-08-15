@@ -1,8 +1,8 @@
+import { squared as squaredEuclidean } from 'ml-distance-euclidean';
+
 import kmeans from '../kmeans';
 import * as init from '../initialization';
 import * as utils from '../utils';
-
-const squaredDistance = require('ml-distance-euclidean').squared;
 
 describe('Initialization methods', function () {
   it('random in kmeans', function () {
@@ -29,7 +29,10 @@ describe('Initialization methods', function () {
 
   it('mostDistant UT', function () {
     let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
-    const distanceMatrix = utils.calculateDistanceMatrix(data, squaredDistance);
+    const distanceMatrix = utils.calculateDistanceMatrix(
+      data,
+      squaredEuclidean
+    );
     let ans = init.mostDistant(data, 3, distanceMatrix);
     expect(ans).toHaveLength(3);
     expect(ans[0]).not.toEqual(ans[1]);
@@ -40,7 +43,7 @@ describe('Initialization methods', function () {
     let ansSingle = init.mostDistant(
       single,
       1,
-      utils.calculateDistanceMatrix(single, squaredDistance)
+      utils.calculateDistanceMatrix(single, squaredEuclidean)
     );
     expect(ansSingle).toHaveLength(1);
     expect(ansSingle[0]).toEqual([1, 1, 1]);
