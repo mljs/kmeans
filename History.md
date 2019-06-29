@@ -1,3 +1,17 @@
+# [5.0.0](https://github.com/mljs/kmeans/compare/v4.2.1...v5.0.0) (2019-06-29)
+
+
+### chore
+
+* update dependencies and remove support for Node.js 6 ([5efe565](https://github.com/mljs/kmeans/commit/5efe565))
+
+
+### BREAKING CHANGES
+
+* Node.js 6 is no longer supported.
+
+
+
 <a name="4.2.1"></a>
 ## [4.2.1](https://github.com/mljs/kmeans/compare/v4.2.0...v4.2.1) (2018-08-15)
 
