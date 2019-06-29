@@ -4,5 +4,5 @@ export default {
     file: 'kmeans.js',
     format: 'cjs'
   },
-  external: ['RandomSelection', 'ml-distance-euclidean', 'ml-nearest-vector']
+  external: ['ml-distance-euclidean', 'ml-nearest-vector', 'ml-random']
 };

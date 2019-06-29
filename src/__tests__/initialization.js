@@ -46,7 +46,7 @@ describe('Initialization methods', function () {
       utils.calculateDistanceMatrix(single, squaredEuclidean)
     );
     expect(ansSingle).toHaveLength(1);
-    expect(ansSingle[0]).toEqual([1, 1, 1]);
+    expect(ansSingle[0]).toStrictEqual([1, 1, 1]);
   });
 
   it('kmeans++', function () {

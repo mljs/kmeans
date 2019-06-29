@@ -13,7 +13,7 @@ describe('Utils methods', function () {
       let data = [[1, 1, 1], [1, 2, 1], [1, 1, 1], [1, 2, 1]];
 
       let ans = calculateDistanceMatrix(data, squaredEuclidean);
-      expect(ans).toEqual([
+      expect(ans).toStrictEqual([
         [0, 1, 0, 1],
         [1, 0, 1, 0],
         [0, 1, 0, 1],
@@ -25,7 +25,7 @@ describe('Utils methods', function () {
       let data = [[1, 1, 1], [2, 2, 2], [3, 3, 3], [4, 4, 4]];
 
       let ans = calculateDistanceMatrix(data, squaredEuclidean);
-      expect(ans).toEqual([
+      expect(ans).toStrictEqual([
         [0, 3, 12, 27],
         [3, 0, 3, 12],
         [12, 3, 0, 3],
@@ -41,7 +41,7 @@ describe('Utils methods', function () {
       let clusterID = [0, 0, 0, 0];
 
       let ans = updateClusterID(data, centers, clusterID, squaredEuclidean);
-      expect(ans).toEqual([0, 0, 1, 1]);
+      expect(ans).toStrictEqual([0, 0, 1, 1]);
     });
 
     it('Bigger case', function () {
@@ -50,7 +50,7 @@ describe('Utils methods', function () {
       let clusterID = [0, 0, 0, 0];
 
       let ans = updateClusterID(data, centers, clusterID, squaredEuclidean);
-      expect(ans).toEqual([0, 0, 2, 1]);
+      expect(ans).toStrictEqual([0, 0, 2, 1]);
     });
   });
 
@@ -61,7 +61,7 @@ describe('Utils methods', function () {
       let prevCenters = [[0, 0, 0], [0, 0, 0]];
 
       let ans = updateCenters(prevCenters, data, clusterID, 2);
-      expect(ans).toEqual([[1, 1.5, 1], [-1, -1, -1.25]]);
+      expect(ans).toStrictEqual([[1, 1.5, 1], [-1, -1, -1.25]]);
     });
   });
 
