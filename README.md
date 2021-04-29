@@ -1,9 +1,5 @@
 # ml-kmeans
 
-[![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
-[![Test coverage][codecov-image]][codecov-url]
-[![npm download][download-image]][download-url]
 
 [K-means clustering][] aims to partition n observations into k clusters in which
 each observation belongs to the cluster with the nearest mean.
@@ -19,7 +15,8 @@ each observation belongs to the cluster with the nearest mean.
   </p>
 
   [![NPM version][npm-image]][npm-url]
-  [![build status][ci-image]][ci-url]
+  [![build status][travis-image]][travis-url]
+  [![Test coverage][codecov-image]][codecov-url]
   [![npm download][download-image]][download-url]
 
 </h3>
