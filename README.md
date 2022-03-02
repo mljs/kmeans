@@ -1,6 +1,5 @@
 # ml-kmeans
 
-
 [K-means clustering][] aims to partition n observations into k clusters in which
 each observation belongs to the cluster with the nearest mean.
 
@@ -14,10 +13,9 @@ each observation belongs to the cluster with the nearest mean.
     Maintained by <a href="https://www.zakodium.com">Zakodium</a>
   </p>
 
-  [![NPM version][npm-image]][npm-url]
-  [![build status][travis-image]][travis-url]
-  [![Test coverage][codecov-image]][codecov-url]
-  [![npm download][download-image]][download-url]
+[![NPM version][npm-image]][npm-url]
+[![Test coverage][codecov-image]][codecov-url]
+[![npm download][download-image]][download-url]
 
 </h3>
 
@@ -32,8 +30,16 @@ each observation belongs to the cluster with the nearest mean.
 ```js
 const kmeans = require('ml-kmeans');
 
-let data = [[1, 1, 1], [1, 2, 1], [-1, -1, -1], [-1, -1, -1.5]];
-let centers = [[1, 2, 1], [-1, -1, -1]];
+let data = [
+  [1, 1, 1],
+  [1, 2, 1],
+  [-1, -1, -1],
+  [-1, -1, -1.5],
+];
+let centers = [
+  [1, 2, 1],
+  [-1, -1, -1],
+];
 
 let ans = kmeans(data, 2, { initialization: centers });
 console.log(ans);
@@ -65,9 +71,6 @@ ACM-SIAM Symposium on Discrete Algorithms, 2007, pp. 1027–1035.
 
 [npm-image]: https://img.shields.io/npm/v/ml-kmeans.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/ml-kmeans
-[travis-image]: https://img.shields.io/travis/mljs/kmeans/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/mljs/kmeans
-[codecov-image]: https://img.shields.io/codecov/c/github/mljs/kmeans.svg?style=flat-square
 [codecov-url]: https://codecov.io/github/mljs/kmeans
 [download-image]: https://img.shields.io/npm/dm/ml-kmeans.svg?style=flat-square
 [download-url]: https://npmjs.org/package/ml-kmeans

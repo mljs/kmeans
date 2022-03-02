@@ -8,9 +8,9 @@ import nearestVector from 'ml-nearest-vector';
  * @return {Array<Array<number>>} - matrix with the distance values
  */
 export function calculateDistanceMatrix(data, distance) {
-  var distanceMatrix = new Array(data.length);
-  for (var i = 0; i < data.length; ++i) {
-    for (var j = i; j < data.length; ++j) {
+  let distanceMatrix = new Array(data.length);
+  for (let i = 0; i < data.length; ++i) {
+    for (let j = i; j < data.length; ++j) {
       if (!distanceMatrix[i]) {
         distanceMatrix[i] = new Array(data.length);
       }
@@ -35,9 +35,9 @@ export function calculateDistanceMatrix(data, distance) {
  * @return {Array} the cluster identifier for each data dot
  */
 export function updateClusterID(data, centers, clusterID, distance) {
-  for (var i = 0; i < data.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     clusterID[i] = nearestVector(centers, data[i], {
-      distanceFunction: distance
+      distanceFunction: distance,
     });
   }
   return clusterID;
@@ -56,27 +56,27 @@ export function updateCenters(prevCenters, data, clusterID, K) {
   const nDim = data[0].length;
 
   // copy previous centers
-  var centers = new Array(K);
-  var centersLen = new Array(K);
-  for (var i = 0; i < K; i++) {
+  let centers = new Array(K);
+  let centersLen = new Array(K);
+  for (let i = 0; i < K; i++) {
     centers[i] = new Array(nDim);
     centersLen[i] = 0;
-    for (var j = 0; j < nDim; j++) {
+    for (let j = 0; j < nDim; j++) {
       centers[i][j] = 0;
     }
   }
 
   // add the value for all dimensions of the point
-  for (var l = 0; l < data.length; l++) {
+  for (let l = 0; l < data.length; l++) {
     centersLen[clusterID[l]]++;
-    for (var dim = 0; dim < nDim; dim++) {
+    for (let dim = 0; dim < nDim; dim++) {
       centers[clusterID[l]][dim] += data[l][dim];
     }
   }
 
   // divides by length
-  for (var id = 0; id < K; id++) {
-    for (var d = 0; d < nDim; d++) {
+  for (let id = 0; id < K; id++) {
+    for (let d = 0; d < nDim; d++) {
       if (centersLen[id]) {
         centers[id][d] /= centersLen[id];
       } else {
@@ -97,7 +97,7 @@ export function updateCenters(prevCenters, data, clusterID, K) {
  * @return {boolean}
  */
 export function hasConverged(centers, oldCenters, distanceFunction, tolerance) {
-  for (var i = 0; i < centers.length; i++) {
+  for (let i = 0; i < centers.length; i++) {
     if (distanceFunction(centers[i], oldCenters[i]) > tolerance) {
       return false;
     }

@@ -1,6 +1,6 @@
-import Random from 'ml-random';
 import { squaredEuclidean } from 'ml-distance-euclidean';
 import { Matrix } from 'ml-matrix';
+import Random from 'ml-random';
 
 /**
  * Choose K different random points from the original data
@@ -26,14 +26,14 @@ export function random(data, K, seed) {
  */
 export function mostDistant(data, K, distanceMatrix, seed) {
   const random = new Random(seed);
-  var ans = new Array(K);
+  let ans = new Array(K);
   // chooses a random point as initial cluster
   ans[0] = Math.floor(random.random() * data.length);
 
   if (K > 1) {
     // chooses the more distant point
-    var maxDist = { dist: -1, index: -1 };
-    for (var l = 0; l < data.length; ++l) {
+    let maxDist = { dist: -1, index: -1 };
+    for (let l = 0; l < data.length; ++l) {
       if (distanceMatrix[ans[0]][l] > maxDist.dist) {
         maxDist.dist = distanceMatrix[ans[0]][l];
         maxDist.index = l;
@@ -43,19 +43,19 @@ export function mostDistant(data, K, distanceMatrix, seed) {
 
     if (K > 2) {
       // chooses the set of points that maximises the min distance
-      for (var k = 2; k < K; ++k) {
-        var center = { dist: -1, index: -1 };
-        for (var m = 0; m < data.length; ++m) {
+      for (let k = 2; k < K; ++k) {
+        let center = { dist: -1, index: -1 };
+        for (let m = 0; m < data.length; ++m) {
           // minimum distance to centers
-          var minDistCent = { dist: Number.MAX_VALUE, index: -1 };
-          for (var n = 0; n < k; ++n) {
+          let minDistCent = { dist: Number.MAX_VALUE, index: -1 };
+          for (let n = 0; n < k; ++n) {
             if (
               distanceMatrix[n][m] < minDistCent.dist &&
               ans.indexOf(m) === -1
             ) {
               minDistCent = {
                 dist: distanceMatrix[n][m],
-                index: m
+                index: m,
               };
             }
           }
@@ -103,7 +103,7 @@ export function kmeanspp(X, K, options = {}) {
     const candidateIdx = random.choice(nSamples, {
       replace: true,
       size: localTrials,
-      probabilities: probabilities[0]
+      probabilities: probabilities[0],
     });
 
     const candidates = X.selection(candidateIdx, range(X.columns));
@@ -114,7 +114,9 @@ export function kmeanspp(X, K, options = {}) {
     let bestDistSquared;
 
     for (let j = 0; j < localTrials; j++) {
-      const newDistSquared = Matrix.min(closestDistSquared, [distanceToCandidates.getRow(j)]);
+      const newDistSquared = Matrix.min(closestDistSquared, [
+        distanceToCandidates.getRow(j),
+      ]);
       const newPot = newDistSquared.sum();
       if (bestCandidate === undefined || newPot < bestPot) {
         bestCandidate = candidateIdx[j];
@@ -127,7 +129,7 @@ export function kmeanspp(X, K, options = {}) {
     cumSumClosestDistSquared = [cumSum(closestDistSquared.getRow(0))];
     probabilities = Matrix.mul(
       closestDistSquared,
-      1 / cumSumClosestDistSquared[0][nSamples - 1]
+      1 / cumSumClosestDistSquared[0][nSamples - 1],
     );
   }
   return centers;

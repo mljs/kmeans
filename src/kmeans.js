@@ -1,20 +1,20 @@
 import { squaredEuclidean } from 'ml-distance-euclidean';
 
+import KMeansResult from './KMeansResult';
+import { mostDistant, random, kmeanspp } from './initialization';
 import {
   updateClusterID,
   updateCenters,
   hasConverged,
-  calculateDistanceMatrix
+  calculateDistanceMatrix,
 } from './utils';
-import { mostDistant, random, kmeanspp } from './initialization';
-import KMeansResult from './KMeansResult';
 
 const defaultOptions = {
   maxIterations: 100,
   tolerance: 1e-6,
   withIterations: false,
   initialization: 'kmeans++',
-  distanceFunction: squaredEuclidean
+  distanceFunction: squaredEuclidean,
 };
 
 /**
@@ -33,21 +33,21 @@ function step(centers, data, clusterID, K, options, iterations) {
     data,
     centers,
     clusterID,
-    options.distanceFunction
+    options.distanceFunction,
   );
-  var newCenters = updateCenters(centers, data, clusterID, K);
-  var converged = hasConverged(
+  let newCenters = updateCenters(centers, data, clusterID, K);
+  let converged = hasConverged(
     newCenters,
     centers,
     options.distanceFunction,
-    options.tolerance
+    options.tolerance,
   );
   return new KMeansResult(
     clusterID,
     newCenters,
     converged,
     iterations,
-    options.distanceFunction
+    options.distanceFunction,
   );
 }
 
@@ -61,9 +61,9 @@ function step(centers, data, clusterID, K, options, iterations) {
  * @param {object} [options] - Option object
  */
 function* kmeansGenerator(centers, data, clusterID, K, options) {
-  var converged = false;
-  var stepNumber = 0;
-  var stepResult;
+  let converged = false;
+  let stepNumber = 0;
+  let stepResult;
   while (!converged && stepNumber < options.maxIterations) {
     stepResult = step(centers, data, clusterID, K, options, ++stepNumber);
     yield stepResult.computeInformation(data);
@@ -97,11 +97,11 @@ export default function kmeans(data, K, options) {
 
   if (K <= 0 || K > data.length || !Number.isInteger(K)) {
     throw new Error(
-      'K should be a positive integer smaller than the number of points'
+      'K should be a positive integer smaller than the number of points',
     );
   }
 
-  var centers;
+  let centers;
   if (Array.isArray(options.initialization)) {
     if (options.initialization.length !== K) {
       throw new Error('The initial centers should have the same length as K');
@@ -121,12 +121,12 @@ export default function kmeans(data, K, options) {
           data,
           K,
           calculateDistanceMatrix(data, options.distanceFunction),
-          options.seed
+          options.seed,
         );
         break;
       default:
         throw new Error(
-          `Unknown initialization method: "${options.initialization}"`
+          `Unknown initialization method: "${options.initialization}"`,
         );
     }
   }
@@ -136,13 +136,13 @@ export default function kmeans(data, K, options) {
     options.maxIterations = Number.MAX_VALUE;
   }
 
-  var clusterID = new Array(data.length);
+  let clusterID = new Array(data.length);
   if (options.withIterations) {
     return kmeansGenerator(centers, data, clusterID, K, options);
   } else {
-    var converged = false;
-    var stepNumber = 0;
-    var stepResult;
+    let converged = false;
+    let stepNumber = 0;
+    let stepResult;
     while (!converged && stepNumber < options.maxIterations) {
       stepResult = step(centers, data, clusterID, K, options, ++stepNumber);
       converged = stepResult.converged;
