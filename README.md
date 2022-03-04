@@ -71,6 +71,7 @@ ACM-SIAM Symposium on Discrete Algorithms, 2007, pp. 1027–1035.
 
 [npm-image]: https://img.shields.io/npm/v/ml-kmeans.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/ml-kmeans
+[codecov-image]: https://img.shields.io/codecov/c/github/mljs/kmeans.svg?style=flat-square
 [codecov-url]: https://codecov.io/github/mljs/kmeans
 [download-image]: https://img.shields.io/npm/dm/ml-kmeans.svg?style=flat-square
 [download-url]: https://npmjs.org/package/ml-kmeans
