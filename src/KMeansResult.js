@@ -27,7 +27,7 @@ export default class KMeansResult {
    */
   nearest(data) {
     const clusterID = new Array(data.length);
-    const centroids = this.centroids.map(function (centroid) {
+    const centroids = this.centroids.map((centroid) => {
       return centroid.centroid;
     });
     return updateClusterID(data, centroids, clusterID, this[distanceSymbol]);
@@ -40,23 +40,23 @@ export default class KMeansResult {
    * @return {KMeansResult}
    */
   computeInformation(data) {
-    var enrichedCentroids = this.centroids.map(function (centroid) {
+    let enrichedCentroids = this.centroids.map((centroid) => {
       return {
         centroid: centroid,
         error: 0,
-        size: 0
+        size: 0,
       };
     });
 
-    for (var i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       enrichedCentroids[this.clusters[i]].error += this[distanceSymbol](
         data[i],
-        this.centroids[this.clusters[i]]
+        this.centroids[this.clusters[i]],
       );
       enrichedCentroids[this.clusters[i]].size++;
     }
 
-    for (var j = 0; j < this.centroids.length; j++) {
+    for (let j = 0; j < this.centroids.length; j++) {
       if (enrichedCentroids[j].size) {
         enrichedCentroids[j].error /= enrichedCentroids[j].size;
       } else {
@@ -69,7 +69,7 @@ export default class KMeansResult {
       enrichedCentroids,
       this.converged,
       this.iterations,
-      this[distanceSymbol]
+      this[distanceSymbol],
     );
   }
 }
