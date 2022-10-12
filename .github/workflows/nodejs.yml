@@ -2,13 +2,21 @@ name: Node.js CI
 
 on:
   push:
-    branches:
-      - master
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
-  nodejs:
-    # Documentation: https://github.com/zakodium/workflows#nodejs-ci
-    uses: zakodium/workflows/.github/workflows/nodejs.yml@nodejs-v1
-    with:
-      node-version-matrix: '[12, 14, 16]'
+  build:
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: yarn install
+    - run: yarn test
