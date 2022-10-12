@@ -93,7 +93,7 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
  *  * `'iterations'`: Number of iterations that took to converge
  */
 export default function kmeans(data, K, options) {
-  options = Object.assign({}, defaultOptions, options);
+  options = { ...defaultOptions, ...options };
 
   if (K <= 0 || K > data.length || !Number.isInteger(K)) {
     throw new Error(

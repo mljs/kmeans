@@ -64,7 +64,7 @@ export function mostDistant(data, K, distanceMatrix, seed) {
             minDistCent.dist !== Number.MAX_VALUE &&
             minDistCent.dist > center.dist
           ) {
-            center = Object.assign({}, minDistCent);
+            center = { ...minDistCent };
           }
         }
 
