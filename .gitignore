@@ -5,3 +5,4 @@ logs
 npm-debug.log*
 coverage
 /kmeans.js
+yarn.lock
