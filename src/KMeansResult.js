@@ -42,7 +42,7 @@ export default class KMeansResult {
   computeInformation(data) {
     let enrichedCentroids = this.centroids.map((centroid) => {
       return {
-        centroid: centroid,
+        centroid,
         error: 0,
         size: 0,
       };
