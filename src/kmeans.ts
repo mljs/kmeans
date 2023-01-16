@@ -28,14 +28,31 @@ const defaultOptions = {
  * @param {number} iterations - Current number of iterations
  * @return {KMeansResult}
  */
-function step(centers, data, clusterID, K, options, iterations) {
+
+interface Options {
+  distanceFunction: (p: number[], q: number[]) => number;
+  tolerance: number;
+}
+function step(
+  centers: Array<Array<number>>,
+  data: Array<Array<number>>,
+  clusterID: Array<number>,
+  K: number,
+  options: Options,
+  iterations: number,
+): KMeansResult {
   clusterID = updateClusterID(
     data,
     centers,
     clusterID,
     options.distanceFunction,
   );
-  let newCenters = updateCenters(centers, data, clusterID, K);
+  let newCenters: Array<Array<number>> = updateCenters(
+    centers,
+    data,
+    clusterID,
+    K,
+  );
   let converged = hasConverged(
     newCenters,
     centers,
@@ -60,7 +77,13 @@ function step(centers, data, clusterID, K, options, iterations) {
  * @param {number} K - Number of clusters
  * @param {object} [options] - Option object
  */
-function* kmeansGenerator(centers, data, clusterID, K, options) {
+function* kmeansGenerator(
+  centers: Array<Array<number>>,
+  data: Array<Array<number>>,
+  clusterID: Array<number>,
+  K: number,
+  options,
+) {
   let converged = false;
   let stepNumber = 0;
   let stepResult;

@@ -7,7 +7,10 @@ import nearestVector from 'ml-nearest-vector';
  * @param {function} distance - Distance function to use between the points
  * @return {Array<Array<number>>} - matrix with the distance values
  */
-export function calculateDistanceMatrix(data, distance) {
+export function calculateDistanceMatrix(
+  data: Array<Array<number>>,
+  distance: (a: Array<number>, b: Array<number>) => number,
+) {
   let distanceMatrix = new Array(data.length);
   for (let i = 0; i < data.length; ++i) {
     for (let j = i; j < data.length; ++j) {
@@ -34,7 +37,12 @@ export function calculateDistanceMatrix(data, distance) {
  * @param {function} distance - Distance function to use between the points
  * @return {Array} the cluster identifier for each data dot
  */
-export function updateClusterID(data, centers, clusterID, distance) {
+export function updateClusterID(
+  data: Array<Array<number>>,
+  centers: Array<Array<number>>,
+  clusterID: Array<number>,
+  distance: (a: Array<number>, b: Array<number>) => number,
+): Array<number> {
   for (let i = 0; i < data.length; i++) {
     clusterID[i] = nearestVector(centers, data[i], {
       distanceFunction: distance,
@@ -52,14 +60,19 @@ export function updateClusterID(data, centers, clusterID, distance) {
  * @param {number} K - Number of clusters
  * @return {Array} he K centers in format [x,y,z,...]
  */
-export function updateCenters(prevCenters, data, clusterID, K) {
+export function updateCenters(
+  prevCenters: Array<Array<number>>,
+  data: Array<Array<number>>,
+  clusterID: Array<number>,
+  K: number,
+): Array<Array<number>> {
   const nDim = data[0].length;
 
   // copy previous centers
-  let centers = new Array(K);
-  let centersLen = new Array(K);
+  let centers = new Array<Array<number>>(K);
+  let centersLen = new Array<number>(K);
   for (let i = 0; i < K; i++) {
-    centers[i] = new Array(nDim);
+    centers[i] = new Array<number>(nDim);
     centersLen[i] = 0;
     for (let j = 0; j < nDim; j++) {
       centers[i][j] = 0;
@@ -96,7 +109,12 @@ export function updateCenters(prevCenters, data, clusterID, K) {
  * @param {number} tolerance - Allowed distance for the centroids to move
  * @return {boolean}
  */
-export function hasConverged(centers, oldCenters, distanceFunction, tolerance) {
+export function hasConverged(
+  centers: Array<Array<number>>,
+  oldCenters: Array<Array<number>>,
+  distanceFunction: (a: Array<number>, b: Array<number>) => number,
+  tolerance: number,
+): boolean {
   for (let i = 0; i < centers.length; i++) {
     if (distanceFunction(centers[i], oldCenters[i]) > tolerance) {
       return false;

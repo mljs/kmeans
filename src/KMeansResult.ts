@@ -2,17 +2,29 @@ import { updateClusterID } from './utils';
 
 const distanceSymbol = Symbol('distance');
 
+interface Centroid {
+  centroid: number;
+  error: number | null;
+  size: number;
+}
 export default class KMeansResult {
   /**
    * Result of the kmeans algorithm
    * @param {Array<number>} clusters - the cluster identifier for each data dot
-   * @param {Array<Array<object>>} centroids - the K centers in format [x,y,z,...], the error and size of the cluster
+   * @param {Array<Centroid>} centroids - the K centers in format [x,y,z,...], the error and size of the cluster
    * @param {boolean} converged - Converge criteria satisfied
    * @param {number} iterations - Current number of iterations
    * @param {function} distance - (*Private*) Distance function to use between the points
    * @constructor
    */
-  constructor(clusters, centroids, converged, iterations, distance) {
+
+  constructor(
+    public clusters: Array<number>,
+    public centroids: Array<Array<Centroid>>,
+    public converged: boolean,
+    public iterations: number,
+    distance: (a: Array<number>, b: Array<number>) => number,
+  ) {
     this.clusters = clusters;
     this.centroids = centroids;
     this.converged = converged;
@@ -25,8 +37,8 @@ export default class KMeansResult {
    * @param {Array<Array<number>>} data - the [x,y,z,...] points to cluster
    * @return {Array<number>} - cluster id for each point
    */
-  nearest(data) {
-    const clusterID = new Array(data.length);
+  nearest(data: Array<Array<number>>): Array<number> {
+    const clusterID = new Array<number>(data.length);
     const centroids = this.centroids.map((centroid) => {
       return centroid.centroid;
     });
@@ -39,8 +51,8 @@ export default class KMeansResult {
    * @param {Array<Array<number>>} data - the [x,y,z,...] points to cluster
    * @return {KMeansResult}
    */
-  computeInformation(data) {
-    let enrichedCentroids = this.centroids.map((centroid) => {
+  computeInformation(data: Array<Array<number>>): KMeansResult {
+    let enrichedCentroids: Centroid = this.centroids.map((centroid) => {
       return {
         centroid,
         error: 0,

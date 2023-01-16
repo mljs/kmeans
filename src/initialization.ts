@@ -10,7 +10,7 @@ import Random from 'ml-random';
  * @param {number} seed - seed for random number generation
  * @return {Array<Array<number>>} - Initial random points
  */
-export function random(data, K, seed) {
+export function random(data: Array<Array<number>>, K: number, seed?: number) {
   const random = new Random(seed);
   return random.choice(data, { size: K });
 }
@@ -24,9 +24,14 @@ export function random(data, K, seed) {
  * @param {number} seed - seed for random number generation
  * @return {Array<Array<number>>} - Initial random points
  */
-export function mostDistant(data, K, distanceMatrix, seed) {
+export function mostDistant(
+  data: Array<Array<number>>,
+  K: number,
+  distanceMatrix: Array<Array<number>>,
+  seed?: number,
+): Array<Array<number>> {
   const random = new Random(seed);
-  let ans = new Array(K);
+  let ans = new Array<number>(K);
   // chooses a random point as initial cluster
   ans[0] = Math.floor(random.random() * data.length);
 
@@ -49,10 +54,7 @@ export function mostDistant(data, K, distanceMatrix, seed) {
           // minimum distance to centers
           let minDistCent = { dist: Number.MAX_VALUE, index: -1 };
           for (let n = 0; n < k; ++n) {
-            if (
-              distanceMatrix[n][m] < minDistCent.dist &&
-              ans.indexOf(m) === -1
-            ) {
+            if (distanceMatrix[n][m] < minDistCent.dist && ans.includes(m)) {
               minDistCent = {
                 dist: distanceMatrix[n][m],
                 index: m,
@@ -76,13 +78,18 @@ export function mostDistant(data, K, distanceMatrix, seed) {
   return ans.map((index) => data[index]);
 }
 
+interface Options {
+  seed: number;
+  localTrials: number;
+}
+
 // Implementation inspired from scikit
-export function kmeanspp(X, K, options = {}) {
+export function kmeanspp(X: Matrix, K: number, options: Partial<Options> = {}) {
   X = new Matrix(X);
   const nSamples = X.rows;
   const random = new Random(options.seed);
   // Set the number of trials
-  const centers = [];
+  const centers: Array<Array<number>> = [];
   const localTrials = options.localTrials || 2 + Math.floor(Math.log(K));
 
   // Pick the first center at random from the dataset
@@ -135,7 +142,7 @@ export function kmeanspp(X, K, options = {}) {
   return centers;
 }
 
-function euclideanDistances(A, B) {
+function euclideanDistances(A: Matrix, B: Matrix) {
   const result = new Matrix(A.rows, B.rows);
   for (let i = 0; i < A.rows; i++) {
     for (let j = 0; j < B.rows; j++) {
@@ -145,16 +152,16 @@ function euclideanDistances(A, B) {
   return result;
 }
 
-function range(l) {
-  let r = [];
+function range(l: number): Array<number> {
+  let r: Array<number> = [];
   for (let i = 0; i < l; i++) {
     r.push(i);
   }
   return r;
 }
 
-function cumSum(arr) {
-  let cumSum = [arr[0]];
+function cumSum(arr: Array<number>): Array<number> {
+  let cumSum: Array<number> = [arr[0]];
   for (let i = 1; i < arr.length; i++) {
     cumSum[i] = cumSum[i - 1] + arr[i];
   }
