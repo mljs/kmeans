@@ -179,6 +179,6 @@ describe('K-means', () => {
     expect(result.centroids[2].size).toBe(0);
     // The centroid should have the same value than at initialization
     expect(result.centroids[2].centroid).toStrictEqual([0.5, 0.5]);
-    expect(result.centroids[2].error).toBeNull();
+    expect(result.centroids[2].error).toBe(-1);
   });
 });

@@ -34,9 +34,9 @@ interface Options {
   tolerance: number;
 }
 function step(
-  centers: Array<Array<number>>,
-  data: Array<Array<number>>,
-  clusterID: Array<number>,
+  centers: number[][],
+  data: number[][],
+  clusterID: number[],
   K: number,
   options: Options,
   iterations: number,
@@ -47,12 +47,7 @@ function step(
     clusterID,
     options.distanceFunction,
   );
-  let newCenters: Array<Array<number>> = updateCenters(
-    centers,
-    data,
-    clusterID,
-    K,
-  );
+  let newCenters: number[][] = updateCenters(centers, data, clusterID, K);
   let converged = hasConverged(
     newCenters,
     centers,
@@ -78,9 +73,9 @@ function step(
  * @param {object} [options] - Option object
  */
 function* kmeansGenerator(
-  centers: Array<Array<number>>,
-  data: Array<Array<number>>,
-  clusterID: Array<number>,
+  centers: number[][],
+  data: number[][],
+  clusterID: number[],
   K: number,
   options,
 ) {
@@ -115,7 +110,7 @@ function* kmeansGenerator(
  *  * `'centroids'`: Array with the resulting centroids.
  *  * `'iterations'`: Number of iterations that took to converge
  */
-export default function kmeans(data, K, options) {
+export default function kmeans(data, K: number, options) {
   options = { ...defaultOptions, ...options };
 
   if (K <= 0 || K > data.length || !Number.isInteger(K)) {
@@ -124,7 +119,7 @@ export default function kmeans(data, K, options) {
     );
   }
 
-  let centers;
+  let centers: number[][];
   if (Array.isArray(options.initialization)) {
     if (options.initialization.length !== K) {
       throw new Error('The initial centers should have the same length as K');
@@ -159,7 +154,7 @@ export default function kmeans(data, K, options) {
     options.maxIterations = Number.MAX_VALUE;
   }
 
-  let clusterID = new Array(data.length);
+  let clusterID: number[] = new Array(data.length);
   if (options.withIterations) {
     return kmeansGenerator(centers, data, clusterID, K, options);
   } else {

@@ -8,10 +8,10 @@ import nearestVector from 'ml-nearest-vector';
  * @return {Array<Array<number>>} - matrix with the distance values
  */
 export function calculateDistanceMatrix(
-  data: Array<Array<number>>,
-  distance: (a: Array<number>, b: Array<number>) => number,
+  data: number[][],
+  distance: (a: number[], b: number[]) => number,
 ) {
-  let distanceMatrix = new Array(data.length);
+  let distanceMatrix: number[][] = new Array(data.length);
   for (let i = 0; i < data.length; ++i) {
     for (let j = i; j < data.length; ++j) {
       if (!distanceMatrix[i]) {
@@ -38,11 +38,11 @@ export function calculateDistanceMatrix(
  * @return {Array} the cluster identifier for each data dot
  */
 export function updateClusterID(
-  data: Array<Array<number>>,
-  centers: Array<Array<number>>,
-  clusterID: Array<number>,
-  distance: (a: Array<number>, b: Array<number>) => number,
-): Array<number> {
+  data: number[][],
+  centers: number[][],
+  clusterID: number[],
+  distance: (a: number[], b: number[]) => number,
+): number[] {
   for (let i = 0; i < data.length; i++) {
     clusterID[i] = nearestVector(centers, data[i], {
       distanceFunction: distance,
@@ -61,15 +61,15 @@ export function updateClusterID(
  * @return {Array} he K centers in format [x,y,z,...]
  */
 export function updateCenters(
-  prevCenters: Array<Array<number>>,
-  data: Array<Array<number>>,
-  clusterID: Array<number>,
+  prevCenters: number[][],
+  data: number[][],
+  clusterID: number[],
   K: number,
-): Array<Array<number>> {
+): number[][] {
   const nDim = data[0].length;
 
   // copy previous centers
-  let centers = new Array<Array<number>>(K);
+  let centers = new Array<number[]>(K);
   let centersLen = new Array<number>(K);
   for (let i = 0; i < K; i++) {
     centers[i] = new Array<number>(nDim);
@@ -110,9 +110,9 @@ export function updateCenters(
  * @return {boolean}
  */
 export function hasConverged(
-  centers: Array<Array<number>>,
-  oldCenters: Array<Array<number>>,
-  distanceFunction: (a: Array<number>, b: Array<number>) => number,
+  centers: number[][],
+  oldCenters: number[][],
+  distanceFunction: (a: number[], b: number[]) => number,
   tolerance: number,
 ): boolean {
   for (let i = 0; i < centers.length; i++) {

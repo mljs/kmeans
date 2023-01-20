@@ -1,4 +1,5 @@
 import { squaredEuclidean } from 'ml-distance-euclidean';
+import Matrix from 'ml-matrix';
 
 import * as init from '../initialization';
 import kmeans from '../kmeans';
@@ -76,7 +77,7 @@ describe('Initialization methods', () => {
       [-1, -1.25, -0.875],
       [-1, -1.25, -1.375],
     ];
-    let result = init.kmeanspp(data, 3, {
+    let result = init.kmeanspp(new Matrix(data), 3, {
       seed: 10,
     });
     expect(result).toMatchSnapshot();

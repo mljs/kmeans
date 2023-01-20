@@ -1,10 +1,8 @@
 import { updateClusterID } from './utils';
 
-const distanceSymbol = Symbol('distance');
-
-interface Centroid {
-  centroid: number;
-  error: number | null;
+export interface Centroid {
+  centroid: number[];
+  error: number;
   size: number;
 }
 export default class KMeansResult {
@@ -18,18 +16,23 @@ export default class KMeansResult {
    * @constructor
    */
 
+  public clusters: number[];
+  public centroids: number[][];
+  public converged: boolean;
+  public iterations: number;
+  public distance: (a: number[], b: number[]) => number;
   constructor(
-    public clusters: Array<number>,
-    public centroids: Array<Array<Centroid>>,
-    public converged: boolean,
-    public iterations: number,
-    distance: (a: Array<number>, b: Array<number>) => number,
+    clusters: number[],
+    centroids: number[][],
+    converged: boolean,
+    iterations: number,
+    distance: (a: number[], b: number[]) => number,
   ) {
     this.clusters = clusters;
     this.centroids = centroids;
     this.converged = converged;
     this.iterations = iterations;
-    this[distanceSymbol] = distance;
+    this.distance = distance;
   }
 
   /**
@@ -37,12 +40,12 @@ export default class KMeansResult {
    * @param {Array<Array<number>>} data - the [x,y,z,...] points to cluster
    * @return {Array<number>} - cluster id for each point
    */
-  nearest(data: Array<Array<number>>): Array<number> {
+  nearest(data: number[][]): number[] {
     const clusterID = new Array<number>(data.length);
     const centroids = this.centroids.map((centroid) => {
       return centroid.centroid;
     });
-    return updateClusterID(data, centroids, clusterID, this[distanceSymbol]);
+    return updateClusterID(data, centroids, clusterID, this.distance);
   }
 
   /**
@@ -51,8 +54,8 @@ export default class KMeansResult {
    * @param {Array<Array<number>>} data - the [x,y,z,...] points to cluster
    * @return {KMeansResult}
    */
-  computeInformation(data: Array<Array<number>>): KMeansResult {
-    let enrichedCentroids: Centroid = this.centroids.map((centroid) => {
+  computeInformation(data: number[][]): KMeansResult {
+    let enrichedCentroids = this.centroids.map((centroid) => {
       return {
         centroid,
         error: 0,
@@ -61,7 +64,7 @@ export default class KMeansResult {
     });
 
     for (let i = 0; i < data.length; i++) {
-      enrichedCentroids[this.clusters[i]].error += this[distanceSymbol](
+      enrichedCentroids[this.clusters[i]].error += this.distance(
         data[i],
         this.centroids[this.clusters[i]],
       );
@@ -69,10 +72,11 @@ export default class KMeansResult {
     }
 
     for (let j = 0; j < this.centroids.length; j++) {
-      if (enrichedCentroids[j].size) {
-        enrichedCentroids[j].error /= enrichedCentroids[j].size;
+      let error = enrichedCentroids[j].error;
+      if (enrichedCentroids[j].size && error !== -1) {
+        error /= enrichedCentroids[j].size;
       } else {
-        enrichedCentroids[j].error = null;
+        enrichedCentroids[j].error = -1;
       }
     }
 
@@ -81,7 +85,7 @@ export default class KMeansResult {
       enrichedCentroids,
       this.converged,
       this.iterations,
-      this[distanceSymbol],
+      this.distance,
     );
   }
 }
