@@ -1,6 +1,6 @@
 import { updateClusterID } from './utils';
 
-export interface Centroid {
+export interface CentroidWithInformation {
   centroid: number[];
   error: number;
   size: number;
@@ -8,11 +8,11 @@ export interface Centroid {
 export default class KMeansResult {
   /**
    * Result of the kmeans algorithm
-   * @param {Array<number>} clusters - the cluster identifier for each data dot
-   * @param {Array<Centroid>} centroids - the K centers in format [x,y,z,...], the error and size of the cluster
-   * @param {boolean} converged - Converge criteria satisfied
-   * @param {number} iterations - Current number of iterations
-   * @param {function} distance - (*Private*) Distance function to use between the points
+   * @param clusters - the cluster identifier for each data dot
+   * @param centroids - the K centers in format [x,y,z,...], the error and size of the cluster
+   * @param converged - Converge criteria satisfied
+   * @param iterations - Current number of iterations
+   * @param distance - Distance function to use between the points
    * @constructor
    */
 
@@ -42,19 +42,16 @@ export default class KMeansResult {
    */
   nearest(data: number[][]): number[] {
     const clusterID = new Array<number>(data.length);
-    const centroids = this.centroids.map((centroid) => {
-      return centroid.centroid;
-    });
-    return updateClusterID(data, centroids, clusterID, this.distance);
+    return updateClusterID(data, this.centroids, clusterID, this.distance);
   }
 
   /**
-   * Returns a KMeansResult with the error and size of the cluster
+   * Returns the error and size of each cluster
    * @ignore
    * @param {Array<Array<number>>} data - the [x,y,z,...] points to cluster
    * @return {KMeansResult}
    */
-  computeInformation(data: number[][]): KMeansResult {
+  computeInformation(data: number[][]): CentroidWithInformation[] {
     let enrichedCentroids = this.centroids.map((centroid) => {
       return {
         centroid,
@@ -80,12 +77,6 @@ export default class KMeansResult {
       }
     }
 
-    return new KMeansResult(
-      this.clusters,
-      enrichedCentroids,
-      this.converged,
-      this.iterations,
-      this.distance,
-    );
+    return enrichedCentroids;
   }
 }

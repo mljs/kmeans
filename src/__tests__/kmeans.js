@@ -15,8 +15,8 @@ describe('K-means', () => {
 
     let ans = kmeans(data, 2, { initialization: centers });
     expect(ans.clusters).toStrictEqual([0, 0, 1, 1]);
-    expect(ans.centroids[0].centroid).toStrictEqual([1, 1.5, 1]);
-    expect(ans.centroids[1].centroid).toStrictEqual([-1, -1, -1.25]);
+    expect(ans.centroids[0]).toStrictEqual([1, 1.5, 1]);
+    expect(ans.centroids[1]).toStrictEqual([-1, -1, -1.25]);
     expect(ans.converged).toBe(true);
     expect(ans.iterations).toBe(2);
   });
@@ -39,8 +39,9 @@ describe('K-means', () => {
     });
     for (let val of ans) {
       expect(val.clusters).toStrictEqual([0, 0, 1, 1]);
-      expect(val.centroids[0].centroid).toStrictEqual([1, 1.5, 1]);
-      expect(val.centroids[1].centroid).toStrictEqual([-1, -1, -1.25]);
+
+      expect(val.centroids[0]).toStrictEqual([1, 1.5, 1]);
+      expect(val.centroids[1]).toStrictEqual([-1, -1, -1.25]);
     }
   });
 
@@ -127,8 +128,8 @@ describe('K-means', () => {
 
     let ans = kmeans(data, 2, { initialization: centers, maxIterations: 1 });
     expect(ans.clusters).toStrictEqual([0, 0, 1, 1]);
-    expect(ans.centroids[0].centroid).toStrictEqual([1, 1.5, 1]);
-    expect(ans.centroids[1].centroid).toStrictEqual([-1, -1, -1.25]);
+    expect(ans.centroids[0]).toStrictEqual([1, 1.5, 1]);
+    expect(ans.centroids[1]).toStrictEqual([-1, -1, -1.25]);
     expect(ans.converged).toBe(false);
     expect(ans.iterations).toBe(1);
   });
@@ -154,8 +155,8 @@ describe('K-means', () => {
       seed: 0,
     });
     expect(ans.clusters).toStrictEqual([1, 1, 0, 0, 1, 1, 1]);
-    expect(ans.centroids[0].centroid).toStrictEqual([4.5, 15.5, 1]);
-    expect(ans.centroids[1].centroid).toStrictEqual([0.2, 0.4, 0.1]);
+    expect(ans.centroids[0]).toStrictEqual([4.5, 15.5, 1]);
+    expect(ans.centroids[1]).toStrictEqual([0.2, 0.4, 0.1]);
     expect(ans.converged).toBe(true);
     expect(ans.iterations).toBe(3);
   });
@@ -176,9 +177,10 @@ describe('K-means', () => {
       ],
     });
 
-    expect(result.centroids[2].size).toBe(0);
+    const information = result.computeInformation(data);
+    expect(information[2].size).toBe(0);
     // The centroid should have the same value than at initialization
-    expect(result.centroids[2].centroid).toStrictEqual([0.5, 0.5]);
-    expect(result.centroids[2].error).toBe(-1);
+    expect(information[2].centroid).toStrictEqual([0.5, 0.5]);
+    expect(information[2].error).toBe(-1);
   });
 });

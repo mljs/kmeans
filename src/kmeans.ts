@@ -84,7 +84,7 @@ function* kmeansGenerator(
   let stepResult;
   while (!converged && stepNumber < options.maxIterations) {
     stepResult = step(centers, data, clusterID, K, options, ++stepNumber);
-    yield stepResult.computeInformation(data);
+    yield stepResult;
     converged = stepResult.converged;
     centers = stepResult.centroids;
   }
@@ -166,6 +166,6 @@ export default function kmeans(data, K: number, options) {
       converged = stepResult.converged;
       centers = stepResult.centroids;
     }
-    return stepResult.computeInformation(data);
+    return stepResult;
   }
 }
