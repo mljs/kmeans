@@ -1,4 +1,4 @@
-import kmeans from '../kmeans';
+import { kmeans, kmeansGenerator } from '../kmeans';
 
 describe('K-means', () => {
   it('Simple case', () => {
@@ -21,7 +21,7 @@ describe('K-means', () => {
     expect(ans.iterations).toBe(2);
   });
 
-  it('Simple case `withIterations`', () => {
+  it('With generator', () => {
     let data = [
       [1, 1, 1],
       [1, 2, 1],
@@ -33,9 +33,8 @@ describe('K-means', () => {
       [-1, -1, -1],
     ];
 
-    let ans = kmeans(data, 2, {
+    let ans = kmeansGenerator(data, 2, {
       initialization: centers,
-      withIterations: true,
     });
     for (let val of ans) {
       expect(val.clusters).toStrictEqual([0, 0, 1, 1]);
@@ -95,7 +94,7 @@ describe('K-means', () => {
           [1, 2],
         ],
         2,
-        { initialization: [1] },
+        { initialization: [[1]] },
       ),
     ).toThrow(/The initial centers should have the same length as K/);
     expect(

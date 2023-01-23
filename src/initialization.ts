@@ -84,9 +84,13 @@ interface Options {
 }
 
 // Implementation inspired from scikit
-export function kmeanspp(X: Matrix, K: number, options: Partial<Options> = {}) {
-  X = new Matrix(X);
-  const nSamples = X.rows;
+export function kmeanspp(
+  X: number[][],
+  K: number,
+  options: Partial<Options> = {},
+) {
+  const m = new Matrix(X);
+  const nSamples = m.rows;
   const random = new Random(options.seed);
   // Set the number of trials
   const centers: Array<Array<number>> = [];
@@ -94,12 +98,12 @@ export function kmeanspp(X: Matrix, K: number, options: Partial<Options> = {}) {
 
   // Pick the first center at random from the dataset
   const firstCenterIdx = random.randInt(nSamples);
-  centers.push(X.getRow(firstCenterIdx));
+  centers.push(m.getRow(firstCenterIdx));
 
   // Init closest distances
-  let closestDistSquared = new Matrix(1, X.rows);
-  for (let i = 0; i < X.rows; i++) {
-    closestDistSquared.set(0, i, squaredEuclidean(X.getRow(i), centers[0]));
+  let closestDistSquared = new Matrix(1, m.rows);
+  for (let i = 0; i < m.rows; i++) {
+    closestDistSquared.set(0, i, squaredEuclidean(m.getRow(i), centers[0]));
   }
   let cumSumClosestDistSquared = [cumSum(closestDistSquared.getRow(0))];
   const factor = 1 / cumSumClosestDistSquared[0][nSamples - 1];
@@ -113,8 +117,8 @@ export function kmeanspp(X: Matrix, K: number, options: Partial<Options> = {}) {
       probabilities: probabilities[0],
     });
 
-    const candidates = X.selection(candidateIdx, range(X.columns));
-    const distanceToCandidates = euclideanDistances(candidates, X);
+    const candidates = m.selection(candidateIdx, range(m.columns));
+    const distanceToCandidates = euclideanDistances(candidates, m);
 
     let bestCandidate;
     let bestPot;
@@ -131,7 +135,7 @@ export function kmeanspp(X: Matrix, K: number, options: Partial<Options> = {}) {
         bestDistSquared = newDistSquared;
       }
     }
-    centers[i] = X.getRow(bestCandidate);
+    centers[i] = m.getRow(bestCandidate);
     closestDistSquared = bestDistSquared;
     cumSumClosestDistSquared = [cumSum(closestDistSquared.getRow(0))];
     probabilities = Matrix.mul(
