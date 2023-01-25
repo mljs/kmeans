@@ -130,7 +130,7 @@ export function* kmeansGenerator(
  *  * `'centroids'`: Array with the resulting centroids.
  *  * `'iterations'`: Number of iterations that took to converge
  */
-export function kmeans(data, K: number, options: Options) {
+export function kmeans(data: number[][], K: number, options: Options) {
   const definedOptions = getDefinedOptions(options);
 
   validateKmeansInput(data, K);

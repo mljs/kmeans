@@ -10,7 +10,7 @@ import Random from 'ml-random';
  * @param {number} seed - seed for random number generation
  * @return {Array<Array<number>>} - Initial random points
  */
-export function random(data: Array<Array<number>>, K: number, seed?: number) {
+export function random(data: number[][], K: number, seed?: number) {
   const random = new Random(seed);
   return random.choice(data, { size: K });
 }
@@ -25,11 +25,11 @@ export function random(data: Array<Array<number>>, K: number, seed?: number) {
  * @return {Array<Array<number>>} - Initial random points
  */
 export function mostDistant(
-  data: Array<Array<number>>,
+  data: number[][],
   K: number,
-  distanceMatrix: Array<Array<number>>,
+  distanceMatrix: number[][],
   seed?: number,
-): Array<Array<number>> {
+): number[][] {
   const random = new Random(seed);
   let ans = new Array<number>(K);
   // chooses a random point as initial cluster
@@ -92,8 +92,9 @@ export function kmeanspp(
   const m = new Matrix(X);
   const nSamples = m.rows;
   const random = new Random(options.seed);
+
   // Set the number of trials
-  const centers: Array<Array<number>> = [];
+  const centers: number[][] = [];
   const localTrials = options.localTrials || 2 + Math.floor(Math.log(K));
 
   // Pick the first center at random from the dataset
@@ -107,29 +108,29 @@ export function kmeanspp(
   }
   let cumSumClosestDistSquared = [cumSum(closestDistSquared.getRow(0))];
   const factor = 1 / cumSumClosestDistSquared[0][nSamples - 1];
-  let probabilities = Matrix.mul(closestDistSquared, factor);
+  let probabilities: Matrix = Matrix.mul(closestDistSquared, factor);
 
   // Iterate over the remaining centers
   for (let i = 1; i < K; i++) {
-    const candidateIdx = random.choice(nSamples, {
+    const candidateIdx: number[] = random.choice(nSamples, {
       replace: true,
       size: localTrials,
-      probabilities: probabilities[0],
+      probabilities: probabilities.getRow(0),
     });
 
     const candidates = m.selection(candidateIdx, range(m.columns));
     const distanceToCandidates = euclideanDistances(candidates, m);
 
-    let bestCandidate;
-    let bestPot;
-    let bestDistSquared;
+    let bestCandidate = Infinity;
+    let bestPot = Infinity;
+    let bestDistSquared = closestDistSquared;
 
     for (let j = 0; j < localTrials; j++) {
       const newDistSquared = Matrix.min(closestDistSquared, [
         distanceToCandidates.getRow(j),
       ]);
       const newPot = newDistSquared.sum();
-      if (bestCandidate === undefined || newPot < bestPot) {
+      if (newPot < bestPot) {
         bestCandidate = candidateIdx[j];
         bestPot = newPot;
         bestDistSquared = newDistSquared;
@@ -156,7 +157,7 @@ function euclideanDistances(A: Matrix, B: Matrix) {
   return result;
 }
 
-function range(l: number): Array<number> {
+function range(l: number): number[] {
   let r: Array<number> = [];
   for (let i = 0; i < l; i++) {
     r.push(i);
