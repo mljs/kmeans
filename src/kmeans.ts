@@ -1,6 +1,6 @@
 import { squaredEuclidean } from 'ml-distance-euclidean';
 
-import KMeansResult from './KMeansResult';
+import { KMeansResult } from './KMeansResult';
 import { assertUnreachable, validateKmeansInput } from './assert';
 import { mostDistant, random, kmeanspp } from './initialization';
 import {
@@ -30,14 +30,14 @@ const defaultOptions = {
  */
 
 export type InitializationMethod = 'kmeans++' | 'random' | 'mostDistant';
-interface OptionsWithDefault {
+export interface OptionsWithDefault {
   distanceFunction?: (p: number[], q: number[]) => number;
   tolerance?: number;
   initialization?: InitializationMethod | number[][];
   maxIterations?: number;
 }
 
-interface OptionsWithoutDefault {
+export interface OptionsWithoutDefault {
   seed?: number;
 }
 

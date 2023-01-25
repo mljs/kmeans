@@ -5,7 +5,7 @@ export interface CentroidWithInformation {
   error: number;
   size: number;
 }
-export default class KMeansResult {
+export class KMeansResult {
   /**
    * Result of the kmeans algorithm
    * @param clusters - the cluster identifier for each data dot

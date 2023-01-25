@@ -1,4 +1,4 @@
-import KMeansResult from '../KMeansResult';
+import { KMeansResult } from '../KMeansResult';
 import { kmeans, kmeansGenerator } from '../kmeans';
 
 describe('K-means', () => {
