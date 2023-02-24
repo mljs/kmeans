@@ -28,7 +28,7 @@ each observation belongs to the cluster with the nearest mean.
 ## Example
 
 ```js
-const kmeans = require('ml-kmeans');
+const { kmeans } = require('ml-kmeans');
 
 let data = [
   [1, 1, 1],
@@ -46,12 +46,19 @@ console.log(ans);
 /*
 KMeansResult {
   clusters: [ 0, 0, 1, 1 ],
-  centroids: 
-   [ { centroid: [ 1, 1.5, 1 ], error: 0.25, size: 2 },
-     { centroid: [ -1, -1, -1.25 ], error: 0.0625, size: 2 } ],
+  centroids: [ [ 1, 1.5, 1 ], [ -1, -1, -1.25 ] ],
   converged: true,
-  iterations: 1
+  iterations: 2,
+  distance: [Function: squaredEuclidean]
 }
+*/
+
+console.log(ans.computeInformation(data));
+/*
+[
+  { centroid: [ 1, 1.5, 1 ], error: 0.5, size: 2 },
+  { centroid: [ -1, -1, -1.25 ], error: 0.125, size: 2 }
+]
 */
 ```
 
