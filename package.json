@@ -2,12 +2,11 @@
   "name": "ml-kmeans",
   "version": "5.0.0",
   "description": "K-Means clustering",
-  "main": "./lib/index.js",
-  "module": "./lib-esm/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./lib/kmeans.js",
+  "module": "./lib-esm/kmeans.js",
+  "types": "./lib/kmeans.d.ts",
   "files": [
     "src",
-    "kmeans.js",
     "lib",
     "lib-esm"
   ],
