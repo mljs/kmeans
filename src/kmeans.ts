@@ -157,6 +157,9 @@ export function kmeans(data: number[][], K: number, options: Options) {
     converged = stepResult.converged;
     centers = stepResult.centroids;
   }
+  if (!stepResult) {
+    throw new Error('unreachable: no kmeans step executed');
+  }
   return stepResult;
 }
 
