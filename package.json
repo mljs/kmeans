@@ -1,6 +1,6 @@
 {
   "name": "ml-kmeans",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "K-Means clustering",
   "main": "./lib/kmeans.js",
   "module": "./lib-esm/kmeans.js",
