@@ -1,6 +1,7 @@
 import { squaredEuclidean } from 'ml-distance-euclidean';
 
-import KMeansResult from './KMeansResult';
+import { KMeansResult } from './KMeansResult';
+import { assertUnreachable, validateKmeansInput } from './assert';
 import { mostDistant, random, kmeanspp } from './initialization';
 import {
   updateClusterID,
@@ -12,8 +13,7 @@ import {
 const defaultOptions = {
   maxIterations: 100,
   tolerance: 1e-6,
-  withIterations: false,
-  initialization: 'kmeans++',
+  initialization: 'kmeans++' as InitializationMethod,
   distanceFunction: squaredEuclidean,
 };
 
@@ -28,14 +28,37 @@ const defaultOptions = {
  * @param {number} iterations - Current number of iterations
  * @return {KMeansResult}
  */
-function step(centers, data, clusterID, K, options, iterations) {
+
+export type InitializationMethod = 'kmeans++' | 'random' | 'mostDistant';
+export interface OptionsWithDefault {
+  distanceFunction?: (p: number[], q: number[]) => number;
+  tolerance?: number;
+  initialization?: InitializationMethod | number[][];
+  maxIterations?: number;
+}
+
+export interface OptionsWithoutDefault {
+  seed?: number;
+}
+
+export type Options = OptionsWithDefault & OptionsWithoutDefault;
+type DefinedOptions = Required<OptionsWithDefault> & OptionsWithoutDefault;
+
+function step(
+  centers: number[][],
+  data: number[][],
+  clusterID: number[],
+  K: number,
+  options: DefinedOptions,
+  iterations: number,
+): KMeansResult {
   clusterID = updateClusterID(
     data,
     centers,
     clusterID,
     options.distanceFunction,
   );
-  let newCenters = updateCenters(centers, data, clusterID, K);
+  let newCenters: number[][] = updateCenters(centers, data, clusterID, K);
   let converged = hasConverged(
     newCenters,
     centers,
@@ -60,13 +83,29 @@ function step(centers, data, clusterID, K, options, iterations) {
  * @param {number} K - Number of clusters
  * @param {object} [options] - Option object
  */
-function* kmeansGenerator(centers, data, clusterID, K, options) {
+export function* kmeansGenerator(
+  data: number[][],
+  K: number,
+  options: Options,
+) {
+  const definedOptions = getDefinedOptions(options);
+  validateKmeansInput(data, K);
+  let centers = initializeCenters(data, K, definedOptions);
+  let clusterID: number[] = new Array(data.length);
+
   let converged = false;
   let stepNumber = 0;
   let stepResult;
-  while (!converged && stepNumber < options.maxIterations) {
-    stepResult = step(centers, data, clusterID, K, options, ++stepNumber);
-    yield stepResult.computeInformation(data);
+  while (!converged && stepNumber < definedOptions.maxIterations) {
+    stepResult = step(
+      centers,
+      data,
+      clusterID,
+      K,
+      definedOptions,
+      ++stepNumber,
+    );
+    yield stepResult;
     converged = stepResult.converged;
     centers = stepResult.centroids;
   }
@@ -79,7 +118,6 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
  * @param {object} [options] - Option object
  * @param {number} [options.maxIterations = 100] - Maximum of iterations allowed
  * @param {number} [options.tolerance = 1e-6] - Error tolerance
- * @param {boolean} [options.withIterations = false] - Store clusters and centroids for each iteration
  * @param {function} [options.distanceFunction = squaredDistance] - Distance function to use between the points
  * @param {number} [options.seed] - Seed for random initialization.
  * @param {string|Array<Array<number>>} [options.initialization = 'kmeans++'] - K centers in format [x,y,z,...] or a method for initialize the data:
@@ -92,16 +130,45 @@ function* kmeansGenerator(centers, data, clusterID, K, options) {
  *  * `'centroids'`: Array with the resulting centroids.
  *  * `'iterations'`: Number of iterations that took to converge
  */
-export default function kmeans(data, K, options) {
-  options = Object.assign({}, defaultOptions, options);
+export function kmeans(data: number[][], K: number, options: Options) {
+  const definedOptions = getDefinedOptions(options);
 
-  if (K <= 0 || K > data.length || !Number.isInteger(K)) {
-    throw new Error(
-      'K should be a positive integer smaller than the number of points',
-    );
+  validateKmeansInput(data, K);
+  let centers = initializeCenters(data, K, definedOptions);
+
+  // infinite loop until convergence
+  if (definedOptions.maxIterations === 0) {
+    definedOptions.maxIterations = Number.MAX_VALUE;
   }
 
-  let centers;
+  let clusterID: number[] = new Array(data.length);
+  let converged = false;
+  let stepNumber = 0;
+  let stepResult;
+  while (!converged && stepNumber < definedOptions.maxIterations) {
+    stepResult = step(
+      centers,
+      data,
+      clusterID,
+      K,
+      definedOptions,
+      ++stepNumber,
+    );
+    converged = stepResult.converged;
+    centers = stepResult.centroids;
+  }
+  if (!stepResult) {
+    throw new Error('unreachable: no kmeans step executed');
+  }
+  return stepResult;
+}
+
+function initializeCenters(
+  data: number[][],
+  K: number,
+  options: DefinedOptions,
+) {
+  let centers: number[][];
   if (Array.isArray(options.initialization)) {
     if (options.initialization.length !== K) {
       throw new Error('The initial centers should have the same length as K');
@@ -125,29 +192,15 @@ export default function kmeans(data, K, options) {
         );
         break;
       default:
-        throw new Error(
-          `Unknown initialization method: "${options.initialization}"`,
+        assertUnreachable(
+          options.initialization,
+          'Unknown initialization method',
         );
     }
   }
+  return centers;
+}
 
-  // infinite loop until convergence
-  if (options.maxIterations === 0) {
-    options.maxIterations = Number.MAX_VALUE;
-  }
-
-  let clusterID = new Array(data.length);
-  if (options.withIterations) {
-    return kmeansGenerator(centers, data, clusterID, K, options);
-  } else {
-    let converged = false;
-    let stepNumber = 0;
-    let stepResult;
-    while (!converged && stepNumber < options.maxIterations) {
-      stepResult = step(centers, data, clusterID, K, options, ++stepNumber);
-      converged = stepResult.converged;
-      centers = stepResult.centroids;
-    }
-    return stepResult.computeInformation(data);
-  }
+function getDefinedOptions(options: Options): DefinedOptions {
+  return { ...defaultOptions, ...options };
 }

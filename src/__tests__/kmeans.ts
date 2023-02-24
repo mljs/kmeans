@@ -1,4 +1,5 @@
-import kmeans from '../kmeans';
+import { KMeansResult } from '../KMeansResult';
+import { kmeans, kmeansGenerator } from '../kmeans';
 
 describe('K-means', () => {
   it('Simple case', () => {
@@ -13,15 +14,17 @@ describe('K-means', () => {
       [-1, -1, -1],
     ];
 
-    let ans = kmeans(data, 2, { initialization: centers });
+    let ans: KMeansResult | undefined = kmeans(data, 2, {
+      initialization: centers,
+    });
     expect(ans.clusters).toStrictEqual([0, 0, 1, 1]);
-    expect(ans.centroids[0].centroid).toStrictEqual([1, 1.5, 1]);
-    expect(ans.centroids[1].centroid).toStrictEqual([-1, -1, -1.25]);
+    expect(ans.centroids[0]).toStrictEqual([1, 1.5, 1]);
+    expect(ans.centroids[1]).toStrictEqual([-1, -1, -1.25]);
     expect(ans.converged).toBe(true);
     expect(ans.iterations).toBe(2);
   });
 
-  it('Simple case `withIterations`', () => {
+  it('With generator', () => {
     let data = [
       [1, 1, 1],
       [1, 2, 1],
@@ -33,14 +36,14 @@ describe('K-means', () => {
       [-1, -1, -1],
     ];
 
-    let ans = kmeans(data, 2, {
+    let ans = kmeansGenerator(data, 2, {
       initialization: centers,
-      withIterations: true,
     });
     for (let val of ans) {
       expect(val.clusters).toStrictEqual([0, 0, 1, 1]);
-      expect(val.centroids[0].centroid).toStrictEqual([1, 1.5, 1]);
-      expect(val.centroids[1].centroid).toStrictEqual([-1, -1, -1.25]);
+
+      expect(val.centroids[0]).toStrictEqual([1, 1.5, 1]);
+      expect(val.centroids[1]).toStrictEqual([-1, -1, -1.25]);
     }
   });
 
@@ -66,40 +69,34 @@ describe('K-means', () => {
   });
 
   it('Passing empty data or more centers than data', () => {
-    expect(kmeans.bind(null, [], 2)).toThrow(
+    expect(() => kmeans([], 2, {})).toThrow(
       /K should be a positive integer smaller than the number of points/,
     );
-    expect(kmeans.bind(null, [[1, 2]], 2)).toThrow(
+    expect(() => kmeans([[1, 2]], 2, {})).toThrow(
       /K should be a positive integer smaller than the number of points/,
     );
-
-    expect(kmeans.bind(null, [[1, 2]])).toThrow(
+    expect(() => kmeans([[1, 2]], -1, {})).toThrow(
       /K should be a positive integer smaller than the number of points/,
     );
-    expect(kmeans.bind(null, [[1, 2]], -1)).toThrow(
-      /K should be a positive integer smaller than the number of points/,
-    );
-    expect(kmeans.bind(null, [[1, 2]], 1.5)).toThrow(
+    expect(() => kmeans([[1, 2]], 1.5, {})).toThrow(
       /K should be a positive integer smaller than the number of points/,
     );
   });
 
   it('Passing wrong initialization parameter', () => {
-    expect(
-      kmeans.bind(
-        null,
+    expect(() =>
+      kmeans(
         [
           [1, 2],
           [1, 2],
           [1, 2],
         ],
         2,
-        { initialization: [1] },
+        { initialization: [[1]] },
       ),
     ).toThrow(/The initial centers should have the same length as K/);
-    expect(
-      kmeans.bind(
-        null,
+    expect(() =>
+      kmeans(
         [
           [1, 2],
           [1, 2],
@@ -107,6 +104,7 @@ describe('K-means', () => {
         ],
         2,
         {
+          //@ts-expect-error "lol" is not an allowed value
           initialization: 'lol',
         },
       ),
@@ -127,8 +125,8 @@ describe('K-means', () => {
 
     let ans = kmeans(data, 2, { initialization: centers, maxIterations: 1 });
     expect(ans.clusters).toStrictEqual([0, 0, 1, 1]);
-    expect(ans.centroids[0].centroid).toStrictEqual([1, 1.5, 1]);
-    expect(ans.centroids[1].centroid).toStrictEqual([-1, -1, -1.25]);
+    expect(ans.centroids[0]).toStrictEqual([1, 1.5, 1]);
+    expect(ans.centroids[1]).toStrictEqual([-1, -1, -1.25]);
     expect(ans.converged).toBe(false);
     expect(ans.iterations).toBe(1);
   });
@@ -154,8 +152,8 @@ describe('K-means', () => {
       seed: 0,
     });
     expect(ans.clusters).toStrictEqual([1, 1, 0, 0, 1, 1, 1]);
-    expect(ans.centroids[0].centroid).toStrictEqual([4.5, 15.5, 1]);
-    expect(ans.centroids[1].centroid).toStrictEqual([0.2, 0.4, 0.1]);
+    expect(ans.centroids[0]).toStrictEqual([4.5, 15.5, 1]);
+    expect(ans.centroids[1]).toStrictEqual([0.2, 0.4, 0.1]);
     expect(ans.converged).toBe(true);
     expect(ans.iterations).toBe(3);
   });
@@ -175,10 +173,12 @@ describe('K-means', () => {
         [0.5, 0.5],
       ],
     });
-
-    expect(result.centroids[2].size).toBe(0);
-    // The centroid should have the same value than at initialization
-    expect(result.centroids[2].centroid).toStrictEqual([0.5, 0.5]);
-    expect(result.centroids[2].error).toBeNull();
+    if (result !== undefined) {
+      const information = result.computeInformation(data);
+      expect(information[2].size).toBe(0);
+      // The centroid should have the same value than at initialization
+      expect(information[2].centroid).toStrictEqual([0.5, 0.5]);
+      expect(information[2].error).toBe(-1);
+    }
   });
 });

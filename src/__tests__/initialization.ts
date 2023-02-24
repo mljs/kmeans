@@ -1,7 +1,7 @@
 import { squaredEuclidean } from 'ml-distance-euclidean';
 
 import * as init from '../initialization';
-import kmeans from '../kmeans';
+import { kmeans } from '../kmeans';
 import * as utils from '../utils';
 
 describe('Initialization methods', () => {
@@ -39,6 +39,7 @@ describe('Initialization methods', () => {
     ];
 
     let ans = kmeans(data, 2, { initialization: 'mostDistant' });
+
     expect(ans.centroids).toHaveLength(2);
   });
 

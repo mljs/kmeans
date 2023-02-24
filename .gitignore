@@ -5,3 +5,6 @@ logs
 npm-debug.log*
 coverage
 /kmeans.js
+
+lib 
+lib-esm

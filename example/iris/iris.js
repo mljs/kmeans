@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { getNumbers } from 'ml-dataset-iris';
 
-import kmeans from '../../src/kmeans';
+import { kmeans } from '../../src/kmeans';
 
 let values = getNumbers();
 values = values.map((val) => val.slice(0, 2));
