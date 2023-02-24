@@ -17,13 +17,11 @@ describe('K-means', () => {
     let ans: KMeansResult | undefined = kmeans(data, 2, {
       initialization: centers,
     });
-    if (ans !== undefined) {
-      expect(ans.clusters).toStrictEqual([0, 0, 1, 1]);
-      expect(ans.centroids[0]).toStrictEqual([1, 1.5, 1]);
-      expect(ans.centroids[1]).toStrictEqual([-1, -1, -1.25]);
-      expect(ans.converged).toBe(true);
-      expect(ans.iterations).toBe(2);
-    }
+    expect(ans.clusters).toStrictEqual([0, 0, 1, 1]);
+    expect(ans.centroids[0]).toStrictEqual([1, 1.5, 1]);
+    expect(ans.centroids[1]).toStrictEqual([-1, -1, -1.25]);
+    expect(ans.converged).toBe(true);
+    expect(ans.iterations).toBe(2);
   });
 
   it('With generator', () => {
@@ -62,14 +60,12 @@ describe('K-means', () => {
     ];
 
     let ans = kmeans(data, 2, { initialization: centers });
-    if (ans !== undefined) {
-      expect(
-        ans.nearest([
-          [10, 10, 1],
-          [-2, -2, -2],
-        ]),
-      ).toStrictEqual([0, 1]);
-    }
+    expect(
+      ans.nearest([
+        [10, 10, 1],
+        [-2, -2, -2],
+      ]),
+    ).toStrictEqual([0, 1]);
   });
 
   it('Passing empty data or more centers than data', () => {
@@ -128,13 +124,11 @@ describe('K-means', () => {
     ];
 
     let ans = kmeans(data, 2, { initialization: centers, maxIterations: 1 });
-    if (ans !== undefined) {
-      expect(ans.clusters).toStrictEqual([0, 0, 1, 1]);
-      expect(ans.centroids[0]).toStrictEqual([1, 1.5, 1]);
-      expect(ans.centroids[1]).toStrictEqual([-1, -1, -1.25]);
-      expect(ans.converged).toBe(false);
-      expect(ans.iterations).toBe(1);
-    }
+    expect(ans.clusters).toStrictEqual([0, 0, 1, 1]);
+    expect(ans.centroids[0]).toStrictEqual([1, 1.5, 1]);
+    expect(ans.centroids[1]).toStrictEqual([-1, -1, -1.25]);
+    expect(ans.converged).toBe(false);
+    expect(ans.iterations).toBe(1);
   });
 
   it('Non limited convergence', () => {
@@ -157,13 +151,11 @@ describe('K-means', () => {
       maxIterations: 0,
       seed: 0,
     });
-    if (ans !== undefined) {
-      expect(ans.clusters).toStrictEqual([1, 1, 0, 0, 1, 1, 1]);
-      expect(ans.centroids[0]).toStrictEqual([4.5, 15.5, 1]);
-      expect(ans.centroids[1]).toStrictEqual([0.2, 0.4, 0.1]);
-      expect(ans.converged).toBe(true);
-      expect(ans.iterations).toBe(3);
-    }
+    expect(ans.clusters).toStrictEqual([1, 1, 0, 0, 1, 1, 1]);
+    expect(ans.centroids[0]).toStrictEqual([4.5, 15.5, 1]);
+    expect(ans.centroids[1]).toStrictEqual([0.2, 0.4, 0.1]);
+    expect(ans.converged).toBe(true);
+    expect(ans.iterations).toBe(3);
   });
 
   it('empty clusters', () => {
