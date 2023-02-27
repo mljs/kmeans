@@ -12,6 +12,13 @@
 
 <a name="4.2.1"></a>
 
+## [6.0.1](https://github.com/mljs/kmeans/compare/v6.0.0...v6.0.1) (2023-02-27)
+
+
+### Documentation
+
+* update readme example ([c6af4b0](https://github.com/mljs/kmeans/commit/c6af4b0eccfdde787465783320d7387f2ee394a3))
+
 ## [6.0.0](https://github.com/mljs/kmeans/compare/v5.0.0...v6.0.0) (2023-02-24)
 
 
