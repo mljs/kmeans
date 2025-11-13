@@ -19,7 +19,7 @@
     "prettier": "prettier --check src example",
     "prettier-write": "prettier --write src example",
     "test": "npm run test-only && npm run eslint && npm run prettier && npm run check-types",
-    "test-only": "jest --coverage",
+    "test-only": "vitest --coverage",
     "tsc": "npm run clean && npm run tsc-cjs && npm run tsc-esm",
     "tsc-cjs": "tsc --project tsconfig.cjs.json",
     "tsc-esm": "tsc --project tsconfig.esm.json"
@@ -46,15 +46,15 @@
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.20.11",
     "@babel/preset-typescript": "^7.18.6",
-    "@types/jest": "^29.2.5",
+    "@vitest/coverage-v8": "^4.0.8",
     "eslint": "^8.10.0",
     "eslint-config-cheminfo-typescript": "^11.2.2",
     "esm": "^3.2.25",
-    "jest": "^27.5.1",
     "ml-dataset-iris": "^1.2.1",
     "prettier": "^2.8.3",
     "rimraf": "^3.0.2",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "vitest": "^4.0.8"
   },
   "dependencies": {
     "ml-distance-euclidean": "^2.0.0",
