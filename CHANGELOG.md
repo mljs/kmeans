@@ -14,14 +14,13 @@
 
 ## [6.0.0](https://github.com/mljs/kmeans/compare/v5.0.0...v6.0.0) (2023-02-24)
 
-
 ### ⚠ BREAKING CHANGES
 
-* remove withIterations options and instead export generatorKmeans
+- remove withIterations options and instead export generatorKmeans
 
 ### Miscellaneous Chores
 
-* setup project with TypeScript ([#18](https://github.com/mljs/kmeans/issues/18)) ([878bf1c](https://github.com/mljs/kmeans/commit/878bf1c9accef575ac48a35b71be18ac30adbe4a))
+- setup project with TypeScript ([#18](https://github.com/mljs/kmeans/issues/18)) ([878bf1c](https://github.com/mljs/kmeans/commit/878bf1c9accef575ac48a35b71be18ac30adbe4a))
 
 ## [4.2.1](https://github.com/mljs/kmeans/compare/v4.2.0...v4.2.1) (2018-08-15)
 

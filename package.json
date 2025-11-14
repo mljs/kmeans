@@ -2,27 +2,26 @@
   "name": "ml-kmeans",
   "version": "6.0.0",
   "description": "K-Means clustering",
-  "main": "./lib/kmeans.js",
-  "module": "./lib-esm/kmeans.js",
-  "types": "./lib/kmeans.d.ts",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js"
+  },
   "files": [
     "src",
-    "lib",
-    "lib-esm"
+    "lib"
   ],
   "scripts": {
     "check-types": "tsc --noEmit",
-    "clean": "rimraf lib lib-esm",
-    "eslint": "eslint src",
-    "eslint-fix": "npm run eslint -- --fix",
+    "clean": "rimraf coverage dist lib",
+    "eslint": "eslint . --cache",
+    "eslint-fix": "eslint . --cache --fix",
     "prepack": "npm run tsc",
-    "prettier": "prettier --check src example",
-    "prettier-write": "prettier --write src example",
-    "test": "npm run test-only && npm run eslint && npm run prettier && npm run check-types",
-    "test-only": "vitest --coverage",
-    "tsc": "npm run clean && npm run tsc-cjs && npm run tsc-esm",
-    "tsc-cjs": "tsc --project tsconfig.cjs.json",
-    "tsc-esm": "tsc --project tsconfig.esm.json"
+    "prettier": "prettier --check .",
+    "prettier-write": "prettier --write .",
+    "test": "npm run test-only && npm run check-types && npm run eslint && npm run prettier",
+    "test-only": "vitest run --coverage",
+    "tsc": "npm run clean && npm run tsc-build",
+    "tsc-build": "tsc --project tsconfig.build.json"
   },
   "repository": {
     "type": "git",
@@ -44,22 +43,24 @@
   },
   "homepage": "https://github.com/mljs/kmeans",
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.20.11",
-    "@babel/preset-typescript": "^7.18.6",
+    "@babel/plugin-transform-modules-commonjs": "^7.27.1",
+    "@babel/preset-typescript": "^7.28.5",
+    "@types/node": "^24.10.1",
     "@vitest/coverage-v8": "^4.0.8",
-    "eslint": "^8.10.0",
-    "eslint-config-cheminfo-typescript": "^11.2.2",
+    "@zakodium/tsconfig": "^1.0.2",
+    "eslint": "^9.39.1",
+    "eslint-config-cheminfo-typescript": "^21.0.1",
     "esm": "^3.2.25",
     "ml-dataset-iris": "^1.2.1",
-    "prettier": "^2.8.3",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.9.4",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.1.0",
+    "typescript": "^5.9.3",
     "vitest": "^4.0.8"
   },
   "dependencies": {
-    "ml-distance-euclidean": "^2.0.0",
-    "ml-matrix": "^6.9.0",
-    "ml-nearest-vector": "^2.0.1",
-    "ml-random": "^0.5.0"
+    "ml-distance-euclidean": "^3.0.0",
+    "ml-matrix": "^6.12.1",
+    "ml-nearest-vector": "^3.0.0",
+    "ml-random": "^2.0.0"
   }
 }

@@ -1,25 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Initialization methods kmeans++ 1`] = `
-Array [
-  Array [
-    -1,
-    -1.25,
-    -1.375,
-  ],
-  Array [
-    1,
-    0.75,
-    1.125,
-  ],
-  Array [
-    1,
-    1.75,
-    1.125,
-  ],
-]
-`;
-
 exports[`kmeans++ 1`] = `
 [
   [

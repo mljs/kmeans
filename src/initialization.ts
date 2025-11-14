@@ -1,14 +1,14 @@
 import { squaredEuclidean } from 'ml-distance-euclidean';
 import { Matrix } from 'ml-matrix';
-import Random from 'ml-random';
+import { Random } from 'ml-random';
 
 /**
  * Choose K different random points from the original data
  * @ignore
- * @param {Array<Array<number>>} data - Points in the format to cluster [x,y,z,...]
- * @param {number} K - number of clusters
- * @param {number} seed - seed for random number generation
- * @return {Array<Array<number>>} - Initial random points
+ * @param data - Points in the format to cluster [x,y,z,...]
+ * @param K - number of clusters
+ * @param seed - seed for random number generation
+ * @returns - Initial random points
  */
 export function random(data: number[][], K: number, seed?: number) {
   const random = new Random(seed);
@@ -18,11 +18,11 @@ export function random(data: number[][], K: number, seed?: number) {
 /**
  * Chooses the most distant points to a first random pick
  * @ignore
- * @param {Array<Array<number>>} data - Points in the format to cluster [x,y,z,...]
- * @param {number} K - number of clusters
- * @param {Array<Array<number>>} distanceMatrix - matrix with the distance values
- * @param {number} seed - seed for random number generation
- * @return {Array<Array<number>>} - Initial random points
+ * @param data - Points in the format to cluster [x,y,z,...]
+ * @param K - number of clusters
+ * @param distanceMatrix - matrix with the distance values
+ * @param seed - seed for random number generation
+ * @returns - Initial random points
  */
 export function mostDistant(
   data: number[][],
@@ -31,13 +31,13 @@ export function mostDistant(
   seed?: number,
 ): number[][] {
   const random = new Random(seed);
-  let ans = new Array<number>(K);
+  const ans = new Array<number>(K);
   // chooses a random point as initial cluster
   ans[0] = Math.floor(random.random() * data.length);
 
   if (K > 1) {
     // chooses the more distant point
-    let maxDist = { dist: -1, index: -1 };
+    const maxDist = { dist: -1, index: -1 };
     for (let l = 0; l < data.length; ++l) {
       if (distanceMatrix[ans[0]][l] > maxDist.dist) {
         maxDist.dist = distanceMatrix[ans[0]][l];
@@ -158,15 +158,15 @@ function euclideanDistances(A: Matrix, B: Matrix) {
 }
 
 function range(l: number): number[] {
-  let r: Array<number> = [];
+  const r: number[] = [];
   for (let i = 0; i < l; i++) {
     r.push(i);
   }
   return r;
 }
 
-function cumSum(arr: Array<number>): Array<number> {
-  let cumSum: Array<number> = [arr[0]];
+function cumSum(arr: number[]): number[] {
+  const cumSum: number[] = [arr[0]];
   for (let i = 1; i < arr.length; i++) {
     cumSum[i] = cumSum[i - 1] + arr[i];
   }

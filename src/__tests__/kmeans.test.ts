@@ -1,23 +1,24 @@
-import { test, expect } from 'vitest';
+import { expect, test } from 'vitest';
 
-import { KMeansResult } from '../KMeansResult';
-import { kmeans, kmeansGenerator } from '../kmeans';
+import type { KMeansResult } from '../KMeansResult.js';
+import { kmeans, kmeansGenerator } from '../kmeans.js';
 
 test('Simple case', () => {
-  let data = [
+  const data = [
     [1, 1, 1],
     [1, 2, 1],
     [-1, -1, -1],
     [-1, -1, -1.5],
   ];
-  let centers = [
+  const centers = [
     [1, 2, 1],
     [-1, -1, -1],
   ];
 
-  let ans: KMeansResult | undefined = kmeans(data, 2, {
+  const ans: KMeansResult | undefined = kmeans(data, 2, {
     initialization: centers,
   });
+
   expect(ans.clusters).toStrictEqual([0, 0, 1, 1]);
   expect(ans.centroids[0]).toStrictEqual([1, 1.5, 1]);
   expect(ans.centroids[1]).toStrictEqual([-1, -1, -1.25]);
@@ -26,21 +27,21 @@ test('Simple case', () => {
 });
 
 test('With generator', () => {
-  let data = [
+  const data = [
     [1, 1, 1],
     [1, 2, 1],
     [-1, -1, -1],
     [-1, -1, -1.5],
   ];
-  let centers = [
+  const centers = [
     [1, 2, 1],
     [-1, -1, -1],
   ];
 
-  let ans = kmeansGenerator(data, 2, {
+  const ans = kmeansGenerator(data, 2, {
     initialization: centers,
   });
-  for (let val of ans) {
+  for (const val of ans) {
     expect(val.clusters).toStrictEqual([0, 0, 1, 1]);
 
     expect(val.centroids[0]).toStrictEqual([1, 1.5, 1]);
@@ -49,18 +50,19 @@ test('With generator', () => {
 });
 
 test('Nearest points', () => {
-  let data = [
+  const data = [
     [1, 1, 1],
     [1, 2, 1],
     [-1, -1, -1],
     [-1, -1, -1.5],
   ];
-  let centers = [
+  const centers = [
     [1, 2, 1],
     [-1, -1, -1],
   ];
 
-  let ans = kmeans(data, 2, { initialization: centers });
+  const ans = kmeans(data, 2, { initialization: centers });
+
   expect(
     ans.nearest([
       [10, 10, 1],
@@ -113,18 +115,19 @@ test('Passing wrong initialization parameter', () => {
 });
 
 test('Exceed number of operations', () => {
-  let data = [
+  const data = [
     [1, 1, 1],
     [1, 2, 1],
     [-1, -1, -1],
     [-1, -1, -1.5],
   ];
-  let centers = [
+  const centers = [
     [1, 2, 1],
     [-1, -1, -1],
   ];
 
-  let ans = kmeans(data, 2, { initialization: centers, maxIterations: 1 });
+  const ans = kmeans(data, 2, { initialization: centers, maxIterations: 1 });
+
   expect(ans.clusters).toStrictEqual([0, 0, 1, 1]);
   expect(ans.centroids[0]).toStrictEqual([1, 1.5, 1]);
   expect(ans.centroids[1]).toStrictEqual([-1, -1, -1.25]);
@@ -133,7 +136,7 @@ test('Exceed number of operations', () => {
 });
 
 test('Non limited convergence', () => {
-  let data = [
+  const data = [
     [1, 1, 1],
     [1, 2, 1],
     [10, 11, 1],
@@ -142,16 +145,17 @@ test('Non limited convergence', () => {
     [-1, -1, -1],
     [-1, -1, -1.5],
   ];
-  let centers = [
+  const centers = [
     [1, 2, 1],
     [-1, -1, -1],
   ];
 
-  let ans = kmeans(data, 2, {
+  const ans = kmeans(data, 2, {
     initialization: centers,
     maxIterations: 0,
     seed: 0,
   });
+
   expect(ans.clusters).toStrictEqual([1, 1, 0, 0, 1, 1, 1]);
   expect(ans.centroids[0]).toStrictEqual([4.5, 15.5, 1]);
   expect(ans.centroids[1]).toStrictEqual([0.2, 0.4, 0.1]);
@@ -160,7 +164,7 @@ test('Non limited convergence', () => {
 });
 
 test('empty clusters', () => {
-  let data = [
+  const data = [
     [1, 1],
     [1.1, 0.95],
     [0, 0],
@@ -174,11 +178,11 @@ test('empty clusters', () => {
       [0.5, 0.5],
     ],
   });
-  if (result !== undefined) {
-    const information = result.computeInformation(data);
-    expect(information[2].size).toBe(0);
-    // The centroid should have the same value than at initialization
-    expect(information[2].centroid).toStrictEqual([0.5, 0.5]);
-    expect(information[2].error).toBe(-1);
-  }
+
+  const information = result.computeInformation(data);
+
+  expect(information[2].size).toBe(0);
+  // The centroid should have the same value than at initialization
+  expect(information[2].centroid).toStrictEqual([0.5, 0.5]);
+  expect(information[2].error).toBe(-1);
 });

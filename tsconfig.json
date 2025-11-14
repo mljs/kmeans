@@ -1,13 +1,9 @@
 {
+  "extends": "@zakodium/tsconfig",
   "compilerOptions": {
-    "checkJs": true,
-    "allowJs": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
+    "noUncheckedIndexedAccess": false,
     "outDir": "lib",
-    "sourceMap": true,
-    "strict": true,
-    "target": "es2020"
+    "types": ["node"]
   },
-  "include": ["./src/**/*"]
+  "include": ["src", "vite*.ts"]
 }

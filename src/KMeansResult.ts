@@ -1,4 +1,4 @@
-import { updateClusterID } from './utils';
+import { updateClusterID } from './utils.js';
 
 export interface CentroidWithInformation {
   centroid: number[];
@@ -13,7 +13,7 @@ export class KMeansResult {
    * @param converged - Converge criteria satisfied
    * @param iterations - Current number of iterations
    * @param distance - Distance function to use between the points
-   * @constructor
+   * @class
    */
 
   public clusters: number[];
@@ -37,8 +37,8 @@ export class KMeansResult {
 
   /**
    * Allows to compute for a new array of points their cluster id
-   * @param {Array<Array<number>>} data - the [x,y,z,...] points to cluster
-   * @return {Array<number>} - cluster id for each point
+   * @param data - the [x,y,z,...] points to cluster
+   * @returns - cluster id for each point
    */
   nearest(data: number[][]): number[] {
     const clusterID = new Array<number>(data.length);
@@ -48,11 +48,11 @@ export class KMeansResult {
   /**
    * Returns the error and size of each cluster
    * @ignore
-   * @param {Array<Array<number>>} data - the [x,y,z,...] points to cluster
-   * @return {KMeansResult}
+   * @param data - the [x,y,z,...] points to cluster
+   * @returns
    */
   computeInformation(data: number[][]): CentroidWithInformation[] {
-    let enrichedCentroids = this.centroids.map((centroid) => {
+    const enrichedCentroids = this.centroids.map((centroid) => {
       return {
         centroid,
         error: 0,
@@ -70,7 +70,7 @@ export class KMeansResult {
 
     for (let j = 0; j < this.centroids.length; j++) {
       let error = enrichedCentroids[j].error;
-      if (enrichedCentroids[j].size && error !== -1) {
+      if (enrichedCentroids[j].size > 0 && error !== -1) {
         error /= enrichedCentroids[j].size;
       } else {
         enrichedCentroids[j].error = -1;

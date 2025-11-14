@@ -1,14 +1,14 @@
 import { squaredEuclidean } from 'ml-distance-euclidean';
 
-import { KMeansResult } from './KMeansResult';
-import { assertUnreachable, validateKmeansInput } from './assert';
-import { mostDistant, random, kmeanspp } from './initialization';
+import { KMeansResult } from './KMeansResult.js';
+import { assertUnreachable, validateKmeansInput } from './assert.js';
+import { kmeanspp, mostDistant, random } from './initialization.js';
 import {
-  updateClusterID,
-  updateCenters,
-  hasConverged,
   calculateDistanceMatrix,
-} from './utils';
+  hasConverged,
+  updateCenters,
+  updateClusterID,
+} from './utils.js';
 
 const defaultOptions = {
   maxIterations: 100,
@@ -26,7 +26,7 @@ const defaultOptions = {
  * @param {number} K - Number of clusters
  * @param {object} [options] - Option object
  * @param {number} iterations - Current number of iterations
- * @return {KMeansResult}
+ * @returns {KMeansResult}
  */
 
 export type InitializationMethod = 'kmeans++' | 'random' | 'mostDistant';
@@ -58,8 +58,8 @@ function step(
     clusterID,
     options.distanceFunction,
   );
-  let newCenters: number[][] = updateCenters(centers, data, clusterID, K);
-  let converged = hasConverged(
+  const newCenters: number[][] = updateCenters(centers, data, clusterID, K);
+  const converged = hasConverged(
     newCenters,
     centers,
     options.distanceFunction,
@@ -77,11 +77,11 @@ function step(
 /**
  * Generator version for the algorithm
  * @ignore
- * @param {Array<Array<number>>} centers - K centers in format [x,y,z,...]
- * @param {Array<Array<number>>} data - Points [x,y,z,...] to cluster
- * @param {Array<number>} clusterID - Cluster identifier for each data dot
- * @param {number} K - Number of clusters
- * @param {object} [options] - Option object
+ * @param centers - K centers in format [x,y,z,...]
+ * @param data - Points [x,y,z,...] to cluster
+ * @param clusterID - Cluster identifier for each data dot
+ * @param K - Number of clusters
+ * @param [options] - Option object
  */
 export function* kmeansGenerator(
   data: number[][],
@@ -91,7 +91,7 @@ export function* kmeansGenerator(
   const definedOptions = getDefinedOptions(options);
   validateKmeansInput(data, K);
   let centers = initializeCenters(data, K, definedOptions);
-  let clusterID: number[] = new Array(data.length);
+  const clusterID: number[] = new Array(data.length);
 
   let converged = false;
   let stepNumber = 0;
@@ -113,22 +113,22 @@ export function* kmeansGenerator(
 
 /**
  * K-means algorithm
- * @param {Array<Array<number>>} data - Points in the format to cluster [x,y,z,...]
- * @param {number} K - Number of clusters
- * @param {object} [options] - Option object
- * @param {number} [options.maxIterations = 100] - Maximum of iterations allowed
- * @param {number} [options.tolerance = 1e-6] - Error tolerance
- * @param {function} [options.distanceFunction = squaredDistance] - Distance function to use between the points
- * @param {number} [options.seed] - Seed for random initialization.
- * @param {string|Array<Array<number>>} [options.initialization = 'kmeans++'] - K centers in format [x,y,z,...] or a method for initialize the data:
- *  * You can either specify your custom start centroids, or select one of the following initialization method:
- *  * `'kmeans++'` will use the kmeans++ method as described by http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
- *  * `'random'` will choose K random different values.
- *  * `'mostDistant'` will choose the more distant points to a first random pick
- * @return {KMeansResult} - Cluster identifier for each data dot and centroids with the following fields:
- *  * `'clusters'`: Array of indexes for the clusters.
- *  * `'centroids'`: Array with the resulting centroids.
- *  * `'iterations'`: Number of iterations that took to converge
+ * @param data - Points in the format to cluster [x,y,z,...]
+ * @param K - Number of clusters
+ * @param [options] - Option object
+ * @param [options.maxIterations = 100] - Maximum of iterations allowed
+ * @param [options.tolerance = 1e-6] - Error tolerance
+ * @param [options.distanceFunction = squaredDistance] - Distance function to use between the points
+ * @param [options.seed] - Seed for random initialization.
+ * @param [options.initialization = 'kmeans++'] - K centers in format [x,y,z,...] or a method for initialize the data:
+ *  You can either specify your custom start centroids, or select one of the following initialization method:
+ *  `'kmeans++'` will use the kmeans++ method as described by http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf
+ *  `'random'` will choose K random different values.
+ *  `'mostDistant'` will choose the more distant points to a first random pick
+ * @returns - Cluster identifier for each data dot and centroids with the following fields:
+ *  `'clusters'`: Array of indexes for the clusters.
+ *  `'centroids'`: Array with the resulting centroids.
+ *  `'iterations'`: Number of iterations that took to converge
  */
 export function kmeans(data: number[][], K: number, options: Options) {
   const definedOptions = getDefinedOptions(options);
@@ -141,7 +141,7 @@ export function kmeans(data: number[][], K: number, options: Options) {
     definedOptions.maxIterations = Number.MAX_VALUE;
   }
 
-  let clusterID: number[] = new Array(data.length);
+  const clusterID: number[] = new Array(data.length);
   let converged = false;
   let stepNumber = 0;
   let stepResult;
