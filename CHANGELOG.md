@@ -12,6 +12,17 @@
 
 <a name="4.2.1"></a>
 
+## [7.0.0](https://github.com/mljs/kmeans/compare/v6.0.0...v7.0.0) (2025-11-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate to type:module
+
+### Features
+
+* migrate to type:module ([f6a914e](https://github.com/mljs/kmeans/commit/f6a914eee5c3a49ccd54f6b544ed5476377366e1))
+
 ## [6.0.0](https://github.com/mljs/kmeans/compare/v5.0.0...v6.0.0) (2023-02-24)
 
 ### ⚠ BREAKING CHANGES
