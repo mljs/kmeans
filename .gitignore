@@ -8,3 +8,5 @@ coverage
 
 lib 
 lib-esm
+
+.eslintcache
