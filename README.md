@@ -13,9 +13,10 @@ each observation belongs to the cluster with the nearest mean.
     Maintained by <a href="https://www.zakodium.com">Zakodium</a>
   </p>
 
-[![NPM version][npm-image]][npm-url]
-[![Test coverage][codecov-image]][codecov-url]
-[![npm download][download-image]][download-url]
+[![NPM version](https://img.shields.io/npm/v/ml-kmeans.svg)](https://www.npmjs.com/package/ml-kmeans)
+[![npm download](https://img.shields.io/npm/dm/ml-kmeans.svg)](https://www.npmjs.com/package/ml-kmeans)
+[![test coverage](https://img.shields.io/codecov/c/github/mljs/spectra-processing.svg)](https://codecov.io/gh/mljs/spectra-processing)
+[![license](https://img.shields.io/npm/l/ml-kmeans.svg)](https://github.com/mljs/spectra-processing/blob/main/LICENSE)
 
 </h3>
 
@@ -75,11 +76,3 @@ ACM-SIAM Symposium on Discrete Algorithms, 2007, pp. 1027–1035.
 ## License
 
 [MIT](./LICENSE)
-
-[npm-image]: https://img.shields.io/npm/v/ml-kmeans.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/ml-kmeans
-[codecov-image]: https://img.shields.io/codecov/c/github/mljs/kmeans.svg?style=flat-square
-[codecov-url]: https://codecov.io/github/mljs/kmeans
-[download-image]: https://img.shields.io/npm/dm/ml-kmeans.svg?style=flat-square
-[download-url]: https://npmjs.org/package/ml-kmeans
-[k-means clustering]: https://en.wikipedia.org/wiki/K-means_clustering
