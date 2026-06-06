@@ -46,7 +46,8 @@
     "ml-distance-euclidean": "^3.0.1",
     "ml-matrix": "^6.12.2",
     "ml-nearest-vector": "^3.0.1",
-    "ml-random": "^2.0.0"
+    "ml-random": "^2.0.0",
+    "ml-spectra-processing": "^14.29.0"
   },
   "devDependencies": {
     "@types/node": "^25.9.2",

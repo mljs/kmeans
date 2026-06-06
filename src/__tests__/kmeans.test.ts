@@ -163,6 +163,29 @@ test('Non limited convergence', () => {
   expect(ans.iterations).toBe(3);
 });
 
+test('computeInformation returns the mean error per cluster', () => {
+  const data = [
+    [1, 1, 1],
+    [1, 2, 1],
+    [-1, -1, -1],
+    [-1, -1, -1.5],
+  ];
+  const centers = [
+    [1, 2, 1],
+    [-1, -1, -1],
+  ];
+
+  const result = kmeans(data, 2, { initialization: centers });
+  const information = result.computeInformation(data);
+
+  // centroid [1, 1.5, 1]: two points each at squared distance 0.25 -> mean 0.25
+  expect(information[0].error).toBe(0.25);
+  expect(information[0].size).toBe(2);
+  // centroid [-1, -1, -1.25]: squared distances 0.0625 and 0.0625 -> mean 0.0625
+  expect(information[1].error).toBe(0.0625);
+  expect(information[1].size).toBe(2);
+});
+
 test('empty clusters', () => {
   const data = [
     [1, 1],

@@ -1,3 +1,5 @@
+import { xMean } from 'ml-spectra-processing';
+
 import { updateClusterID } from './utils.ts';
 
 export interface CentroidWithInformation {
@@ -46,37 +48,29 @@ export class KMeansResult {
   }
 
   /**
-   * Returns the error and size of each cluster
+   * Returns the centroid, mean error, and size of each cluster.
+   * The error of an empty cluster is `-1`.
    * @ignore
    * @param data - the [x,y,z,...] points to cluster
    * @returns for each cluster, its centroid, mean error, and size.
    */
   computeInformation(data: number[][]): CentroidWithInformation[] {
-    const enrichedCentroids = this.centroids.map((centroid) => {
-      return {
-        centroid,
-        error: 0,
-        size: 0,
-      };
-    });
+    const clusterDistances: number[][] = this.centroids.map(() => []);
 
     for (let i = 0; i < data.length; i++) {
-      enrichedCentroids[this.clusters[i]].error += this.distance(
-        data[i],
-        this.centroids[this.clusters[i]],
+      const clusterID = this.clusters[i];
+      clusterDistances[clusterID].push(
+        this.distance(data[i], this.centroids[clusterID]),
       );
-      enrichedCentroids[this.clusters[i]].size++;
     }
 
-    for (let j = 0; j < this.centroids.length; j++) {
-      let error = enrichedCentroids[j].error;
-      if (enrichedCentroids[j].size > 0 && error !== -1) {
-        error /= enrichedCentroids[j].size;
-      } else {
-        enrichedCentroids[j].error = -1;
-      }
-    }
-
-    return enrichedCentroids;
+    return this.centroids.map((centroid, j) => {
+      const distances = clusterDistances[j];
+      return {
+        centroid,
+        error: distances.length > 0 ? xMean(distances) : -1,
+        size: distances.length,
+      };
+    });
   }
 }

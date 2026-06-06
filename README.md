@@ -54,12 +54,12 @@ KMeansResult {
 }
 */
 
-// Compute the error and size of each cluster.
+// Compute the mean error and size of each cluster.
 console.log(ans.computeInformation(data));
 /*
 [
-  { centroid: [ 1, 1.5, 1 ], error: 0.5, size: 2 },
-  { centroid: [ -1, -1, -1.25 ], error: 0.125, size: 2 }
+  { centroid: [ 1, 1.5, 1 ], error: 0.25, size: 2 },
+  { centroid: [ -1, -1, -1.25 ], error: 0.0625, size: 2 }
 ]
 */
 

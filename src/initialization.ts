@@ -1,6 +1,7 @@
 import { squaredEuclidean } from 'ml-distance-euclidean';
 import { Matrix } from 'ml-matrix';
 import { Random } from 'ml-random';
+import { xSum } from 'ml-spectra-processing';
 
 /**
  * Choose K different random points from the original data
@@ -116,9 +117,10 @@ export function kmeanspp(
   for (let i = 0; i < m.rows; i++) {
     closestDistSquared.set(0, i, squaredEuclidean(m.getRow(i), centers[0]));
   }
-  let cumSumClosestDistSquared = [cumSum(closestDistSquared.getRow(0))];
-  const factor = 1 / cumSumClosestDistSquared[0][nSamples - 1];
-  let probabilities: Matrix = Matrix.mul(closestDistSquared, factor);
+  let probabilities: Matrix = Matrix.mul(
+    closestDistSquared,
+    1 / xSum(closestDistSquared.getRow(0)),
+  );
 
   // Iterate over the remaining centers
   for (let i = 1; i < K; i++) {
@@ -148,10 +150,9 @@ export function kmeanspp(
     }
     centers[i] = m.getRow(bestCandidate);
     closestDistSquared = bestDistSquared;
-    cumSumClosestDistSquared = [cumSum(closestDistSquared.getRow(0))];
     probabilities = Matrix.mul(
       closestDistSquared,
-      1 / cumSumClosestDistSquared[0][nSamples - 1],
+      1 / xSum(closestDistSquared.getRow(0)),
     );
   }
   return centers;
@@ -173,12 +174,4 @@ function range(l: number): number[] {
     r.push(i);
   }
   return r;
-}
-
-function cumSum(arr: number[]): number[] {
-  const cumSum: number[] = [arr[0]];
-  for (let i = 1; i < arr.length; i++) {
-    cumSum[i] = cumSum[i - 1] + arr[i];
-  }
-  return cumSum;
 }
