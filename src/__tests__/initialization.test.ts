@@ -71,6 +71,27 @@ test('mostDistant UT', () => {
   expect(ansSingle[0]).toStrictEqual([1, 1, 1]);
 });
 
+test('mostDistant always picks the spread-out points', () => {
+  // 0 and 1 are the two extremes; 2, 3, 4 are near-duplicates of the middle.
+  // Correct furthest-first seeding must always keep both extremes and never
+  // select two of the near-identical middle points as separate centers.
+  const data = [
+    [0, 0],
+    [100, 0],
+    [50, 0],
+    [50, 1],
+    [50, -1],
+  ];
+  const distanceMatrix = calculateDistanceMatrix(data, squaredEuclidean);
+
+  for (let seed = 0; seed < 20; seed++) {
+    const centers = mostDistant(data, 3, distanceMatrix, seed);
+
+    expect(centers).toContainEqual([0, 0]);
+    expect(centers).toContainEqual([100, 0]);
+  }
+});
+
 test('kmeans++', () => {
   const data = [
     [1, 0.75, 1.125],

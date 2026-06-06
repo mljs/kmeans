@@ -53,12 +53,14 @@ export function mostDistant(
         for (let m = 0; m < data.length; ++m) {
           // minimum distance to centers
           let minDistCent = { dist: Number.MAX_VALUE, index: -1 };
-          for (let n = 0; n < k; ++n) {
-            if (distanceMatrix[n][m] < minDistCent.dist && !ans.includes(m)) {
-              minDistCent = {
-                dist: distanceMatrix[n][m],
-                index: m,
-              };
+          if (!ans.includes(m)) {
+            for (let n = 0; n < k; ++n) {
+              if (distanceMatrix[ans[n]][m] < minDistCent.dist) {
+                minDistCent = {
+                  dist: distanceMatrix[ans[n]][m],
+                  index: m,
+                };
+              }
             }
           }
 
