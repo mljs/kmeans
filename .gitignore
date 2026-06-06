@@ -3,10 +3,9 @@ node_modules
 logs
 *.log
 npm-debug.log*
-coverage
-/kmeans.js
 
-lib 
-lib-esm
+.claude
+coverage
+lib
 
 .eslintcache

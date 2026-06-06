@@ -1,1 +1,1 @@
-export * from './kmeans.js';
+export * from './kmeans.ts';

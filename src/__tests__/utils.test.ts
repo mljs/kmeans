@@ -6,7 +6,7 @@ import {
   hasConverged,
   updateCenters,
   updateClusterID,
-} from '../utils.js';
+} from '../utils.ts';
 
 describe('calculateDistanceMatrix', () => {
   it('Same points', () => {

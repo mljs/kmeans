@@ -1,4 +1,4 @@
-import { updateClusterID } from './utils.js';
+import { updateClusterID } from './utils.ts';
 
 export interface CentroidWithInformation {
   centroid: number[];

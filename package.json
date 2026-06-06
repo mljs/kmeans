@@ -12,12 +12,12 @@
   ],
   "scripts": {
     "check-types": "tsc --noEmit",
-    "clean": "rimraf coverage dist lib",
-    "eslint": "eslint . --cache",
-    "eslint-fix": "eslint . --cache --fix",
+    "clean": "rimraf coverage lib",
+    "eslint": "eslint src",
+    "eslint-fix": "eslint src --fix",
     "prepack": "npm run tsc",
-    "prettier": "prettier --check .",
-    "prettier-write": "prettier --write .",
+    "prettier": "prettier --check src",
+    "prettier-write": "prettier --write src",
     "test": "npm run test-only && npm run check-types && npm run eslint && npm run prettier",
     "test-only": "vitest run --coverage",
     "tsc": "npm run clean && npm run tsc-build",
@@ -42,25 +42,22 @@
     "url": "https://github.com/mljs/kmeans/issues"
   },
   "homepage": "https://github.com/mljs/kmeans",
-  "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.27.1",
-    "@babel/preset-typescript": "^7.28.5",
-    "@types/node": "^24.10.1",
-    "@vitest/coverage-v8": "^4.0.8",
-    "@zakodium/tsconfig": "^1.0.2",
-    "eslint": "^9.39.1",
-    "eslint-config-cheminfo-typescript": "^21.0.1",
-    "esm": "^3.2.25",
-    "ml-dataset-iris": "^1.2.1",
-    "prettier": "^3.6.2",
-    "rimraf": "^6.1.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.8"
-  },
   "dependencies": {
-    "ml-distance-euclidean": "^3.0.0",
-    "ml-matrix": "^6.12.1",
-    "ml-nearest-vector": "^3.0.0",
+    "ml-distance-euclidean": "^3.0.1",
+    "ml-matrix": "^6.12.2",
+    "ml-nearest-vector": "^3.0.1",
     "ml-random": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.2",
+    "@vitest/coverage-v8": "^4.1.8",
+    "@zakodium/tsconfig": "^1.0.5",
+    "eslint": "^9.39.1",
+    "eslint-config-cheminfo-typescript": "^22.0.0",
+    "ml-dataset-iris": "^1.2.1",
+    "prettier": "^3.8.3",
+    "rimraf": "^6.1.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
   }
 }

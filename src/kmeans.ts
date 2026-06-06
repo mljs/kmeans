@@ -1,14 +1,14 @@
 import { squaredEuclidean } from 'ml-distance-euclidean';
 
-import { KMeansResult } from './KMeansResult.js';
-import { assertUnreachable, validateKmeansInput } from './assert.js';
-import { kmeanspp, mostDistant, random } from './initialization.js';
+import { KMeansResult } from './KMeansResult.ts';
+import { assertUnreachable, validateKmeansInput } from './assert.ts';
+import { kmeanspp, mostDistant, random } from './initialization.ts';
 import {
   calculateDistanceMatrix,
   hasConverged,
   updateCenters,
   updateClusterID,
-} from './utils.js';
+} from './utils.ts';
 
 const defaultOptions = {
   maxIterations: 100,

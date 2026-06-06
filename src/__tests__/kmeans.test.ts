@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
 
-import type { KMeansResult } from '../KMeansResult.js';
-import { kmeans, kmeansGenerator } from '../kmeans.js';
+import type { KMeansResult } from '../KMeansResult.ts';
+import { kmeans, kmeansGenerator } from '../kmeans.ts';
 
 test('Simple case', () => {
   const data = [

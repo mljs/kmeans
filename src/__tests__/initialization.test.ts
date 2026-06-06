@@ -1,9 +1,9 @@
 import { squaredEuclidean } from 'ml-distance-euclidean';
 import { expect, test } from 'vitest';
 
-import { kmeanspp, mostDistant, random } from '../initialization.js';
-import { kmeans } from '../kmeans.js';
-import { calculateDistanceMatrix } from '../utils.js';
+import { kmeanspp, mostDistant, random } from '../initialization.ts';
+import { kmeans } from '../kmeans.ts';
+import { calculateDistanceMatrix } from '../utils.ts';
 
 test('random in kmeans', () => {
   const data = [
