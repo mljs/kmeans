@@ -13,13 +13,10 @@ export function calculateDistanceMatrix(
 ) {
   const distanceMatrix: number[][] = new Array(data.length);
   for (let i = 0; i < data.length; ++i) {
+    distanceMatrix[i] = new Array(data.length);
+  }
+  for (let i = 0; i < data.length; ++i) {
     for (let j = i; j < data.length; ++j) {
-      if (!distanceMatrix[i]) {
-        distanceMatrix[i] = new Array(data.length);
-      }
-      if (!distanceMatrix[j]) {
-        distanceMatrix[j] = new Array(data.length);
-      }
       const dist = distance(data[i], data[j]);
       distanceMatrix[i][j] = dist;
       distanceMatrix[j][i] = dist;
@@ -43,10 +40,9 @@ export function updateClusterID(
   clusterID: number[],
   distance: (a: number[], b: number[]) => number,
 ): number[] {
+  const options = { distanceFunction: distance };
   for (let i = 0; i < data.length; i++) {
-    clusterID[i] = nearestVector(centers, data[i], {
-      distanceFunction: distance,
-    });
+    clusterID[i] = nearestVector(centers, data[i], options);
   }
   return clusterID;
 }

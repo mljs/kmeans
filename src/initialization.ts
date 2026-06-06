@@ -130,7 +130,7 @@ export function kmeanspp(
       probabilities: probabilities.getRow(0),
     });
 
-    const candidates = m.selection(candidateIdx, range(m.columns));
+    const candidates = m.subMatrixRow(candidateIdx);
     const distanceToCandidates = euclideanDistances(candidates, m);
 
     let bestCandidate = Infinity;
@@ -166,12 +166,4 @@ function euclideanDistances(A: Matrix, B: Matrix) {
     }
   }
   return result;
-}
-
-function range(l: number): number[] {
-  const r: number[] = [];
-  for (let i = 0; i < l; i++) {
-    r.push(i);
-  }
-  return r;
 }
