@@ -12,6 +12,19 @@
 
 <a name="4.2.1"></a>
 
+## [7.0.1](https://github.com/mljs/kmeans/compare/v7.0.0...v7.0.1) (2026-06-06)
+
+
+### Bug Fixes
+
+* correct furthest-first seeding in mostDistant initialization ([6727df6](https://github.com/mljs/kmeans/commit/6727df662c83708dc9fbf03091f195f6ad029e9d))
+* return mean error in computeInformation and reuse ml-spectra-processing helpers ([24ed77e](https://github.com/mljs/kmeans/commit/24ed77ef327d04870860e7158babb82d4a315c2f))
+
+
+### Performance Improvements
+
+* hoist allocations and reuse ml-matrix subMatrixRow in hot paths ([be41470](https://github.com/mljs/kmeans/commit/be414709536b5b196ee654603f63ddf5d6e80d50))
+
 ## [7.0.0](https://github.com/mljs/kmeans/compare/v6.0.0...v7.0.0) (2025-11-14)
 
 
