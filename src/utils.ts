@@ -58,7 +58,7 @@ export function updateClusterID(
  * @param data - the [x,y,z,...] points to cluster
  * @param clusterID - the cluster identifier for each data dot
  * @param K - Number of clusters
- * @returns he K centers in format [x,y,z,...]
+ * @returns the K centers in format [x,y,z,...]
  */
 export function updateCenters(
   prevCenters: number[][],
@@ -107,7 +107,7 @@ export function updateCenters(
  * @param oldCenters - the K old centers in format [x,y,z,...]
  * @param distanceFunction - Distance function to use between the points
  * @param tolerance - Allowed distance for the centroids to move
- * @returns
+ * @returns `true` when every center moved less than the tolerance.
  */
 export function hasConverged(
   centers: number[][],

@@ -49,7 +49,7 @@ export class KMeansResult {
    * Returns the error and size of each cluster
    * @ignore
    * @param data - the [x,y,z,...] points to cluster
-   * @returns
+   * @returns for each cluster, its centroid, mean error, and size.
    */
   computeInformation(data: number[][]): CentroidWithInformation[] {
     const enrichedCentroids = this.centroids.map((centroid) => {

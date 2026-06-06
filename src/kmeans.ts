@@ -17,18 +17,6 @@ const defaultOptions = {
   distanceFunction: squaredEuclidean,
 };
 
-/**
- * Each step operation for kmeans
- * @ignore
- * @param {Array<Array<number>>} centers - K centers in format [x,y,z,...]
- * @param {Array<Array<number>>} data - Points [x,y,z,...] to cluster
- * @param {Array<number>} clusterID - Cluster identifier for each data dot
- * @param {number} K - Number of clusters
- * @param {object} [options] - Option object
- * @param {number} iterations - Current number of iterations
- * @returns {KMeansResult}
- */
-
 export type InitializationMethod = 'kmeans++' | 'random' | 'mostDistant';
 export interface OptionsWithDefault {
   distanceFunction?: (p: number[], q: number[]) => number;
@@ -44,6 +32,17 @@ export interface OptionsWithoutDefault {
 export type Options = OptionsWithDefault & OptionsWithoutDefault;
 type DefinedOptions = Required<OptionsWithDefault> & OptionsWithoutDefault;
 
+/**
+ * Each step operation for kmeans.
+ * @ignore
+ * @param centers - K centers in format [x,y,z,...]
+ * @param data - Points [x,y,z,...] to cluster
+ * @param clusterID - Cluster identifier for each data dot
+ * @param K - Number of clusters
+ * @param options - Option object
+ * @param iterations - Current number of iterations
+ * @returns The result of this step.
+ */
 function step(
   centers: number[][],
   data: number[][],
@@ -75,13 +74,11 @@ function step(
 }
 
 /**
- * Generator version for the algorithm
- * @ignore
- * @param centers - K centers in format [x,y,z,...]
+ * Generator version of the algorithm that yields the result of each iteration.
  * @param data - Points [x,y,z,...] to cluster
- * @param clusterID - Cluster identifier for each data dot
  * @param K - Number of clusters
  * @param [options] - Option object
+ * @yields {KMeansResult} The result of each iteration.
  */
 export function* kmeansGenerator(
   data: number[][],

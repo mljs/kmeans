@@ -83,7 +83,15 @@ interface Options {
   localTrials: number;
 }
 
-// Implementation inspired from scikit
+/**
+ * Chooses the initial centers using the kmeans++ method.
+ * Implementation inspired from scikit.
+ * @ignore
+ * @param X - Points in the format to cluster [x,y,z,...].
+ * @param K - Number of clusters.
+ * @param options - Options for the kmeans++ initialization.
+ * @returns Initial centers in format [x,y,z,...].
+ */
 export function kmeanspp(
   X: number[][],
   K: number,
